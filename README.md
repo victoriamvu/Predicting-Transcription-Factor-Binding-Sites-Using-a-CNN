@@ -1,5 +1,12 @@
 # Predicting Transcription Factor Binding Sites Using a CNN
 
+# People
+*Yves-Langston Mays
+*Wyatt Lamberth
+*Michael Carreno
+*Pierre Ingram
+*Alexander Rosales
+*Victoria Vu
 # Project Timeline
 
 | Milestone          |  Due Date       |  Task                         |
