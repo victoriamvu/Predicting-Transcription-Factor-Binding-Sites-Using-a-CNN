@@ -71,7 +71,13 @@ One hot encode DNA sequences
 
 Standardize all sequences to 200 bp 
 
-Introduce small mutations to improve model generalization
+Introduce small mutations to sequences through swapping or deleting bases to simulate natural variation to provide more natural data.
+
+Improve model generalization by applying techniques such as dropout, normalization, and data shuffling to improve model generalization.
+
+Could potentially utilize positional information to account for perferencial positioning of binding sites and use secondary structure prediction to identify secondary structure features that may influence transcription factor binding.
+
+Data could benefit from utilizing reverse complement sequences to create better generalization through learning binding sites from both strands of DNA.
 
 
 # Evaluating Metric
