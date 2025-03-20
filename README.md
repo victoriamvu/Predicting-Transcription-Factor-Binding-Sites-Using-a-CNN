@@ -1,7 +1,7 @@
 # Predicting Transcription Factor Binding Sites Using a CNN
 
 # People
-*Yves-Langston Mays
+*Yves-Langston Mays*
 *Wyatt Lamberth
 *Michael Carreno
 *Pierre Ingram
