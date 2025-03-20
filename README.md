@@ -76,13 +76,14 @@ Introduce small mutations to improve model generalization
 
 # Evaluating Metric
 
-Accuracy – Measures overall classification performance
+We will use multiple evaluation metrics to assess model performance:
 
-AUC ROC – Assesses model’s ability to distinguish binding vs. non-binding sites
-  - ROC Curve: This plots the True Positive Rate against the False Positive Rate at various threshold settings
-  - AUC (Area Under the Curve): Smmarizes the overall performance. the closer to 1, the better the model is at distinguishing between positive and negative classes
-
-Baseline Comparison – CNN performance will be compared to a random classifier (50% accuracy) to establish that the CNN provides meaningful improvement in predictive capability.
+Accuracy – Measures overall classification correctness.
+AUC-ROC (Area Under the Curve - Receiver Operating Characteristic) – Assesses the model’s ability to distinguish binding vs. non-binding sites.
+ROC Curve: Plots the True Positive Rate vs. False Positive Rate at different thresholds.
+AUC Score: Closer to 1 indicates better classification.
+Baseline Comparison –
+Compare CNN performance to a logistic regression model and a random classifier (50% accuracy baseline).
 
 
 # Model Selection
@@ -110,3 +111,18 @@ Output Layer: Sigmoid activation for binary classification
 
 # Small Mutations to Improve Model Generalization
 Small mutations, such as random substitutions (e.g., A → G) and insertion/deletion of single nucleotides at random positions, introduce realistic variability. This improves the CNN’s generalization ability, allowing it to perform better on unseen biological sequences.
+
+
+## Potential Areas for Model Improvement (Exploration Phase)
+
+As part of early experimentation and optional exploration by team members, a few potential improvements have been considered for future iterations of the model. These ideas are **not finalized**, but may help inform model tuning discussions later in the project.
+
+- **Global MaxPooling Layers**: May help the CNN detect motifs regardless of their position in the sequence.
+- **Reduced Regularization**: Lower dropout or L2 penalty could preserve meaningful motif representations that are otherwise suppressed.
+- **Fixed-Position Motif Embedding**: Embedding motifs at a known sequence position during dataset generation may improve learnability.
+- **Filter Visualization**: Extracting convolutional filters to interpret what patterns the CNN is learning.
+- **Logistic Regression Baseline**: Comparing CNN performance to a baseline logistic regression model using k-mer frequency or TF-IDF features.
+- **Class Weighting Adjustments**: Exploring how weighting the loss function by class frequency might reduce class prediction bias.
+
+These improvements are **currently exploratory** and can be incorporated during model tuning stages if the group agrees they are beneficial.
+
