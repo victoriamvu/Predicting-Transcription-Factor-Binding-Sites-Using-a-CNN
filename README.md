@@ -76,14 +76,12 @@ Introduce small mutations to improve model generalization
 
 # Evaluating Metric
 
-We will use multiple evaluation metrics to assess model performance:
-
-Accuracy – Measures overall classification correctness.
-AUC-ROC (Area Under the Curve - Receiver Operating Characteristic) – Assesses the model’s ability to distinguish binding vs. non-binding sites.
-ROC Curve: Plots the True Positive Rate vs. False Positive Rate at different thresholds.
-AUC Score: Closer to 1 indicates better classification.
-Baseline Comparison –
-Compare CNN performance to a logistic regression model and a random classifier (50% accuracy baseline).
+**Accuracy** – Overall model performance  
+- **AUC-ROC (Area Under the Curve - Receiver Operating Characteristic)**  
+  - Assesses the model’s ability to distinguish between binding vs. non-binding sites  
+  - ROC Curve plots TPR vs. FPR across different thresholds  
+  - AUC Score closer to 1 indicates better classification performance  
+- **Baseline Comparison** – The CNN will be compared against a random classifier (50% accuracy baseline) and a logistic regression baseline.
 
 
 # Model Selection
