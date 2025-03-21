@@ -1,6 +1,6 @@
 # Predicting Transcription Factor Binding Sites Using a CNN
 
-# People
+# Contributors
 *Yves-Langston Mays*
 
 *Wyatt Lamberth*
