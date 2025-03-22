@@ -1,0 +1,4 @@
+matrix_id,name,pfm_file,pwm_file,metadata_file
+MA0139.1,CTCF,./data/raw/jaspar/MA0139.1_CTCF.pfm,./data/raw/jaspar/pwm/MA0139.1_CTCF.pwm,./data/raw/jaspar/MA0139.1_CTCF_metadata.json
+MA0035.4,GATA1,./data/raw/jaspar/MA0035.4_GATA1.pfm,./data/raw/jaspar/pwm/MA0035.4_GATA1.pwm,./data/raw/jaspar/MA0035.4_GATA1_metadata.json
+MA0102.2,CEBPA,./data/raw/jaspar/MA0102.2_CEBPA.pfm,./data/raw/jaspar/pwm/MA0102.2_CEBPA.pwm,./data/raw/jaspar/MA0102.2_CEBPA_metadata.json

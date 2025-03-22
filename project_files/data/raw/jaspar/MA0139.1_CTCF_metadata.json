@@ -1,0 +1,9 @@
+{
+  "matrix_id": "MA0139.1",
+  "name": "CTCF",
+  "collection": "CORE",
+  "base_id": "MA0139",
+  "version": "1",
+  "sequence_logo": "https://jaspar.elixir.no/static/logos/svg/MA0139.1.svg",
+  "url": "https://jaspar.elixir.no/api/v1/matrix/MA0139.1/"
+}

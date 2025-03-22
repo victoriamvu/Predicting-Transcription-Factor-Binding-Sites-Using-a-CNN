@@ -1,0 +1,62 @@
+# Configuration for TF Binding Prediction project
+
+# Data parameters
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  jaspar_dir: "data/raw/jaspar"
+  encode_dir: "data/raw/encode"
+  genome_file: "data/raw/genome/hg38.fa"
+  sequence_length: 200
+  test_size: 0.2
+  val_size: 0.1
+  negative_method: "dinucleotide_shuffle"
+  data_augmentation: true
+
+# Transcription factors
+transcription_factors:
+  - name: "CTCF"
+    jaspar_id: "MA0139.1"
+    chip_seq_file: "data/raw/encode/CTCF/ENCFF002CEL.bed"
+  - name: "GATA1" 
+    jaspar_id: "MA0035.4"
+    chip_seq_file: "data/raw/encode/GATA1/ENCFF002CUQ.bed"
+  - name: "CEBPA"
+    jaspar_id: "MA0102.2"
+    chip_seq_file: "data/raw/encode/CEBPA/ENCFF002CWG.bed"
+  - name: "TP53"
+    jaspar_id: "MA0106.3"
+    chip_seq_file: "data/raw/encode/TP53/ENCFF002CXC.bed"
+
+# Model parameters
+model:
+  default_type: "cnn"
+  cnn:
+    num_filters: [32, 64, 128]
+    kernel_sizes: [8, 4, 4]
+    pool_sizes: [2, 2, 2]
+    dense_units: 64
+    dropout_rate: 0.3
+  advanced:
+    conv_layers: [[32, 8], [64, 4], [128, 3]]
+    dense_layers: [128, 64]
+    attention: true
+    batch_norm: true
+    dropout_rate: 0.3
+  baseline:
+    hidden_units: 64
+
+# Training parameters
+training:
+  batch_size: 32
+  epochs: 100
+  patience: 10
+  learning_rate: 0.001
+  class_weight: true
+  metrics: ["accuracy", "AUC"]
+
+# Evaluation parameters
+evaluation:
+  analyze_motifs: true
+  save_predictions: true
+  visualization_dir: "notebooks/figures"
