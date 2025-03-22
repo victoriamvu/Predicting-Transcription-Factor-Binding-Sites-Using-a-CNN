@@ -5,7 +5,8 @@
 2. [Project Structure](#project-structure)
 3. [Biological Background](#biological-background)
 4. [Data](#data)
-5. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
+5. [Running The Workflow](#run-full-workflow)
+6. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
    - [pyfaidx](#pyfaidx)
    - [MLflow](#mlflow)
    - [pybedtools](#pybedtools)
@@ -89,7 +90,21 @@ Breakdown:
 
 Because it has a clear motif and tons of ChIP-seq data across many cell types, it’s one of the most studied TFs and a go to for computational biology.
 
+# Run Full Workflow
+##Complete Workflow
 
+Run the entire workflow from data download to model evaluation with a single script:
+```bash
+scripts/run_workflow.sh
+This master script will:
+
+Verify the project structure
+Download all required data
+Process data for each transcription factor
+Train models for each TF
+Evaluate models and analyze motifs
+Generate a summary report
+```
 # Obscure Package Descriptions w/ Examples (AI generated)
 
 
