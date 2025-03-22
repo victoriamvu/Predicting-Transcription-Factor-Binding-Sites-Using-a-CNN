@@ -15,7 +15,7 @@
    - [Sphinx](#sphinx)
 
 
-#Project Structure
+# Project Structure
 ```bash
 tf_binding_prediction/
 ├── README.md                  # Project documentation
@@ -39,7 +39,7 @@ tf_binding_prediction/
 │   └── test_data.py           # Test data processing functions
 └── config.yaml                # Single configuration file
 ```
-#Obscure Package Descriptions w/ Examples (AI generated)
+# Obscure Package Descriptions w/ Examples (AI generated)
 
 
 ### pyfaidx
