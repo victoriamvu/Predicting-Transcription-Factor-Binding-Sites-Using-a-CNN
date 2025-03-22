@@ -80,7 +80,7 @@ tf_binding_prediction/
 # Data
 CTCF (CCCTC-binding factor) is a super important transcription factor that acts like a **genomic organizer**. It binds to DNA and helps regulate the 3D structure of the genome by forming **chromatin loops**—basically bringing distant parts of the genome together or keeping them apart.
 
-Here’s a quick breakdown:
+Breakdown:
 
 - 🧬 **Sequence-specific**: It binds to a specific DNA motif that's relatively easy to model computationally 
 - 🧲 **Insulator function**: It can block the interaction between enhancers and promoters when needed, preventing the wrong genes from being turned on.
