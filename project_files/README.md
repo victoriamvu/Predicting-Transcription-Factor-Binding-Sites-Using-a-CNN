@@ -8,7 +8,7 @@ tf_binding_prediction/
 ├── notebooks/                 # Analysis notebooks
 │   ├── exploratory.ipynb      # Data exploration
 │   └── results.ipynb          # Results visualization
-├── src/                       # Source code (simplified from package structure)
+├── src/                       # Source code
 │   ├── data.py                # Data loading and preprocessing
 │   ├── model.py               # CNN and baseline model implementations
 │   ├── train.py               # Training functions
