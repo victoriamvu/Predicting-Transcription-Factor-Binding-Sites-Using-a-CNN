@@ -3,12 +3,16 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
-3. [Dependencies](#dependencies)
-   - [Core Packages](#core-packages)
-   - [Deep Learning Frameworks](#deep-learning-frameworks)
-   - [Biological Data Processing](#biological-data-processing)
-   - [Visualization and Evaluation](#visualization-and-evaluation)
-   - [Development and Testing](#development-and-testing)
+3. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
+   - [pyfaidx](#pyfaidx)
+   - [MLflow](#mlflow)
+   - [pybedtools](#pybedtools)
+   - [pysam](#pysam)
+   - [SHAP](#shap-shapley-additive-explanations)
+   - [Hydra-core](#hydra-core)
+   - [pytest](#pytest)
+   - [pytest-cov](#pytest-cov)
+   - [Sphinx](#sphinx)
 
 
 #Project Structure
