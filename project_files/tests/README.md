@@ -40,11 +40,3 @@ When extending functionality, add corresponding tests:
 2. For model functions, create a new `test_model.py` file
 3. For training functions, create a new `test_train.py` file
 4. For evaluation functions, create a new `test_evaluate.py` file
-
-## Expected Test Coverage
-
-The project aims for high test coverage of critical components:
-
-- Data processing functions: 90%+ coverage
-- Model architecture functions: 80%+ coverage
-- Training and evaluation functions: 70%+ coverage
