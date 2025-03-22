@@ -91,7 +91,6 @@ Breakdown:
 Because it has a clear motif and tons of ChIP-seq data across many cell types, it’s one of the most studied TFs and a go to for computational biology.
 
 # Run Full Workflow
-##Complete Workflow
 
 Run the entire workflow from data download to model evaluation with a single script:
 ```bash
