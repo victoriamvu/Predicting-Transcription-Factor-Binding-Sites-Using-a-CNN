@@ -1,6 +1,6 @@
 # Scripts Directory
 
-This directory contains utility scripts 
+This directory contains utility scripts for running the transcription factor binding prediction project.
 
 ## Files
 
@@ -11,7 +11,8 @@ scripts/
 ├── download_jaspar_script.py  # Script to download JASPAR data
 ├── train_model.py             # Script to train the model
 ├── evaluate_model.py          # Script to evaluate the model
-└── verify_setup.py            # Script to verify project structure
+├── verify_setup.py            # Script to verify project structure
+└── run_workflow.sh            # Master script to run entire workflow
 ```
 
 ## Script Descriptions
@@ -133,12 +134,42 @@ python scripts/verify_setup.py
 - Checks file sizes to ensure files aren't empty
 - Suggests specific next steps based on what's missing
 
+### run_workflow.sh
+
+Master script that runs the entire workflow from data download to model evaluation.
+
+**Functionality:**
+- Verifies project structure
+- Downloads data if not already present
+- Processes data for each TF
+- Trains models for each TF
+- Evaluates models and analyzes motifs
+- Generates a summary report
+
+**Usage:**
+```bash
+bash scripts/run_workflow.sh
+```
+
+**Notes:**
+- Checks for existing files at each step to avoid unnecessary reprocessing
+- Provides colorful output to track progress
+- Asks for confirmation before retraining existing models
+- Creates all necessary directories
+- Generates a final HTML report if Jupyter is installed
+
 ## Execution Order
 
-For a complete workflow, scripts should be run in this order:
+For a complete workflow, you can either:
 
-1. `download_data.sh` - Download all data
-2. `verify_setup.py` - Verify data was downloaded correctly
-3. Use `src/data.py` to process data for each TF
-4. `train_model.py` - Train models for each TF
-5. `evaluate_model.py` - Evaluate models
+1. **Run the master script:**
+   ```bash
+   bash scripts/run_workflow.sh
+   ```
+
+2. **Run individual scripts in this order:**
+   - `download_data.sh` - Download all data
+   - `verify_setup.py` - Verify data was downloaded correctly
+   - Use `src/data.py` to process data for each TF
+   - `train_model.py` - Train models for each TF
+   - `evaluate_model.py` - Evaluate models
