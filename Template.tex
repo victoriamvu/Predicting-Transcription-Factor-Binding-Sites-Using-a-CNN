@@ -1,0 +1,123 @@
+\documentclass{report}
+
+% Encoding and Packages
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[margin=1in,top=0.5in]{geometry}
+\usepackage[x11names,table]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{setspace}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{etex}
+\usepackage{luatex85}
+\usepackage{etoc}
+\usepackage{expl3}
+\usepackage{amsmath}  % <-- Add this line
+
+% Header height
+\setlength{\headheight}{3cm}
+
+% Section numbering
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+
+% Adjust section levels
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {2.3ex \@plus.2ex}%
+  {\normalfont\Large\bfseries}}
+\makeatother
+
+% Table of Contents depth
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+% Fancy Header and Footer Setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\includegraphics[width=0.8\textwidth]{UHLogo_Long.png}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[L]{Yves-Langston Mays 2 December 2024}
+\fancyfoot[R]{\today}
+
+% Etoc settings
+\etocsetlevel{section}{0}
+\etocsetnexttocdepth{3}
+
+% Increase TeX's main memory size
+\directlua{
+  pdf.setminorversion(7)
+  pdf.setobjcompresslevel(0)
+  pdf.setcompresslevel(0)
+}
+
+% Increase LaTeX counters
+\maxdeadcycles=1000
+\extrafloats{1000}
+
+% Increase TeX parameters
+\ExplSyntaxOn
+\dim_new:N \g_fpi_maxheight_dim
+\dim_gset:Nn \g_fpi_maxheight_dim {16383pt}
+\ExplSyntaxOff
+
+% Define tightlist command
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Hyperref settings (should be last)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    pdfborder={0 0 0},
+}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+    \vspace*{5cm}
+    
+    {\Huge \textbf{Predicting Transcription Factor Binding Sites Using a CNN}} \\[1.5em]
+    
+    {\Large P-value > 0.5} \\[1.5em]
+    
+    \begin{center}
+        {\large
+        Yves-Langston Mays \\
+        Wyatt Lamberth \\
+        Michael Carreno \\
+        Pierre Ingram \\
+        Alexander Rosales \\
+        Victoria Vu
+        }
+    \end{center}
+    
+    \vfill
+    \includegraphics[width=0.5\textwidth]{UHLogo_Long.png}
+    \vspace{0.8cm}
+\end{titlepage}
+
+
+% Table of Contents
+\begingroup
+\let\clearpage\relax
+\tableofcontents
+\endgroup
+\relax
+\relax
+
+% Body Content Placeholder
+$body$
+
+\end{document}
