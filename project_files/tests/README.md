@@ -41,26 +41,6 @@ When extending functionality, add corresponding tests:
 3. For training functions, create a new `test_train.py` file
 4. For evaluation functions, create a new `test_evaluate.py` file
 
-## Testing Guidelines
-
-When implementing tests:
-
-1. Use unittest assertions for validation
-2. Test edge cases and typical cases
-3. Use small, synthetic examples when possible
-4. Include docstrings explaining what each test verifies
-5. For data-dependent tests, create minimal test fixtures
-
-## Test-Driven Development
-
-Consider following test-driven development (TDD) for new features:
-
-1. Write tests for the desired functionality
-2. Run tests to confirm they fail
-3. Implement the functionality
-4. Run tests again to validate implementation
-5. Refactor code as needed, ensuring tests continue to pass
-
 ## Expected Test Coverage
 
 The project aims for high test coverage of critical components:
