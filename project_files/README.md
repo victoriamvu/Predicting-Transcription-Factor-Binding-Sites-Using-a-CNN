@@ -56,8 +56,6 @@ for chrom, start, end in tqdm(binding_sites, desc="Extracting sequences"):
 
 print(f"Extracted {len(extracted_sequences)} valid sequences")
 
-# Now convert these sequences to one-hot encoding for your CNN
-# ...
 ```
 
 ### MLflow
