@@ -51,3 +51,6 @@ ipywidgets>=7.6.5
 # Other utilities
 tqdm>=4.62.0  # Progress bars
 joblib>=1.1.0  # Parallelization
+
+# Gdown to download google drive files
+gdown==4.4.0

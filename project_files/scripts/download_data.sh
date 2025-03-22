@@ -137,6 +137,11 @@ else
     echo "Genome index already exists, skipping indexing"
 fi
 
+
+mkdir -p data/raw/genome                                                                                                                                   
+ gdown --id <1V7lGqtpzO6jN8O-vE1OumHl5cslYhoW5> -O data/raw/genome/hg38.fa                                                                                                    
+ gdown --id <120rz32lKm_4tp95sgKr_Y88DxXg9E8dr> -O data/raw/genome/hg38.fa.fai  
+
 echo "Data setup complete!"
 echo "Downloaded data structure:"
 echo "  - JASPAR motifs: data/raw/jaspar/"

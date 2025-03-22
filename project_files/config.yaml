@@ -7,6 +7,7 @@ data:
   jaspar_dir: "data/raw/jaspar"
   encode_dir: "data/raw/encode"
   genome_file: "data/raw/genome/hg38.fa"
+  genome_index_file: "data/raw/genome/hg38.fa.fai"
   sequence_length: 200
   test_size: 0.2
   val_size: 0.1
