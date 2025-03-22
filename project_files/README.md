@@ -1,4 +1,17 @@
-# Project Structure
+# TF Binding Prediction Project
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Project Structure](#project-structure)
+3. [Dependencies](#dependencies)
+   - [Core Packages](#core-packages)
+   - [Deep Learning Frameworks](#deep-learning-frameworks)
+   - [Biological Data Processing](#biological-data-processing)
+   - [Visualization and Evaluation](#visualization-and-evaluation)
+   - [Development and Testing](#development-and-testing)
+
+
+#Project Structure
 ```bash
 tf_binding_prediction/
 ├── README.md                  # Project documentation
@@ -22,7 +35,7 @@ tf_binding_prediction/
 │   └── test_data.py           # Test data processing functions
 └── config.yaml                # Single configuration file
 ```
-# Obscure Package Descriptions w/ Examples (AI generated)
+#Obscure Package Descriptions w/ Examples (AI generated)
 
 
 ### pyfaidx
