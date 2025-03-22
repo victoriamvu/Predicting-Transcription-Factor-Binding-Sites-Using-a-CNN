@@ -4,7 +4,8 @@
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
 3. [Biological Background](#biological-background)
-4. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
+4. [Data](#data)
+5. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
    - [pyfaidx](#pyfaidx)
    - [MLflow](#mlflow)
    - [pybedtools](#pybedtools)
@@ -75,6 +76,19 @@ tf_binding_prediction/
   - G = [0,0,1,0]
   - T = [0,0,0,1]
 - A 200bp sequence becomes a 200×4 matrix, which is ideal for processing with CNNs
+
+# Data
+CTCF (CCCTC-binding factor) is a super important transcription factor that acts like a **genomic organizer**. It binds to DNA and helps regulate the 3D structure of the genome by forming **chromatin loops**—basically bringing distant parts of the genome together or keeping them apart.
+
+Here’s a quick breakdown:
+
+- 🧬 **Sequence-specific**: It binds to a specific DNA motif that's relatively easy to model computationally 
+- 🧲 **Insulator function**: It can block the interaction between enhancers and promoters when needed, preventing the wrong genes from being turned on.
+- 🧠 **Master of boundaries**: CTCF marks the edges of **topologically associating domains (TADs)**—big regions of the genome that interact more with themselves than with others.
+- 🔁 **Involved in looping**: Often works with cohesin to create **loops** in the genome that are crucial for gene regulation.
+
+Because it has a clear motif and tons of ChIP-seq data across many cell types, it’s one of the most studied TFs and a go to for computational biology.
+
 
 # Obscure Package Descriptions w/ Examples (AI generated)
 
