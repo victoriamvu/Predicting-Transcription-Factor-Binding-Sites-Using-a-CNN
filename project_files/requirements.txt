@@ -48,9 +48,6 @@ isort>=5.10.1  # Import sorting
 jupyterlab>=3.2.0
 ipywidgets>=7.6.5
 
-# Documentation
-sphinx>=4.4.0  # If you plan to generate documentation
-
 # Other utilities
 tqdm>=4.62.0  # Progress bars
 joblib>=1.1.0  # Parallelization
