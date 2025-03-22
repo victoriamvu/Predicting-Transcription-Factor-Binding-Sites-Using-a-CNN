@@ -24,7 +24,6 @@ tf_binding_prediction/
 ```
 # Obscure Package Descriptions w/ Examples (AI generated)
 
-I'll expand on the use cases for each package with more detailed examples that are relevant to your transcription factor binding site prediction project:
 
 ### pyfaidx
 **Detailed Use Case:** When working with reference genomes or DNA sequence datasets, you'll often need to extract specific regions around potential binding sites without loading gigabytes of sequence data into memory.
