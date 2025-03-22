@@ -3,7 +3,8 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
-3. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
+3. [Biological Background](#biological-background)
+4. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
    - [pyfaidx](#pyfaidx)
    - [MLflow](#mlflow)
    - [pybedtools](#pybedtools)
@@ -39,6 +40,42 @@ tf_binding_prediction/
 │   └── test_data.py           # Test data processing functions
 └── config.yaml                # Single configuration file
 ```
+
+#Biological Background
+
+## Transcription Factors and Gene Regulation
+
+### DNA, Genes, and Proteins
+- **DNA** is the molecule that contains the genetic instructions for development and functioning of all living organisms
+- **Genes** are segments of DNA that contain instructions for making specific proteins
+- **Proteins** are complex molecules that perform most cellular functions and make up most cellular structures
+
+### Transcription Factors (TFs)
+- **Transcription factors** are specialized proteins that control which genes are "turned on" or "turned off"
+- They work by binding to specific short DNA sequences (6-20 base pairs) near genes
+- These binding events help determine when and how much a gene is expressed
+- Think of TFs as biological "switches" that control gene activation
+
+### Why Predicting TF Binding Sites Matters
+- Knowing where TFs bind helps us understand how cells regulate their genes
+- Mutations in TF binding sites can cause diseases by disrupting normal gene regulation
+- Many drugs target transcription factor pathways
+
+### The Computational Challenge
+- The human genome contains ~3 billion DNA bases
+- Finding the short sequences (200bp) where specific TFs bind is like finding needles in a haystack
+- Experimental methods can identify binding sites but are expensive and time consuming
+- Our CNN model aims to learn the complex DNA sequence patterns that TFs recognize
+
+### Data Representation
+- DNA sequences consist of four nucleotides: A (Adenine), C (Cytosine), G (Guanine), and T (Thymine)
+- We represent these as "one-hot encoded" vectors:
+  - A = [1,0,0,0]
+  - C = [0,1,0,0]
+  - G = [0,0,1,0]
+  - T = [0,0,0,1]
+- A 200bp sequence becomes a 200×4 matrix, which is ideal for processing with CNNs
+
 # Obscure Package Descriptions w/ Examples (AI generated)
 
 
@@ -825,3 +862,5 @@ sphinx-apidoc -o docs/api src
 cd docs
 make html
 ```
+
+
