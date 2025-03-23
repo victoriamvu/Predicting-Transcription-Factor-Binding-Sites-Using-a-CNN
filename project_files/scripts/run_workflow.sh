@@ -77,7 +77,7 @@ fi
 print_header "DOWNLOADING DATA"
 if [ ! -f data/raw/genome/hg38.fa ] || [ ! -d data/raw/jaspar ] || [ ! -d data/raw/encode ]; then
     print_step "Running download script..."
-    if [ -f scripts/download_data.sh ]; then
+    if [ -f download_data.sh ]; then
         bash scripts/download_data.sh
         if [ $? -eq 0 ]; then
             print_success "Data download complete"
