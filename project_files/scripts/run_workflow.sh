@@ -46,7 +46,7 @@ TFS=("CTCF" "GATA1" "CEBPA" "TP53")
 
 # Verify project structure before starting
 print_header "VERIFYING PROJECT STRUCTURE"
-if [ -f scripts/verify_setup.py ]; then
+if [ -f verify_setup.py ]; then
     python scripts/verify_setup.py
     if [ $? -eq 0 ]; then
         print_success "Project structure verified"
