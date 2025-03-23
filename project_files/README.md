@@ -4,9 +4,10 @@
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
 3. [Biological Background](#biological-background)
-4. [Data](#data)
-5. [Running The Workflow](#run-full-workflow)
-6. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
+4. [QuickStart Guide](#quick-start-guide)
+5. [Data](#data)
+6. [Running The Workflow](#run-full-workflow)
+7. [Dependencies](#obscure-package-descriptions-w-examples-ai-generated)
    - [pyfaidx](#pyfaidx)
    - [MLflow](#mlflow)
    - [pybedtools](#pybedtools)
@@ -77,6 +78,94 @@ tf_binding_prediction/
   - G = [0,0,1,0]
   - T = [0,0,0,1]
 - A 200bp sequence becomes a 200×4 matrix, which is ideal for processing with CNNs
+
+
+# Quick Start Guide
+
+## Running the Workflow
+
+The project includes a master script that handles the entire workflow from data download to model evaluation. This script is designed to work even if some components haven't been implemented yet, making it ideal for collaborative development.
+
+```bash
+# Navigate to the project root
+cd tf_binding_prediction
+
+# Make the workflow script executable if needed
+chmod +x scripts/run_workflow.sh
+
+# Run the workflow
+./scripts/run_workflow.sh
+```
+
+The workflow script will:
+1. Create necessary directory structures
+2. Download required data (reference genome, JASPAR motifs, ChIP-seq data)
+3. Process data for each transcription factor
+4. Train models (if implemented)
+5. Evaluate models (if implemented)
+6. Generate a summary report (if implemented)
+
+Even if some components aren't implemented yet, the script will create placeholder files to help you understand the expected inputs and outputs.
+
+## Getting Started with Development
+
+### Prerequisites
+Before starting development, ensure you have:
+
+1. Installed all dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Run the workflow script once to download data and set up the directory structure:
+   ```bash
+   ./scripts/run_workflow.sh
+   ```
+
+### Implementing Core Components
+
+The project requires implementation of several key Python modules:
+
+1. **Data Processing (`src/data.py`)**
+   - Handles loading ChIP-seq data and reference genome
+   - Performs one-hot encoding of DNA sequences
+   - Generates positive and negative samples
+   - Splits data into training, validation, and test sets
+
+2. **Model Definition (`src/model.py`)**
+   - Defines the CNN architecture
+   - Creates baseline models for comparison
+
+3. **Training Functions (`src/train.py`)**
+   - Implements model training loop
+   - Handles data augmentation
+   - Implements early stopping and learning rate scheduling
+
+4. **Evaluation Metrics (`src/evaluate.py`)**
+   - Calculates accuracy, AUC-ROC, and other metrics
+   - Visualizes model performance
+   - Implements motif analysis
+
+### Code Structure Guidelines
+
+When implementing the source code, follow these guidelines:
+
+1. Use the configuration in `config.yaml` for model parameters and file paths
+2. Implement proper logging using Python's `logging` module
+3. Include docstrings and type hints for all functions
+4. Write unit tests in the `tests/` directory
+5. Use the existing directory structure for inputs and outputs
+
+### Example Implementation Approach
+
+Here's a suggested order for implementing the core components:
+
+1. Start with `src/data.py` to process the data and verify the preprocessing pipeline
+2. Move on to `src/model.py` to define a simple CNN architecture
+3. Implement `src/train.py` to train the model on the processed data
+4. Finally, add `src/evaluate.py` to assess model performance
+
+After implementing a component, run the workflow script again to test your implementation in the full pipeline.
 
 # Data
 CTCF (CCCTC-binding factor) is a super important transcription factor that acts like a **genomic organizer**. It binds to DNA and helps regulate the 3D structure of the genome by forming **chromatin loops**—basically bringing distant parts of the genome together or keeping them apart.
