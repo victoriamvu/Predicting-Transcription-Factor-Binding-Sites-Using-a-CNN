@@ -84,7 +84,7 @@ tf_binding_prediction/
 
 ## Running the Workflow
 
-The project includes a master script that handles the entire workflow from data download to model evaluation. This script is designed to work even if some components haven't been implemented yet, making it ideal for collaborative development.
+The project includes a master script that handles the entire workflow from data download to model evaluation. This script is designed to work even if some components haven't been implemented yet.
 
 ```bash
 # Navigate to the project root
@@ -107,13 +107,13 @@ The workflow script will:
 
 Even if some components aren't implemented yet, the script will create placeholder files to help you understand the expected inputs and outputs.
 
-## Getting Started with Development
+## Getting Started
 
 ### Prerequisites
-Before starting development, ensure you have:
+Before starting , make sure you have:
 
 1. Installed all dependencies:
-   ```bash
+   ```python
    pip install -r requirements.txt
    ```
 
@@ -152,9 +152,7 @@ When implementing the source code, follow these guidelines:
 
 1. Use the configuration in `config.yaml` for model parameters and file paths
 2. Implement proper logging using Python's `logging` module
-3. Include docstrings and type hints for all functions
-4. Write unit tests in the `tests/` directory
-5. Use the existing directory structure for inputs and outputs
+3. Use the existing directory structure for inputs and outputs
 
 ### Example Implementation Approach
 
