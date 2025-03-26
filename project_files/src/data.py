@@ -114,7 +114,9 @@ def reverse_complement(sequence):
     # TODO: Implement reverse complement function
     # Create a mapping of nucleotides to their complements
     # Reverse the sequence and replace each nucleotide with its complement
-    return None
+    complement = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', 'N': 'N'}
+    reversed_seq = reversed(sequence.upper())
+    return ''.join(complement.get(base, 'N') for base in reversed_seq)
 
 
 def extract_sequences_from_chip(bed_file, genome_file, sequence_length=200):
@@ -260,4 +262,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    test_seq = "ATGCN"
+    print("Original:         ", test_seq)
+    print("Reverse complement:", reverse_complement(test_seq))
