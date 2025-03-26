@@ -145,7 +145,7 @@ def extract_sequences_from_chip(bed_file, genome_file, sequence_length=200):
     return []
 
 
-def generate_negative_samples(positive_sequences, genome_file=None, method='dinucleotide_shuffle', n_samples=None):
+def generate_negative_samples(positive_sequences, method='dinucleotide_shuffle'):
     """
     Generate negative samples for training.
     
@@ -168,8 +168,12 @@ def generate_negative_samples(positive_sequences, genome_file=None, method='dinu
     # For 'shuffle': randomly shuffle the nucleotides
     # For 'dinucleotide_shuffle': preserve dinucleotide frequencies
     # For 'random_genomic': extract random regions from the genome
-    return []
-
+    negatives = []
+    for seq in positive_sequences:
+        seq_list = list(seq)
+        random.shuffle(seq_list)
+        negatives.append(''.join(seq_list))
+    return negatives
 
 def prepare_dataset(positive_sequences, negative_sequences=None, test_size=0.2, val_size=0.1, augment=False):
     """
@@ -262,6 +266,4 @@ def main():
 
 
 if __name__ == "__main__":
-    test_seq = "ATGCN"
-    print("Original:         ", test_seq)
-    print("Reverse complement:", reverse_complement(test_seq))
+    main()
