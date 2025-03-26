@@ -1,5 +1,22 @@
 # Predicting Transcription Factor Binding Sites Using a CNN
 
+
+## Table of Contents
+1. [Contributors](#introduction)
+2. [Project Timeline](#project-structure)
+3. [Objective](#biological-background)
+4. [Background](#quick-start-guide)
+  - [Task Definition](#task-defenition)
+  - [Example Inputs](#example-inputs)
+  - [Example Outputs](#example-outputs)
+6. [Data](#data-source)
+7. [Preprocessing Steps](#preprocessing-steps)
+8. [Evaluating Metric](#evaluating-metric)
+9. [Model Selection](#model-selection)
+10. [CNN Design](#cnn-design)
+11. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
+    
+
 # Contributors
 *Yves-Langston Mays*
 
@@ -21,7 +38,7 @@
 |Progress Report     | April 11, 2025  | Process Dataset and train CNN |
 |Final Report        | April 28, 2025  | Evaluate Moel, Handle Errors  |
 
-## Objective
+# Objective
 
 The goal of this project is to predict transcription factor binding sites in eukaryotic DNA using a 1 dimensional CNN. Our goal is to determine whether a 200 bp DNA sequence contains a binding site for a single transcription factor.
 
@@ -35,7 +52,7 @@ Gene therapy – Targeted activation or repression of genes
 
 Functional genomics – Understanding regulatory networks in eukaryotic cells
 
-# Task Definition
+## Task Definition
 
 Input: A 200 bp DNA sequence represented using one hot encoding
 
@@ -117,9 +134,8 @@ Output Layer: Sigmoid activation for binary classification
 Small mutations, such as random substitutions (e.g., A → G) and insertion/deletion of single nucleotides at random positions, introduce realistic variability. This improves the CNN’s generalization ability, allowing it to perform better on unseen biological sequences.
 
 
-## Potential Areas for Model Improvement (Exploration Phase)
+# Areas for Model Improvement
 
-As part of early experimentation and optional exploration by team members, a few potential improvements have been considered for future iterations of the model. These ideas are **not finalized**, but may help inform model tuning discussions later in the project.
 
 - **Global MaxPooling Layers**: May help the CNN detect motifs regardless of their position in the sequence.
 - **Reduced Regularization**: Lower dropout or L2 penalty could preserve meaningful motif representations that are otherwise suppressed.
@@ -128,7 +144,6 @@ As part of early experimentation and optional exploration by team members, a few
 - **Logistic Regression Baseline**: Comparing CNN performance to a baseline logistic regression model using k-mer frequency or TF-IDF features.
 - **Class Weighting Adjustments**: Exploring how weighting the loss function by class frequency might reduce class prediction bias.
 
-These improvements are **currently exploratory** and can be incorporated during model tuning stages if the group agrees they are beneficial.
 
 # Limitations
 - Transcription binding sites exist on a spectrum of binding affinities. The binary classification here may miss weak, but funtionally important binding sites.
