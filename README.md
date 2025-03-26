@@ -2,10 +2,10 @@
 
 
 ## Table of Contents
-1. [Contributors](#introduction)
-2. [Project Timeline](#project-structure)
-3. [Objective](#biological-background)
-4. [Background](#quick-start-guide)
+1. [Contributors](#contributors)
+2. [Project Timeline](#project-timeline)
+3. [Objective](#objective)
+4. [Background](#background)
   - [Task Definition](#task-defenition)
   - [Example Inputs](#example-inputs)
   - [Example Outputs](#example-outputs)
