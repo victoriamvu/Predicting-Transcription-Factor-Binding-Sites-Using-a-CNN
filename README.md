@@ -130,3 +130,11 @@ As part of early experimentation and optional exploration by team members, a few
 
 These improvements are **currently exploratory** and can be incorporated during model tuning stages if the group agrees they are beneficial.
 
+# Limitations
+- Transcription binding sites exist on a spectrum of binding affinities. The binary classification here may miss weak, but funtionally important binding sites.
+- 200 bp does not capture the full context of binding. Some transcription factors require broader sequence context or cooperative binding with other factors.
+- The task is made artifically easy by through generating negative samples.
+- The model focuses on one transcription factor at a time, rather than learning shared features across multiple factors.
+- DNA binding is heavily infleuenced by chromatin, methylation, and histone states/modifications. None of this is captured in this model.
+- This approadch doesn't account for positon of binding sites with respect to genes or other regulatoy elements, both of which significantly affect binding.
+- The data used from JASPAR come from in vitro experiements, and so the results may not accurately reflect in vivo binding.
