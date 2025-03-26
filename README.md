@@ -5,7 +5,8 @@
 1. [Contributors](#contributors)
 2. [Project Timeline](#project-timeline)
 3. [Objective](#objective)
-4. [Background](#background)
+4. [Limitations](#limitations)
+5. [Background](#background)
   - [Task Definition](#task-definition)
   - [Example Inputs](#example-inputs)
   - [Example Outputs](#example-outputs)
@@ -16,7 +17,7 @@
 10. [CNN Design](#cnn-design)
 11. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
 12. [Areas For Model Improvement](#areas-for-model-improvement)
-13. [Limitations](#limitations)
+
     
 
 # Contributors
@@ -43,6 +44,15 @@
 # Objective
 
 The goal of this project is to predict transcription factor binding sites in eukaryotic DNA using a 1 dimensional CNN. Our goal is to determine whether a 200 bp DNA sequence contains a binding site for a single transcription factor.
+
+# Limitations
+- Transcription binding sites exist on a spectrum of binding affinities. The binary classification here may miss weak, but funtionally important binding sites.
+- 200 bp does not capture the full context of binding. Some transcription factors require broader sequence context or cooperative binding with other factors.
+- The task is made artifically easy by through generating negative samples.
+- The model focuses on one transcription factor at a time, rather than learning shared features across multiple factors.
+- DNA binding is heavily infleuenced by chromatin, methylation, and histone states/modifications. None of this is captured in this model.
+- This approadch doesn't account for positon of binding sites with respect to genes or other regulatoy elements, both of which significantly affect binding.
+- The data used from JASPAR come from in vitro experiements, and so the results may not accurately reflect in vivo binding.
 
 # Background
 
@@ -145,13 +155,3 @@ Small mutations, such as random substitutions (e.g., A → G) and insertion/dele
 - **Filter Visualization**: Extracting convolutional filters to interpret what patterns the CNN is learning.
 - **Logistic Regression Baseline**: Comparing CNN performance to a baseline logistic regression model using k-mer frequency or TF-IDF features.
 - **Class Weighting Adjustments**: Exploring how weighting the loss function by class frequency might reduce class prediction bias.
-
-
-# Limitations
-- Transcription binding sites exist on a spectrum of binding affinities. The binary classification here may miss weak, but funtionally important binding sites.
-- 200 bp does not capture the full context of binding. Some transcription factors require broader sequence context or cooperative binding with other factors.
-- The task is made artifically easy by through generating negative samples.
-- The model focuses on one transcription factor at a time, rather than learning shared features across multiple factors.
-- DNA binding is heavily infleuenced by chromatin, methylation, and histone states/modifications. None of this is captured in this model.
-- This approadch doesn't account for positon of binding sites with respect to genes or other regulatoy elements, both of which significantly affect binding.
-- The data used from JASPAR come from in vitro experiements, and so the results may not accurately reflect in vivo binding.
