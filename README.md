@@ -10,13 +10,14 @@
     - [Task Definition](#task-definition)
     - [Example Inputs](#example-inputs)
     - [Example Outputs](#example-outputs)
-6. [Data](#data-source)
-7. [Preprocessing Steps](#preprocessing-steps)
-8. [Evaluating Metric](#evaluating-metric)
-9. [Model Selection](#model-selection)
-10. [CNN Design](#cnn-design)
-11. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
-12. [Areas For Model Improvement](#areas-for-model-improvement)
+6. [Literature](#literature)
+7. [Data](#data-source)
+8. [Preprocessing Steps](#preprocessing-steps)
+9. [Evaluating Metric](#evaluating-metric)
+10. [Model Selection](#model-selection)
+11. [CNN Design](#cnn-design)
+12. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
+13. [Areas For Model Improvement](#areas-for-model-improvement)
 
     
 
@@ -63,6 +64,9 @@ Synthetic biology – Designing custom promoters for gene circuits
 Gene therapy – Targeted activation or repression of genes
 
 Functional genomics – Understanding regulatory networks in eukaryotic cells
+
+# Literature
+
 
 ## Task Definition
 
