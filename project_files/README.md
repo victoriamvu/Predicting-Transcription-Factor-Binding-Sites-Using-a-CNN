@@ -44,7 +44,7 @@ tf_binding_prediction/
 └── config.yaml                # Single configuration file
 ```
 
-#Biological Background
+# Biological Background
 
 ## Transcription Factors and Gene Regulation
 
