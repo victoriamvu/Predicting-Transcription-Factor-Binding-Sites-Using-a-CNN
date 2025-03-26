@@ -15,6 +15,8 @@
 9. [Model Selection](#model-selection)
 10. [CNN Design](#cnn-design)
 11. [Small Mutations to Improve Model Generalization](#small-mutations-to-improve-model-generalization)
+12. [Areas For Model Improvement](#areas-for-model-improvement)
+13. [Limitations](#limitations)
     
 
 # Contributors
