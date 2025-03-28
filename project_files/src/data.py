@@ -13,6 +13,8 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from Bio import SeqIO
+from Bio import motifs
+from Bio.motifs import jaspar
 from pyfaidx import Fasta
 import random
 
@@ -53,7 +55,20 @@ def parse_jaspar_pfm(pfm_file):
     # Parse header with matrix ID and TF name
     # Parse each row for A, C, G, T counts
     # Create pandas DataFrame with the counts
-    return None, None, None
+    try:
+        with open(pfm_file, 'r') as f:
+            motif = motifs.read(f, "jaspar")
+    except FileNotFoundError:
+        print(f'File {pfm_file} not found.')
+        return None
+    except Exception as err:
+        print(err)
+        return None
+
+    pfm_data = {base: motif.counts[base] for base in "ACGT"}
+    pfm_df = pd.DataFrame(data=pfm_data)
+
+    return motif.matrix_id, motif.name, pfm_df
 
 
 def pfm_to_pwm(pfm_df, pseudocount=0.1):
