@@ -89,7 +89,20 @@ def plot_roc_curve(fpr, tpr, output_file=None):
     # 2. Create ROC curve plot
     # 3. Save plot if output_file is provided
     # 4. Return AUC
-    return 0.0
+    fpr, tpr, _ = roc_curve(y_true, y_scores)
+    roc_auc = auc(fpr, tpr)
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(fpr, tpr, label=f"AUC = {roc_auc:.3f}")
+    plt.plot([0, 1], [0, 1], linestyle="--", color="gray")
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.title("ROC Curve")
+    plt.legend(loc="lower right")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
 
 
 def plot_pr_curve(precision, recall, output_file=None):
@@ -114,7 +127,19 @@ def plot_pr_curve(precision, recall, output_file=None):
     # 2. Create precision-recall curve plot
     # 3. Save plot if output_file is provided
     # 4. Return AUC
-    return 0.0
+    precision, recall, _ = precision_recall_curve(y_true, y_scores)
+    avg_precision = average_precision_score(y_true, y_scores)
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(recall, precision, label=f"Avg Precision = {avg_precision:.3f}")
+    plt.xlabel("Recall")
+    plt.ylabel("Precision")
+    plt.title("Precision-Recall Curve")
+    plt.legend(loc="lower left")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
 
 
 def analyze_motifs(model, sequence_length=200, output_dir=None):
