@@ -41,7 +41,10 @@ def load_model_and_data(model_path, data_dir):
     # 1. Load the trained model
     # 2. Load test data from data_dir
     # 3. Return model and test data
-    return None, None, None
+    model = tf.keras.models.load_model(model_path)
+    X_test = np.load(os.path.join(data_dir, "X_test.npy"))
+    y_test = np.load(os.path.join(data_dir, "y_test.npy"))
+    return model, X_test, y_test
 
 
 def evaluate_model(model, X_test, y_test):
@@ -64,7 +67,28 @@ def evaluate_model(model, X_test, y_test):
     # 2. Calculate metrics: accuracy, loss, AUC
     # 3. Calculate ROC and PR curve data
     # 4. Return metrics and curve data
-    return {}, None, None, None, None
+    
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Get predicted probabilities
+    y_scores = model.predict(X_test).flatten()
+    
+    # Binarize predictions at threshold = 0.5
+    y_pred = (y_scores >= 0.5).astype(int)
+    
+    # Compute metrics
+    acc = accuracy_score(y_test, y_pred)
+    auc_score = roc_auc_score(y_test, y_scores)
+    
+    # Print and save metrics
+    print(f"Test Accuracy: {acc:.4f}")
+    print(f"Test AUC: {auc_score:.4f}")
+    with open(os.path.join(output_dir, "metrics.txt"), "w") as f:
+        f.write(f"Accuracy: {acc:.4f}\nAUC: {auc_score:.4f}\n")
+
+    # Plot and save ROC and PR curves
+    plot_roc_curve(y_test, y_scores, save_path=os.path.join(output_dir, "roc_curve.png"))
+    plot_pr_curve(y_test, y_scores, save_path=os.path.join(output_dir, "pr_curve.png"))
 
 
 def plot_roc_curve(fpr, tpr, output_file=None):
@@ -196,5 +220,17 @@ def main():
     logger.info(f"Evaluation complete. Results saved to {args.output_dir}")
 
 
+import argparse
+
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Evaluate trained TF binding model.")
+    parser.add_argument("--model-path", type=str, required=True, help="Path to saved .h5 model")
+    parser.add_argument("--data-dir", type=str, required=True, help="Directory with test data")
+    parser.add_argument("--output-dir", type=str, default="outputs", help="Directory to save results")
+    args = parser.parse_args()
+
+    # Load model and test data
+    model, X_test, y_test = load_model_and_data(args.model_path, args.data_dir)
+
+    # Evaluate and generate plots
+    evaluate_model(model, X_test, y_test, args.output_dir)
