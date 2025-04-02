@@ -42,7 +42,14 @@ def load_data(data_dir):
     # TODO: Implement data loading
     # 1. Load X_train.npy, y_train.npy, etc.
     # 2. Return loaded data
-    return None, None, None, None, None, None
+    X_train = np.load(os.path.join(data_dir, "X_train.npy"))
+    y_train = np.load(os.path.join(data_dir, "y_train.npy"))
+    X_val = np.load(os.path.join(data_dir, "X_val.npy"))
+    y_val = np.load(os.path.join(data_dir, "y_val.npy"))
+    X_test = np.load(os.path.join(data_dir, "X_test.npy"))
+    y_test = np.load(os.path.join(data_dir, "y_test.npy"))
+
+    return X_train, y_train, X_val, y_val, X_test, y_test
 
 
 def get_callbacks(patience=10, model_dir=None):
