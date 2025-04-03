@@ -90,7 +90,12 @@ def pfm_to_pwm(pfm_df, pseudocount=0.1):
     # 1. Add pseudocount to avoid zeros
     # 2. Convert to probabilities by normalizing columns
     # 3. Optionally calculate log-odds scores
-    return None
+    pfm = np.array(pfm_df)
+    num_seqs = np.sum(pfm, axis=0, keepdims=True)
+    ppm = (pfm + pseudocount) / (num_seqs + 4 * pseudocount)
+    pwm = np.log(ppm / 0.25)
+
+    return pwm
 
 
 def one_hot_encode(sequence):
