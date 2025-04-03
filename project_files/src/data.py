@@ -12,6 +12,7 @@ import logging
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
 from Bio import SeqIO
 from Bio import motifs
 from Bio.motifs import jaspar
@@ -115,7 +116,9 @@ def one_hot_encode(sequence):
     # Map each nucleotide to a one-hot vector
     # A -> [1,0,0,0], C -> [0,1,0,0], G -> [0,0,1,0], T -> [0,0,0,1]
     # Handle unknown nucleotides (N) appropriately
-    return None
+    encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
+    encoded = encoder.fit_transform(np.array(list(sequence)).reshape(-1, 1))
+    return encoded
 
 
 def reverse_complement(sequence):
