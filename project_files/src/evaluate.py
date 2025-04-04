@@ -188,8 +188,41 @@ def analyze_motifs(model, sequence_length=200, output_dir=None):
     # 2. Visualize filters as sequence logos
     # 3. Save visualizations if output_dir is provided
     # 4. Return motif information
-    return {}
+    os.makedirs(output_dir, exist_ok=True)
 
+    # 1. Extract weights from first convolutional layer
+    conv_layer = None
+    for layer in model.layers:
+        if "Conv1D" in layer.__class__.__name__:
+            conv_layer = layer
+            break
+
+    if conv_layer is None:
+        print("No Conv1D layer found.")
+        return []
+
+    weights = conv_layer.get_weights()[0]  # shape: (kernel_size, 4, num_filters)
+    kernel_size, _, num_filters = weights.shape
+    motif_list = []
+
+    # 2. Visualize filters as sequence logos
+    for i in range(num_filters):
+        pwm = weights[:, :, i].T  # shape: 4 x kernel_size
+        motif_list.append(pwm)
+
+        plt.figure(figsize=(kernel_size / 2, 2))
+        plt.imshow(pwm, cmap='coolwarm', aspect='auto')
+        plt.colorbar(label='Weight')
+        plt.yticks(range(4), labels=['A', 'C', 'G', 'T'])
+        plt.title(f"Filter {i + 1}")
+        plt.xlabel("Position")
+        plt.tight_layout()
+
+        # 3. Save visualizations
+        plt.savefig(os.path.join(output_dir, f"filter_{i + 1}.png"))
+        plt.close()
+        
+        return motif_list
 
 def main():
     """Main function to run the evaluation script."""
