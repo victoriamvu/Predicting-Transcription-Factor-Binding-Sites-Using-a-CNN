@@ -249,8 +249,11 @@ def main():
     # TODO: Save evaluation metrics
     
     # TODO: Analyze motifs if requested
-    
-    logger.info(f"Evaluation complete. Results saved to {args.output_dir}")
+
+    if args.analyze_motifs:
+        logger.info("Analyzing motifs...")
+        analyze_motifs(model, output_dir=args.output_dir)
+        logger.info(f"Evaluation complete. Results saved to {args.output_dir}")
 
 
 import argparse
