@@ -165,7 +165,31 @@ def extract_sequences_from_chip(bed_file, genome_file, sequence_length=200):
     #   1. Calculate the center of the peak
     #   2. Extract a sequence of specified length centered on the peak
     #   3. Skip sequences with unknown nucleotides (N)
-    return []
+
+    genome = Fasta(genome_file)
+    sequences = []
+
+    #Load genome
+    with open(bed_file, 'r') as bed:
+        for line in bed:
+            chrom, start, end, *rest = line.strip().split('\t')
+            start, end = int(start), int(end)
+
+    #Calculate center of peak
+
+            peak_center = (start + end) // 2
+            half_len = sequence_length
+
+    #Extract sequence of specified length centered on peak
+
+            sequence = genome[chrom][peak_center - half_len:peak_center + half_len].seq
+    
+    #Skip sequences with unknown nucleotides (N)
+
+            if 'N' not in sequence:
+                sequences.append(sequence)
+
+    return sequences
 
 
 def generate_negative_samples(positive_sequences, method='dinucleotide_shuffle'):
@@ -225,7 +249,36 @@ def prepare_dataset(positive_sequences, negative_sequences=None, test_size=0.2, 
     # 3. Augment training data if specified (e.g., with reverse complements)
     # 4. Convert sequences to one-hot encoding
     # 5. Create label arrays (1 for positives, 0 for negatives)
-    return None, None, None, None, None, None
+    
+
+    #If no negative samples generate them
+    
+    if negative_sequences is None:
+        negative_sequences = generate_negative_samples(positive_sequences)
+
+    sequences = positive_sequences + negative_sequences
+    labels = [1] * len(positive_sequences) + [0] * len(negative_sequences)
+
+    #Augment training data with reverse compliment
+
+    if augment:
+        augment_sequences = [reverse_complement(seq) for seq in positive_sequences]
+        sequences.extend(augment_sequences)
+        labels.extend([1] * len(augment_sequences))
+        labels.extend([1] * len(augment_sequences))
+
+    #Split data into training, validation, and test sets
+
+    X_train, X_temp, y_train, y_temp = train_test_split(sequences, labels, test_size=test_size, random_state=42)
+    X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=val_size / (1 - test_size), random_state=42) 
+    
+    #Convert to one-hot encoding
+
+    X_train_encoded = np.array([one_hot_encode(seq) for seq in X_train])
+    X_val_encoded = np.array([one_hot_encode(seq) for seq in X_val])
+    X_test_encoded = np.array([one_hot_encode(seq) for seq in X_test])
+    
+    return X_train_encoded, y_train, X_val_encoded, y_val, X_test_encoded, y_test
 
 
 def process_tf_data(tf_name, jaspar_dir, chip_seq_file, genome_file, output_dir,
@@ -258,7 +311,44 @@ def process_tf_data(tf_name, jaspar_dir, chip_seq_file, genome_file, output_dir,
     # 3. Generate negative samples
     # 4. Prepare datasets (train/val/test split)
     # 5. Save processed data to output directory
-    pass
+    
+    #Find JASPAR files for the TF
+    jaspar_files = [f for f in os.listdir(jaspar_dir) if f'{tf_name}' in f and f.endswith('.pfm')]
+    if not jaspar_files:
+        logger.error(f'No JASPAR motif files found for transcription factor {tf_name}')
+        return
+    
+    #Extract sequences from ChIP-seq peaks
+    logger.info(f'Extracting sequences for TF: {tf_name} from ChIP-seq file: {chip_seq_file}')
+    sequences = extract_sequences_from_chip(chip_seq_file, genome_file, sequence_length)
+    if not sequences:
+        logger.error(f'No sequences extracted from ChIP-seq peaks for TF: {tf_name}')
+        return
+    
+    #Generate negative samples
+    logger.info(f'Generating negative samples for TF: {tf_name}')
+    negative_sequences = generate_negative_samples(sequences)
+
+    #Prepare datasets (train, val, test splits)
+    logger.info(f'Preparing datasets for TF: {tf_name}')
+    X_train, y_train, X_val, y_val, X_test, y_test = prepare_dataset(sequences, negative_sequences, test_size, val_size)
+
+    #Save processed data to output directory
+    logger.info(f'Saving processed data for TF: {tf_name} to output directory: {output_dir}')
+
+    #Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+
+    #Save the processed data output dir
+    np.save(os.path.join(output_dir, f'X_train_{tf_name}.npy'), X_train)
+    np.save(os.path.join(output_dir, f'y_train_{tf_name}.npy'), y_train)
+    np.save(os.path.join(output_dir, f'X_val_{tf_name}.npy'), X_val)
+    np.save(os.path.join(output_dir, f'y_val_{tf_name}.npy'), y_val)
+    np.save(os.path.join(output_dir, f'X_test_{tf_name}.npy'), X_test)
+    np.save(os.path.join(output_dir, f'y_test_{tf_name}.npy'), y_test)
+    
+    logger.info(f'Data processing for TF: {tf_name} completed and saved in {output_dir}')
+
 
 
 def main():
