@@ -210,8 +210,6 @@ print(f"Extracted {len(extracted_sequences)} valid sequences")
 ```
 
 ### MLflow
-**Detailed Use Case:** When your team of 5 members is experimenting with different CNN architectures, hyperparameters, and training strategies, you need a way to track experiments, compare results, and ensure reproducibility.
-
 **Expanded Example:**
 ```python
 import mlflow
