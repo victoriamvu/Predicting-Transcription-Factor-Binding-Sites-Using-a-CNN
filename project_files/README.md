@@ -146,34 +146,16 @@ The project requires implementation of several key Python modules:
    - Visualizes model performance
    - Implements motif analysis
 
-### Code Structure Guidelines
-
-When implementing the source code, follow these guidelines:
-
-1. Use the configuration in `config.yaml` for model parameters and file paths
-2. Implement proper logging using Python's `logging` module
-3. Use the existing directory structure for inputs and outputs
-
-### Example Implementation Approach
-
-Here's a suggested order for implementing the core components:
-
-1. Start with `src/data.py` to process the data and verify the preprocessing pipeline
-2. Move on to `src/model.py` to define a simple CNN architecture
-3. Implement `src/train.py` to train the model on the processed data
-4. Finally, add `src/evaluate.py` to assess model performance
-
-After implementing a component, run the workflow script again to test your implementation in the full pipeline.
 
 # Data
 CTCF (CCCTC-binding factor) is a super important transcription factor that acts like a **genomic organizer**. It binds to DNA and helps regulate the 3D structure of the genome by forming **chromatin loops**—basically bringing distant parts of the genome together or keeping them apart.
 
 Breakdown:
 
-- 🧬 **Sequence-specific**: It binds to a specific DNA motif that's relatively easy to model computationally 
-- 🧲 **Insulator function**: It can block the interaction between enhancers and promoters when needed, preventing the wrong genes from being turned on.
-- 🧠 **Master of boundaries**: CTCF marks the edges of **topologically associating domains (TADs)**—big regions of the genome that interact more with themselves than with others.
-- 🔁 **Involved in looping**: Often works with cohesin to create **loops** in the genome that are crucial for gene regulation.
+-  **Sequence-specific**: It binds to a specific DNA motif that's relatively easy to model computationally 
+-  **Insulator function**: It can block the interaction between enhancers and promoters when needed, preventing the wrong genes from being turned on.
+-  **Master of boundaries**: CTCF marks the edges of **topologically associating domains (TADs)**—big regions of the genome that interact more with themselves than with others.
+-  **Involved in looping**: Often works with cohesin to create **loops** in the genome that are crucial for gene regulation.
 
 Because it has a clear motif and tons of ChIP-seq data across many cell types, it’s one of the most studied TFs and a go to for computational biology.
 
@@ -228,8 +210,6 @@ print(f"Extracted {len(extracted_sequences)} valid sequences")
 ```
 
 ### MLflow
-**Detailed Use Case:** When your team of 5 members is experimenting with different CNN architectures, hyperparameters, and training strategies, you need a way to track experiments, compare results, and ensure reproducibility.
-
 **Expanded Example:**
 ```python
 import mlflow
