@@ -14,10 +14,8 @@ import json
 import random
 from datetime import datetime
 from Bio import motifs
-from Bio.Seq import Seq
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
 from pyfaidx import Fasta
 
 # Set up logging
@@ -155,14 +153,14 @@ def process_tf_data(
     X_train, y_train, X_val, y_val, X_test, y_test = prepare_dataset(
         pos_seqs, neg_seqs, test_size, val_size, augment
     )
+    # Save processed arrays and metadata
     os.makedirs(output_dir, exist_ok=True)
-    base = os.path.join(output_dir, tf_name)
-    np.save(f"{base}_X_train.npy", X_train)
-    np.save(f"{base}_y_train.npy", y_train)
-    np.save(f"{base}_X_val.npy", X_val)
-    np.save(f"{base}_y_val.npy", y_val)
-    np.save(f"{base}_X_test.npy", X_test)
-    np.save(f"{base}_y_test.npy", y_test)
+    np.save(os.path.join(output_dir, "X_train.npy"), X_train)
+    np.save(os.path.join(output_dir, "y_train.npy"), y_train)
+    np.save(os.path.join(output_dir, "X_val.npy"), X_val)
+    np.save(os.path.join(output_dir, "y_val.npy"), y_val)
+    np.save(os.path.join(output_dir, "X_test.npy"), X_test)
+    np.save(os.path.join(output_dir, "y_test.npy"), y_test)
     md = {
         "tf_name": tf_name,
         "date": datetime.now().isoformat(),
@@ -171,7 +169,7 @@ def process_tf_data(
         "val_size": val_size,
         "augment": augment,
     }
-    with open(f"{base}_metadata.json", "w") as f:
+    with open(os.path.join(output_dir, "metadata.json"), "w") as f:
         json.dump(md, f, indent=4)
     logger.info(f"Processed data for {tf_name}, saved to {output_dir}")
 
@@ -182,7 +180,7 @@ def main():
     )
     parser.add_argument("--tf", required=True, help="Transcription factor name")
     parser.add_argument(
-        "--jaspar-dir", required=True, help="Directory with JASPAR PFM/JASPAR files"
+        "--jaspar-dir", required=True, help="Directory with JASPAR PFM files"
     )
     parser.add_argument("--chip-seq-file", required=True, help="ChIP-seq BED file path")
     parser.add_argument("--genome", required=True, help="Reference genome FASTA path")

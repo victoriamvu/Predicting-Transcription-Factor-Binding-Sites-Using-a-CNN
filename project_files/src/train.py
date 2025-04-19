@@ -6,11 +6,22 @@ This module handles the training of CNN models for TF binding prediction.
 """
 
 import os
+
+# Disable GPU/MPS to avoid Metal plugin errors on Mac
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+import tensorflow as tf
+
+# Hide all GPU devices
+try:
+    tf.config.set_visible_devices([], "GPU")
+    print("GPU disabled, using CPU for training.")
+except Exception:
+    pass
+
 import sys
 import argparse
 import logging
 import numpy as np
-import tensorflow as tf
 
 # Ensure non-interactive backend for matplotlib
 import matplotlib
@@ -60,6 +71,7 @@ def get_callbacks(patience=10, model_dir=None):
     Create a list of callbacks for model training.
     """
     cb_list = []
+
     # Early stopping
     es = tf.keras.callbacks.EarlyStopping(
         monitor="val_loss", patience=patience, restore_best_weights=True, verbose=1
@@ -77,8 +89,7 @@ def get_callbacks(patience=10, model_dir=None):
         )
         cb_list.append(mc)
 
-    # TensorBoard
-    if model_dir:
+        # TensorBoard
         tb_logdir = os.path.join(
             model_dir, "logs", datetime.now().strftime("%Y%m%d-%H%M%S")
         )
@@ -105,15 +116,17 @@ def train_model(
     Train the model on the data.
     """
     logger.info(f"Training: epochs={epochs}, batch_size={batch_size}")
+
     # Class weights for imbalance
     n_pos = int(np.sum(y_train))
     n_neg = len(y_train) - n_pos
-    if n_pos / len(y_train) < 0.25 or n_pos / len(y_train) > 0.75:
-        cw = {0: len(y_train) / (2 * n_neg), 1: len(y_train) / (2 * n_pos)}
-        logger.info(f"Using class weights: {cw}")
+    frac_pos = n_pos / len(y_train)
+    if frac_pos < 0.25 or frac_pos > 0.75:
+        class_weights = {0: len(y_train) / (2 * n_neg), 1: len(y_train) / (2 * n_pos)}
+        logger.info(f"Using class weights: {class_weights}")
     else:
-        cw = None
-        logger.info("No class weights")
+        class_weights = None
+        logger.info("Dataset is balanced; not using class weights")
 
     history = model.fit(
         X_train,
@@ -122,7 +135,7 @@ def train_model(
         batch_size=batch_size,
         epochs=epochs,
         callbacks=callbacks_list,
-        class_weight=cw,
+        class_weight=class_weights,
         verbose=1,
     )
     logger.info(f"Finished training ({len(history.history['loss'])} epochs)")
@@ -134,84 +147,106 @@ def save_training_results(model, history, output_dir, tf_name):
     Save model, history, plots, and metadata.
     """
     os.makedirs(output_dir, exist_ok=True)
-    # Model
-    m_path = os.path.join(output_dir, "model.h5")
-    model.save(m_path)
-    logger.info(f"Saved model to {m_path}")
-    # Summary
+
+    # Save model
+    model_path = os.path.join(output_dir, "model.h5")
+    model.save(model_path)
+    logger.info(f"Saved model to {model_path}")
+
+    # Save summary
     with open(os.path.join(output_dir, "model_summary.txt"), "w") as f:
         model.summary(print_fn=lambda x: f.write(x + "\n"))
-    # History
-    hist = {k: [float(v) for v in vals] for k, vals in history.history.items()}
+
+    # Save history JSON
+    hist_dict = {k: [float(v) for v in vals] for k, vals in history.history.items()}
     with open(os.path.join(output_dir, "training_history.json"), "w") as f:
-        json.dump(hist, f, indent=4)
-    # Plots
+        json.dump(hist_dict, f, indent=4)
+
+    # Plot training curves
     plt.figure(figsize=(12, 5))
     plt.subplot(1, 2, 1)
     plt.plot(history.history["loss"], label="train_loss")
     plt.plot(history.history["val_loss"], label="val_loss")
     plt.title("Loss")
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
     plt.legend()
+    plt.grid(True)
+
     plt.subplot(1, 2, 2)
-    ak = "accuracy" if "accuracy" in history.history else "acc"
-    vak = "val_accuracy" if "val_accuracy" in history.history else "val_acc"
-    plt.plot(history.history[ak], label="train_acc")
-    plt.plot(history.history[vak], label="val_acc")
+    acc_key = "accuracy" if "accuracy" in history.history else "acc"
+    val_acc_key = "val_accuracy" if "val_accuracy" in history.history else "val_acc"
+    plt.plot(history.history[acc_key], label="train_acc")
+    plt.plot(history.history[val_acc_key], label="val_acc")
     plt.title("Accuracy")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
     plt.legend()
+    plt.grid(True)
+
     plt.tight_layout()
-    plot_p = os.path.join(output_dir, "training_curves.png")
-    plt.savefig(plot_p)
+    plot_path = os.path.join(output_dir, "training_curves.png")
+    plt.savefig(plot_path)
     plt.close()
-    logger.info(f"Saved plots to {plot_p}")
-    # Metadata
-    meta = {
+    logger.info(f"Saved training curves to {plot_path}")
+
+    # Save metadata
+    metadata = {
         "tf_name": tf_name,
         "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "model_type": type(model).__name__,
-        "params": int(np.sum([np.prod(w.shape) for w in model.trainable_weights])),
+        "num_parameters": int(
+            np.sum([np.prod(w.shape) for w in model.trainable_weights])
+        ),
     }
     with open(os.path.join(output_dir, "model_metadata.json"), "w") as f:
-        json.dump(meta, f, indent=4)
+        json.dump(metadata, f, indent=4)
     logger.info("Saved metadata")
 
 
 def main():
-    p = argparse.ArgumentParser(description="Train TF binding model")
-    p.add_argument("--tf", required=True, help="TF name")
-    p.add_argument("--data-dir", required=True, help="Processed data dir")
-    p.add_argument("--output-dir", required=True, help="Output dir")
-    p.add_argument(
-        "--model-type", default="cnn", choices=["cnn", "advanced", "baseline"]
+    parser = argparse.ArgumentParser(description="Train TF binding model")
+    parser.add_argument("--tf", required=True, help="Transcription factor name")
+    parser.add_argument("--data-dir", required=True, help="Processed data directory")
+    parser.add_argument("--output-dir", required=True, help="Directory to save outputs")
+    parser.add_argument(
+        "--model-type",
+        choices=["cnn", "advanced", "baseline"],
+        default="cnn",
+        help="Type of model architecture",
     )
-    p.add_argument("--batch-size", type=int, default=32)
-    p.add_argument("--epochs", type=int, default=100)
-    p.add_argument("--patience", type=int, default=10)
-    args = p.parse_args()
+    parser.add_argument(
+        "--batch-size", type=int, default=32, help="Training batch size"
+    )
+    parser.add_argument("--epochs", type=int, default=100, help="Maximum epochs")
+    parser.add_argument(
+        "--patience", type=int, default=10, help="Early stopping patience"
+    )
+    args = parser.parse_args()
 
-    os.makedirs(args.output_dir, exist_ok=True)
     logger.info(f"Loading data from {args.data_dir}")
     X_train, y_train, X_val, y_val, X_test, y_test = load_data(args.data_dir)
-    logger.info(f"Data shapes: X_train {X_train.shape}, y_train {y_train.shape}")
+    logger.info(f"Data shapes: X_train={X_train.shape}, y_train={y_train.shape}")
 
-    # Build & compile model
-    inp_shape = X_train.shape[1:]
+    # Build model
+    input_shape = X_train.shape[1:]
     if args.model_type == "cnn":
-        model = create_binding_cnn(inp_shape)
+        model = create_binding_cnn(input_shape)
     elif args.model_type == "baseline":
-        model = create_baseline_model(inp_shape)
+        model = create_baseline_model(input_shape)
     else:
-        model = create_advanced_binding_cnn(inp_shape)
+        model = create_advanced_binding_cnn(input_shape)
+
+    # Compile with defaults
     model = compile_model(model)
     model.summary()
 
     # Callbacks
-    cbs = get_callbacks(
-        patience=args.patience, model_dir=os.path.join(args.output_dir, "checkpoints")
-    )
+    checkpoint_dir = os.path.join(args.output_dir, "checkpoints")
+    callbacks_list = get_callbacks(patience=args.patience, model_dir=checkpoint_dir)
 
     # Train
-    model, hist = train_model(
+    model, history = train_model(
         model,
         X_train,
         y_train,
@@ -219,12 +254,12 @@ def main():
         y_val,
         batch_size=args.batch_size,
         epochs=args.epochs,
-        callbacks_list=cbs,
+        callbacks_list=callbacks_list,
     )
 
-    # Save results
-    save_training_results(model, hist, args.output_dir, args.tf)
-    logger.info("Training pipeline completed")
+    # Save everything
+    save_training_results(model, history, args.output_dir, args.tf)
+    logger.info("Training pipeline completed successfully")
 
 
 if __name__ == "__main__":
