@@ -6,49 +6,52 @@ This module handles the training of CNN models for TF binding prediction.
 """
 
 import os
+import sys
 import argparse
 import logging
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras import callbacks
+
+# Ensure non-interactive backend for matplotlib
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import json
 from datetime import datetime
 
-# Import from local modules
-from model import create_binding_cnn, create_baseline_model, create_advanced_binding_cnn, compile_model
+# Import model-building utilities
+from model import (
+    create_binding_cnn,
+    create_baseline_model,
+    create_advanced_binding_cnn,
+    compile_model,
+)
 
 # Set up logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logger = logging.getLogger('tf_binding_train')
+logger = logging.getLogger("tf_binding_train")
 
 
 def load_data(data_dir):
     """
     Load preprocessed training, validation, and test data.
-    
-    Parameters:
-    -----------
-    data_dir : str
-        Directory with preprocessed data
-    
-    Returns:
-    --------
-    tuple: (X_train, y_train, X_val, y_val, X_test, y_test)
-    """
-    # TODO: Implement data loading
-    # 1. Load X_train.npy, y_train.npy, etc.
-    # 2. Return loaded data
-    X_train = np.load(os.path.join(data_dir, "X_train.npy"))
-    y_train = np.load(os.path.join(data_dir, "y_train.npy"))
-    X_val = np.load(os.path.join(data_dir, "X_val.npy"))
-    y_val = np.load(os.path.join(data_dir, "y_val.npy"))
-    X_test = np.load(os.path.join(data_dir, "X_test.npy"))
-    y_test = np.load(os.path.join(data_dir, "y_test.npy"))
 
+    Returns:
+        tuple: (X_train, y_train, X_val, y_val, X_test, y_test)
+    """
+    try:
+        X_train = np.load(os.path.join(data_dir, "X_train.npy"))
+        y_train = np.load(os.path.join(data_dir, "y_train.npy"))
+        X_val = np.load(os.path.join(data_dir, "X_val.npy"))
+        y_val = np.load(os.path.join(data_dir, "y_val.npy"))
+        X_test = np.load(os.path.join(data_dir, "X_test.npy"))
+        y_test = np.load(os.path.join(data_dir, "y_test.npy"))
+    except FileNotFoundError as e:
+        logger.error(f"Data loading error: {e}")
+        sys.exit(1)
     return X_train, y_train, X_val, y_val, X_test, y_test
 
 
@@ -56,251 +59,172 @@ def get_callbacks(patience=10, model_dir=None):
     """
     Create a list of callbacks for model training.
     """
-    callback_list = []
-    
-    # Add early stopping to prevent overfitting
-    early_stopping = tf.keras.callbacks.EarlyStopping(
-        monitor='val_loss',
-        patience=patience,
-        restore_best_weights=True,
-        verbose=1
+    cb_list = []
+    # Early stopping
+    es = tf.keras.callbacks.EarlyStopping(
+        monitor="val_loss", patience=patience, restore_best_weights=True, verbose=1
     )
-    callback_list.append(early_stopping)
-    
-    # Add model checkpoint if directory is provided
+    cb_list.append(es)
+
+    # Model checkpoint
     if model_dir:
         os.makedirs(model_dir, exist_ok=True)
-        model_checkpoint = tf.keras.callbacks.ModelCheckpoint(
-            filepath=os.path.join(model_dir, 'model_checkpoint.h5'),
-            monitor='val_loss',
+        mc = tf.keras.callbacks.ModelCheckpoint(
+            filepath=os.path.join(model_dir, "model_checkpoint.h5"),
+            monitor="val_loss",
             save_best_only=True,
-            verbose=1
+            verbose=1,
         )
-        callback_list.append(model_checkpoint)
-    
-    # Add TensorBoard for visualization
-    log_dir = os.path.join(model_dir, 'logs', datetime.now().strftime("%Y%m%d-%H%M%S")) if model_dir else None
-    if log_dir:
-        os.makedirs(log_dir, exist_ok=True)
-        tensorboard = tf.keras.callbacks.TensorBoard(
-            log_dir=log_dir,
-            histogram_freq=1,
-            write_graph=True
+        cb_list.append(mc)
+
+    # TensorBoard
+    if model_dir:
+        tb_logdir = os.path.join(
+            model_dir, "logs", datetime.now().strftime("%Y%m%d-%H%M%S")
         )
-        callback_list.append(tensorboard)
-    
-    return callback_list
+        os.makedirs(tb_logdir, exist_ok=True)
+        tb = tf.keras.callbacks.TensorBoard(
+            log_dir=tb_logdir, histogram_freq=1, write_graph=True
+        )
+        cb_list.append(tb)
+
+    return cb_list
 
 
-def train_model(model, X_train, y_train, X_val, y_val, 
-               batch_size=32, epochs=100, callbacks_list=None):
+def train_model(
+    model,
+    X_train,
+    y_train,
+    X_val,
+    y_val,
+    batch_size=32,
+    epochs=100,
+    callbacks_list=None,
+):
     """
-    Train a model on the given dataset.
+    Train the model on the data.
     """
-    logger.info(f"Starting model training with {epochs} max epochs and batch size {batch_size}")
-    
-    # Calculate class weights to handle imbalanced data
-    # (TF binding sites are typically sparse compared to non-binding regions)
-    n_pos = np.sum(y_train)
+    logger.info(f"Training: epochs={epochs}, batch_size={batch_size}")
+    # Class weights for imbalance
+    n_pos = int(np.sum(y_train))
     n_neg = len(y_train) - n_pos
-    
-    # Only use class weights if there's significant imbalance
     if n_pos / len(y_train) < 0.25 or n_pos / len(y_train) > 0.75:
-        logger.info(f"Dataset is imbalanced: {n_pos} positive samples, {n_neg} negative samples")
-        class_weight = {
-            0: 1.0 * len(y_train) / (2 * n_neg),
-            1: 1.0 * len(y_train) / (2 * n_pos)
-        }
-        logger.info(f"Using class weights: {class_weight}")
+        cw = {0: len(y_train) / (2 * n_neg), 1: len(y_train) / (2 * n_pos)}
+        logger.info(f"Using class weights: {cw}")
     else:
-        logger.info("Dataset is relatively balanced, not using class weights")
-        class_weight = None
-    
-    # Train the model
+        cw = None
+        logger.info("No class weights")
+
     history = model.fit(
-        X_train, y_train,
+        X_train,
+        y_train,
         validation_data=(X_val, y_val),
         batch_size=batch_size,
         epochs=epochs,
         callbacks=callbacks_list,
-        class_weight=class_weight,
-        verbose=1
+        class_weight=cw,
+        verbose=1,
     )
-    
-    logger.info(f"Model training completed after {len(history.history['loss'])} epochs")
-    
+    logger.info(f"Finished training ({len(history.history['loss'])} epochs)")
     return model, history
 
 
 def save_training_results(model, history, output_dir, tf_name):
     """
-    Save trained model and training history.
+    Save model, history, plots, and metadata.
     """
-    # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
-    
-    # Save model architecture and weights
-    model_path = os.path.join(output_dir, f"model.h5")
-    model.save(model_path)
-    logger.info(f"Model saved to {model_path}")
-    
-    # Save model summary to a text file
-    with open(os.path.join(output_dir, f"model_summary.txt"), "w") as f:
-        model.summary(print_fn=lambda x: f.write(x + '\n'))
-    
-    # Save training history as JSON
-    if history is not None and hasattr(history, 'history'):
-        # Convert numpy arrays to lists for JSON serialization
-        history_dict = {}
-        for key, values in history.history.items():
-            history_dict[key] = [float(value) for value in values]
-        
-        history_path = os.path.join(output_dir, f"training_history.json")
-        with open(history_path, "w") as f:
-            json.dump(history_dict, f, indent=4)
-        logger.info(f"Training history saved to {history_path}")
-    
-    # Generate and save training curves
-    if history is not None:
-        plot_training_history(history, output_dir)
-    
-    # Save metadata
-    metadata = {
-        "tf_name": tf_name,
-        "training_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "model_type": model.__class__.__name__,
-        "num_parameters": int(np.sum([np.prod(v.get_shape()) for v in model.trainable_weights]))
-    }
-    
-    metadata_path = os.path.join(output_dir, f"model_metadata.json")
-    with open(metadata_path, "w") as f:
-        json.dump(metadata, f, indent=4)
-    logger.info(f"Model metadata saved to {metadata_path}")
-
-
-def plot_training_history(history, output_dir):
-    """
-    Plot training curves.
-    
-    Parameters:
-    -----------
-    history : tensorflow.keras.callbacks.History
-        Training history
-    output_dir : str
-        Directory to save plots
-    """
-    # Create figure with two subplots for loss and accuracy
+    # Model
+    m_path = os.path.join(output_dir, "model.h5")
+    model.save(m_path)
+    logger.info(f"Saved model to {m_path}")
+    # Summary
+    with open(os.path.join(output_dir, "model_summary.txt"), "w") as f:
+        model.summary(print_fn=lambda x: f.write(x + "\n"))
+    # History
+    hist = {k: [float(v) for v in vals] for k, vals in history.history.items()}
+    with open(os.path.join(output_dir, "training_history.json"), "w") as f:
+        json.dump(hist, f, indent=4)
+    # Plots
     plt.figure(figsize=(12, 5))
-    
-    # Plot training & validation loss
     plt.subplot(1, 2, 1)
-    plt.plot(history.history['loss'], label='Training Loss')
-    plt.plot(history.history['val_loss'], label='Validation Loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.title('Training and Validation Loss')
+    plt.plot(history.history["loss"], label="train_loss")
+    plt.plot(history.history["val_loss"], label="val_loss")
+    plt.title("Loss")
     plt.legend()
-    plt.grid(True)
-    
-    # Plot training & validation accuracy
     plt.subplot(1, 2, 2)
-    if 'accuracy' in history.history:
-        acc_key = 'accuracy'
-        val_acc_key = 'val_accuracy'
-    else:
-        acc_key = 'acc'  # For older TensorFlow versions
-        val_acc_key = 'val_acc'
-        
-    plt.plot(history.history[acc_key], label='Training Accuracy')
-    plt.plot(history.history[val_acc_key], label='Validation Accuracy')
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy')
-    plt.title('Training and Validation Accuracy')
+    ak = "accuracy" if "accuracy" in history.history else "acc"
+    vak = "val_accuracy" if "val_accuracy" in history.history else "val_acc"
+    plt.plot(history.history[ak], label="train_acc")
+    plt.plot(history.history[vak], label="val_acc")
+    plt.title("Accuracy")
     plt.legend()
-    plt.grid(True)
-    
-    # Save the figure
     plt.tight_layout()
-    plot_path = os.path.join(output_dir, 'training_curves.png')
-    plt.savefig(plot_path)
+    plot_p = os.path.join(output_dir, "training_curves.png")
+    plt.savefig(plot_p)
     plt.close()
-    
-    logger.info(f"Training curves saved to {plot_path}")
+    logger.info(f"Saved plots to {plot_p}")
+    # Metadata
+    meta = {
+        "tf_name": tf_name,
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "model_type": type(model).__name__,
+        "params": int(np.sum([np.prod(w.shape) for w in model.trainable_weights])),
+    }
+    with open(os.path.join(output_dir, "model_metadata.json"), "w") as f:
+        json.dump(meta, f, indent=4)
+    logger.info("Saved metadata")
 
 
 def main():
-    """Main function to run the training script."""
-    parser = argparse.ArgumentParser(description='Train TF binding prediction model')
-    parser.add_argument('--tf', type=str, required=True, help='Transcription factor name')
-    parser.add_argument('--data-dir', type=str, required=True, help='Directory with processed data')
-    parser.add_argument('--output-dir', type=str, required=True, help='Directory to save outputs')
-    parser.add_argument('--model-type', type=str, default='cnn', choices=['cnn', 'advanced', 'baseline'],
-                      help='Type of model to train')
-    parser.add_argument('--batch-size', type=int, default=32, help='Batch size for training')
-    parser.add_argument('--epochs', type=int, default=100, help='Maximum number of epochs')
-    parser.add_argument('--patience', type=int, default=10, help='Patience for early stopping')
-    
-    args = parser.parse_args()
-    
-    # Create output directory
+    p = argparse.ArgumentParser(description="Train TF binding model")
+    p.add_argument("--tf", required=True, help="TF name")
+    p.add_argument("--data-dir", required=True, help="Processed data dir")
+    p.add_argument("--output-dir", required=True, help="Output dir")
+    p.add_argument(
+        "--model-type", default="cnn", choices=["cnn", "advanced", "baseline"]
+    )
+    p.add_argument("--batch-size", type=int, default=32)
+    p.add_argument("--epochs", type=int, default=100)
+    p.add_argument("--patience", type=int, default=10)
+    args = p.parse_args()
+
     os.makedirs(args.output_dir, exist_ok=True)
-    
-    # Load data
     logger.info(f"Loading data from {args.data_dir}")
     X_train, y_train, X_val, y_val, X_test, y_test = load_data(args.data_dir)
-    
-    if X_train is None or y_train is None:
-        logger.error("Failed to load training data")
-        return
-    
-    logger.info(f"Data loaded: X_train shape: {X_train.shape}, y_train shape: {y_train.shape}")
-        
-    # Create and compile model based on the model type
-    logger.info(f"Creating {args.model_type} model")
-    input_shape = X_train.shape[1:]  # Get input shape from training data
-    
-    if args.model_type == 'cnn':
-        model = create_binding_cnn(input_shape)
-    elif args.model_type == 'baseline':
-        model = create_baseline_model(input_shape)
-    elif args.model_type == 'advanced':
-        model = create_advanced_binding_cnn(input_shape) 
+    logger.info(f"Data shapes: X_train {X_train.shape}, y_train {y_train.shape}")
+
+    # Build & compile model
+    inp_shape = X_train.shape[1:]
+    if args.model_type == "cnn":
+        model = create_binding_cnn(inp_shape)
+    elif args.model_type == "baseline":
+        model = create_baseline_model(inp_shape)
     else:
-        logger.error(f"Unknown model type: {args.model_type}")
-        return
-    
-    # Compile the model
+        model = create_advanced_binding_cnn(inp_shape)
     model = compile_model(model)
     model.summary()
-    
-    # Setup callbacks
-    logger.info("Setting up training callbacks")
-    model_dir = os.path.join(args.output_dir, 'checkpoints')
-    callbacks_list = get_callbacks(patience=args.patience, model_dir=model_dir)
-    
-    # Train model
-    logger.info(f"Starting training with batch size {args.batch_size} and max {args.epochs} epochs")
-    model, history = train_model(
-        model=model,
-        X_train=X_train,
-        y_train=y_train,
-        X_val=X_val,
-        y_val=y_val,
+
+    # Callbacks
+    cbs = get_callbacks(
+        patience=args.patience, model_dir=os.path.join(args.output_dir, "checkpoints")
+    )
+
+    # Train
+    model, hist = train_model(
+        model,
+        X_train,
+        y_train,
+        X_val,
+        y_val,
         batch_size=args.batch_size,
         epochs=args.epochs,
-        callbacks_list=callbacks_list
+        callbacks_list=cbs,
     )
-    
+
     # Save results
-    logger.info(f"Training completed, saving results to {args.output_dir}")
-    save_training_results(
-        model=model,
-        history=history,
-        output_dir=args.output_dir,
-        tf_name=args.tf
-    )
-    
-    logger.info("Training pipeline completed successfully")
+    save_training_results(model, hist, args.output_dir, args.tf)
+    logger.info("Training pipeline completed")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1303 @@
+
+[1;33m========== STARTING TF BINDING PREDICTION WORKFLOW ==========[0m
+[0;34m[INFO][0m 2025-04-19 00:38:46 - Project root: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files
+
+[1;33m========== VERIFYING DEPENDENCIES ==========[0m
+[0;34m[INFO][0m 2025-04-19 00:38:46 - Python found: Python 3.11.5
+TensorFlow 2.16.2 found
+
+[1;33m========== SETTING UP DIRECTORY STRUCTURE ==========[0m
+[0;32m[SUCCESS][0m 2025-04-19 00:38:54 - Directory structure created
+
+[1;33m========== DOWNLOADING DATA ==========[0m
+[0;34m[INFO][0m 2025-04-19 00:38:54 - Running download script...
+Downloading hg38 genome (chr21 only for testing)...
+--2025-04-19 00:38:54--  https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr21.fa.gz
+Resolving hgdownload.soe.ucsc.edu (hgdownload.soe.ucsc.edu)... 128.114.119.163
+Connecting to hgdownload.soe.ucsc.edu (hgdownload.soe.ucsc.edu)|128.114.119.163|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 12709705 (12M) [application/x-gzip]
+Saving to: ‘../data/raw/genome/hg38.chr21.fa.gz’
+
+     0K .......... .......... .......... .......... ..........  0%  317K 39s
+    50K .......... .......... .......... .......... ..........  0%  618K 29s
+   100K .......... .......... .......... .......... ..........  1% 10.2M 20s
+   150K .......... .......... .......... .......... ..........  1%  856K 18s
+   200K .......... .......... .......... .......... ..........  2% 1.72M 16s
+   250K .......... .......... .......... .......... ..........  2% 2.08M 14s
+   300K .......... .......... .......... .......... ..........  2% 3.63M 13s
+   350K .......... .......... .......... .......... ..........  3% 2.46M 12s
+   400K .......... .......... .......... .......... ..........  3% 9.92M 10s
+   450K .......... .......... .......... .......... ..........  4% 2.42M 10s
+   500K .......... .......... .......... .......... ..........  4% 2.14M 9s
+   550K .......... .......... .......... .......... ..........  4% 16.8M 9s
+   600K .......... .......... .......... .......... ..........  5% 4.54M 8s
+   650K .......... .......... .......... .......... ..........  5% 2.37M 8s
+   700K .......... .......... .......... .......... ..........  6% 14.0M 7s
+   750K .......... .......... .......... .......... ..........  6% 35.7M 7s
+   800K .......... .......... .......... .......... ..........  6% 6.98M 7s
+   850K .......... .......... .......... .......... ..........  7% 25.3M 6s
+   900K .......... .......... .......... .......... ..........  7% 3.98M 6s
+   950K .......... .......... .......... .......... ..........  8% 5.47M 6s
+  1000K .......... .......... .......... .......... ..........  8% 5.04M 6s
+  1050K .......... .......... .......... .......... ..........  8% 3.66M 5s
+  1100K .......... .......... .......... .......... ..........  9% 9.83M 5s
+  1150K .......... .......... .......... .......... ..........  9% 5.22M 5s
+  1200K .......... .......... .......... .......... .......... 10% 15.4M 5s
+  1250K .......... .......... .......... .......... .......... 10% 7.49M 5s
+  1300K .......... .......... .......... .......... .......... 10% 4.69M 5s
+  1350K .......... .......... .......... .......... .......... 11% 13.8M 4s
+  1400K .......... .......... .......... .......... .......... 11% 5.57M 4s
+  1450K .......... .......... .......... .......... .......... 12% 4.78M 4s
+  1500K .......... .......... .......... .......... .......... 12% 70.5M 4s
+  1550K .......... .......... .......... .......... .......... 12% 7.11M 4s
+  1600K .......... .......... .......... .......... .......... 13% 4.28M 4s
+  1650K .......... .......... .......... .......... .......... 13% 11.7M 4s
+  1700K .......... .......... .......... .......... .......... 14% 3.45M 4s
+  1750K .......... .......... .......... .......... .......... 14% 41.2M 4s
+  1800K .......... .......... .......... .......... .......... 14% 9.53M 4s
+  1850K .......... .......... .......... .......... .......... 15% 22.8M 3s
+  1900K .......... .......... .......... .......... .......... 15% 11.3M 3s
+  1950K .......... .......... .......... .......... .......... 16% 4.17M 3s
+  2000K .......... .......... .......... .......... .......... 16% 66.8M 3s
+  2050K .......... .......... .......... .......... .......... 16% 8.91M 3s
+  2100K .......... .......... .......... .......... .......... 17% 4.23M 3s
+  2150K .......... .......... .......... .......... .......... 17% 45.1M 3s
+  2200K .......... .......... .......... .......... .......... 18% 1.39M 3s
+  2250K .......... .......... .......... .......... .......... 18% 12.0M 3s
+  2300K .......... .......... .......... .......... .......... 18% 4.27M 3s
+  2350K .......... .......... .......... .......... .......... 19% 35.1M 3s
+  2400K .......... .......... .......... .......... .......... 19% 88.5M 3s
+  2450K .......... .......... .......... .......... .......... 20% 16.5M 3s
+  2500K .......... .......... .......... .......... .......... 20% 23.9M 3s
+  2550K .......... .......... .......... .......... .......... 20% 29.6M 3s
+  2600K .......... .......... .......... .......... .......... 21% 13.2M 3s
+  2650K .......... .......... .......... .......... .......... 21% 14.7M 3s
+  2700K .......... .......... .......... .......... .......... 22% 1.52M 3s
+  2750K .......... .......... .......... .......... .......... 22% 90.6M 3s
+  2800K .......... .......... .......... .......... .......... 22% 92.3M 3s
+  2850K .......... .......... .......... .......... .......... 23% 81.4M 3s
+  2900K .......... .......... .......... .......... .......... 23% 5.35M 2s
+  2950K .......... .......... .......... .......... .......... 24% 4.52M 2s
+  3000K .......... .......... .......... .......... .......... 24% 50.5M 2s
+  3050K .......... .......... .......... .......... .......... 24% 66.3M 2s
+  3100K .......... .......... .......... .......... .......... 25% 1.39M 2s
+  3150K .......... .......... .......... .......... .......... 25% 3.84M 2s
+  3200K .......... .......... .......... .......... .......... 26% 18.5M 2s
+  3250K .......... .......... .......... .......... .......... 26% 18.6M 2s
+  3300K .......... .......... .......... .......... .......... 26% 6.41M 2s
+  3350K .......... .......... .......... .......... .......... 27% 9.30M 2s
+  3400K .......... .......... .......... .......... .......... 27% 11.0M 2s
+  3450K .......... .......... .......... .......... .......... 28% 8.67M 2s
+  3500K .......... .......... .......... .......... .......... 28% 67.3M 2s
+  3550K .......... .......... .......... .......... .......... 29% 3.24M 2s
+  3600K .......... .......... .......... .......... .......... 29% 38.0M 2s
+  3650K .......... .......... .......... .......... .......... 29% 10.4M 2s
+  3700K .......... .......... .......... .......... .......... 30% 15.1M 2s
+  3750K .......... .......... .......... .......... .......... 30% 37.0M 2s
+  3800K .......... .......... .......... .......... .......... 31% 51.8M 2s
+  3850K .......... .......... .......... .......... .......... 31% 12.3M 2s
+  3900K .......... .......... .......... .......... .......... 31% 9.76M 2s
+  3950K .......... .......... .......... .......... .......... 32% 16.0M 2s
+  4000K .......... .......... .......... .......... .......... 32% 4.10M 2s
+  4050K .......... .......... .......... .......... .......... 33% 9.04M 2s
+  4100K .......... .......... .......... .......... .......... 33% 6.69M 2s
+  4150K .......... .......... .......... .......... .......... 33% 20.5M 2s
+  4200K .......... .......... .......... .......... .......... 34% 20.2M 2s
+  4250K .......... .......... .......... .......... .......... 34% 17.8M 2s
+  4300K .......... .......... .......... .......... .......... 35% 2.56M 2s
+  4350K .......... .......... .......... .......... .......... 35% 5.27M 2s
+  4400K .......... .......... .......... .......... .......... 35% 11.0M 2s
+  4450K .......... .......... .......... .......... .......... 36% 4.33M 2s
+  4500K .......... .......... .......... .......... .......... 36% 16.5M 2s
+  4550K .......... .......... .......... .......... .......... 37% 27.7M 2s
+  4600K .......... .......... .......... .......... .......... 37% 9.80M 2s
+  4650K .......... .......... .......... .......... .......... 37% 13.1M 2s
+  4700K .......... .......... .......... .......... .......... 38% 7.75M 2s
+  4750K .......... .......... .......... .......... .......... 38% 8.17M 2s
+  4800K .......... .......... .......... .......... .......... 39% 8.12M 2s
+  4850K .......... .......... .......... .......... .......... 39% 7.34M 2s
+  4900K .......... .......... .......... .......... .......... 39% 31.8M 2s
+  4950K .......... .......... .......... .......... .......... 40% 10.6M 2s
+  5000K .......... .......... .......... .......... .......... 40% 9.37M 1s
+  5050K .......... .......... .......... .......... .......... 41% 7.57M 1s
+  5100K .......... .......... .......... .......... .......... 41% 34.2M 1s
+  5150K .......... .......... .......... .......... .......... 41% 47.1M 1s
+  5200K .......... .......... .......... .......... .......... 42% 4.02M 1s
+  5250K .......... .......... .......... .......... .......... 42% 1.95M 1s
+  5300K .......... .......... .......... .......... .......... 43% 6.43M 1s
+  5350K .......... .......... .......... .......... .......... 43% 8.17M 1s
+  5400K .......... .......... .......... .......... .......... 43% 7.46M 1s
+  5450K .......... .......... .......... .......... .......... 44% 22.4M 1s
+  5500K .......... .......... .......... .......... .......... 44% 12.4M 1s
+  5550K .......... .......... .......... .......... .......... 45% 6.83M 1s
+  5600K .......... .......... .......... .......... .......... 45% 39.4M 1s
+  5650K .......... .......... .......... .......... .......... 45% 12.8M 1s
+  5700K .......... .......... .......... .......... .......... 46% 44.8M 1s
+  5750K .......... .......... .......... .......... .......... 46% 11.9M 1s
+  5800K .......... .......... .......... .......... .......... 47% 8.29M 1s
+  5850K .......... .......... .......... .......... .......... 47% 27.8M 1s
+  5900K .......... .......... .......... .......... .......... 47% 11.3M 1s
+  5950K .......... .......... .......... .......... .......... 48% 4.02M 1s
+  6000K .......... .......... .......... .......... .......... 48% 8.05M 1s
+  6050K .......... .......... .......... .......... .......... 49% 20.0M 1s
+  6100K .......... .......... .......... .......... .......... 49% 13.9M 1s
+  6150K .......... .......... .......... .......... .......... 49% 8.31M 1s
+  6200K .......... .......... .......... .......... .......... 50% 4.05M 1s
+  6250K .......... .......... .......... .......... .......... 50% 54.8M 1s
+  6300K .......... .......... .......... .......... .......... 51% 9.65M 1s
+  6350K .......... .......... .......... .......... .......... 51% 58.5M 1s
+  6400K .......... .......... .......... .......... .......... 51% 9.44M 1s
+  6450K .......... .......... .......... .......... .......... 52% 8.49M 1s
+  6500K .......... .......... .......... .......... .......... 52% 51.0M 1s
+  6550K .......... .......... .......... .......... .......... 53% 4.11M 1s
+  6600K .......... .......... .......... .......... .......... 53% 8.24M 1s
+  6650K .......... .......... .......... .......... .......... 53% 55.5M 1s
+  6700K .......... .......... .......... .......... .......... 54% 43.0M 1s
+  6750K .......... .......... .......... .......... .......... 54% 14.8M 1s
+  6800K .......... .......... .......... .......... .......... 55% 6.81M 1s
+  6850K .......... .......... .......... .......... .......... 55% 25.8M 1s
+  6900K .......... .......... .......... .......... .......... 55% 15.2M 1s
+  6950K .......... .......... .......... .......... .......... 56% 19.6M 1s
+  7000K .......... .......... .......... .......... .......... 56% 6.16M 1s
+  7050K .......... .......... .......... .......... .......... 57% 2.96M 1s
+  7100K .......... .......... .......... .......... .......... 57% 68.5M 1s
+  7150K .......... .......... .......... .......... .......... 58% 4.70M 1s
+  7200K .......... .......... .......... .......... .......... 58% 52.8M 1s
+  7250K .......... .......... .......... .......... .......... 58% 21.5M 1s
+  7300K .......... .......... .......... .......... .......... 59% 65.6M 1s
+  7350K .......... .......... .......... .......... .......... 59% 19.9M 1s
+  7400K .......... .......... .......... .......... .......... 60% 3.61M 1s
+  7450K .......... .......... .......... .......... .......... 60% 11.2M 1s
+  7500K .......... .......... .......... .......... .......... 60% 48.8M 1s
+  7550K .......... .......... .......... .......... .......... 61% 10.7M 1s
+  7600K .......... .......... .......... .......... .......... 61% 8.04M 1s
+  7650K .......... .......... .......... .......... .......... 62% 9.52M 1s
+  7700K .......... .......... .......... .......... .......... 62% 7.28M 1s
+  7750K .......... .......... .......... .......... .......... 62% 78.5M 1s
+  7800K .......... .......... .......... .......... .......... 63% 8.72M 1s
+  7850K .......... .......... .......... .......... .......... 63% 3.25M 1s
+  7900K .......... .......... .......... .......... .......... 64% 71.9M 1s
+  7950K .......... .......... .......... .......... .......... 64% 4.60M 1s
+  8000K .......... .......... .......... .......... .......... 64% 72.8M 1s
+  8050K .......... .......... .......... .......... .......... 65% 8.26M 1s
+  8100K .......... .......... .......... .......... .......... 65% 2.56M 1s
+  8150K .......... .......... .......... .......... .......... 66% 5.44M 1s
+  8200K .......... .......... .......... .......... .......... 66% 56.7M 1s
+  8250K .......... .......... .......... .......... .......... 66% 83.2M 1s
+  8300K .......... .......... .......... .......... .......... 67% 79.0M 1s
+  8350K .......... .......... .......... .......... .......... 67% 13.6M 1s
+  8400K .......... .......... .......... .......... .......... 68% 10.1M 1s
+  8450K .......... .......... .......... .......... .......... 68% 5.94M 1s
+  8500K .......... .......... .......... .......... .......... 68% 12.4M 1s
+  8550K .......... .......... .......... .......... .......... 69% 7.39M 1s
+  8600K .......... .......... .......... .......... .......... 69% 4.24M 1s
+  8650K .......... .......... .......... .......... .......... 70% 41.5M 1s
+  8700K .......... .......... .......... .......... .......... 70% 45.1M 1s
+  8750K .......... .......... .......... .......... .......... 70% 8.44M 1s
+  8800K .......... .......... .......... .......... .......... 71% 78.0M 1s
+  8850K .......... .......... .......... .......... .......... 71% 5.05M 1s
+  8900K .......... .......... .......... .......... .......... 72% 9.09M 1s
+  8950K .......... .......... .......... .......... .......... 72% 10.8M 1s
+  9000K .......... .......... .......... .......... .......... 72% 24.7M 1s
+  9050K .......... .......... .......... .......... .......... 73% 7.92M 1s
+  9100K .......... .......... .......... .......... .......... 73% 9.06M 1s
+  9150K .......... .......... .......... .......... .......... 74% 75.5M 1s
+  9200K .......... .......... .......... .......... .......... 74% 8.86M 1s
+  9250K .......... .......... .......... .......... .......... 74% 3.68M 0s
+  9300K .......... .......... .......... .......... .......... 75% 4.34M 0s
+  9350K .......... .......... .......... .......... .......... 75% 32.9M 0s
+  9400K .......... .......... .......... .......... .......... 76% 12.1M 0s
+  9450K .......... .......... .......... .......... .......... 76% 7.69M 0s
+  9500K .......... .......... .......... .......... .......... 76% 69.8M 0s
+  9550K .......... .......... .......... .......... .......... 77% 8.17M 0s
+  9600K .......... .......... .......... .......... .......... 77% 10.2M 0s
+  9650K .......... .......... .......... .......... .......... 78% 28.6M 0s
+  9700K .......... .......... .......... .......... .......... 78% 7.91M 0s
+  9750K .......... .......... .......... .......... .......... 78% 11.3M 0s
+  9800K .......... .......... .......... .......... .......... 79% 36.3M 0s
+  9850K .......... .......... .......... .......... .......... 79% 5.38M 0s
+  9900K .......... .......... .......... .......... .......... 80% 8.60M 0s
+  9950K .......... .......... .......... .......... .......... 80% 7.54M 0s
+ 10000K .......... .......... .......... .......... .......... 80% 6.87M 0s
+ 10050K .......... .......... .......... .......... .......... 81% 3.93M 0s
+ 10100K .......... .......... .......... .......... .......... 81% 6.13M 0s
+ 10150K .......... .......... .......... .......... .......... 82% 64.8M 0s
+ 10200K .......... .......... .......... .......... .......... 82% 12.9M 0s
+ 10250K .......... .......... .......... .......... .......... 82% 65.6M 0s
+ 10300K .......... .......... .......... .......... .......... 83% 9.89M 0s
+ 10350K .......... .......... .......... .......... .......... 83% 7.14M 0s
+ 10400K .......... .......... .......... .......... .......... 84% 8.02M 0s
+ 10450K .......... .......... .......... .......... .......... 84% 74.7M 0s
+ 10500K .......... .......... .......... .......... .......... 84% 70.9M 0s
+ 10550K .......... .......... .......... .......... .......... 85% 5.17M 0s
+ 10600K .......... .......... .......... .......... .......... 85% 10.5M 0s
+ 10650K .......... .......... .......... .......... .......... 86% 25.9M 0s
+ 10700K .......... .......... .......... .......... .......... 86% 7.48M 0s
+ 10750K .......... .......... .......... .......... .......... 87% 75.1M 0s
+ 10800K .......... .......... .......... .......... .......... 87% 20.7M 0s
+ 10850K .......... .......... .......... .......... .......... 87% 18.7M 0s
+ 10900K .......... .......... .......... .......... .......... 88% 8.09M 0s
+ 10950K .......... .......... .......... .......... .......... 88% 29.3M 0s
+ 11000K .......... .......... .......... .......... .......... 89% 12.0M 0s
+ 11050K .......... .......... .......... .......... .......... 89% 8.87M 0s
+ 11100K .......... .......... .......... .......... .......... 89% 7.49M 0s
+ 11150K .......... .......... .......... .......... .......... 90% 76.3M 0s
+ 11200K .......... .......... .......... .......... .......... 90% 8.46M 0s
+ 11250K .......... .......... .......... .......... .......... 91%  699K 0s
+ 11300K .......... .......... .......... .......... .......... 91% 75.9M 0s
+ 11350K .......... .......... .......... .......... .......... 91% 10.9M 0s
+ 11400K .......... .......... .......... .......... .......... 92% 3.84M 0s
+ 11450K .......... .......... .......... .......... .......... 92% 7.81M 0s
+ 11500K .......... .......... .......... .......... .......... 93% 85.8M 0s
+ 11550K .......... .......... .......... .......... .......... 93% 91.6M 0s
+ 11600K .......... .......... .......... .......... .......... 93% 9.18M 0s
+ 11650K .......... .......... .......... .......... .......... 94% 6.88M 0s
+ 11700K .......... .......... .......... .......... .......... 94% 8.26M 0s
+ 11750K .......... .......... .......... .......... .......... 95% 33.8M 0s
+ 11800K .......... .......... .......... .......... .......... 95% 10.5M 0s
+ 11850K .......... .......... .......... .......... .......... 95% 71.8M 0s
+ 11900K .......... .......... .......... .......... .......... 96% 8.59M 0s
+ 11950K .......... .......... .......... .......... .......... 96% 8.57M 0s
+ 12000K .......... .......... .......... .......... .......... 97% 8.02M 0s
+ 12050K .......... .......... .......... .......... .......... 97% 92.7M 0s
+ 12100K .......... .......... .......... .......... .......... 97% 4.95M 0s
+ 12150K .......... .......... .......... .......... .......... 98% 17.3M 0s
+ 12200K .......... .......... .......... .......... .......... 98% 8.40M 0s
+ 12250K .......... .......... .......... .......... .......... 99% 5.02M 0s
+ 12300K .......... .......... .......... .......... .......... 99% 88.9M 0s
+ 12350K .......... .......... .......... .......... .......... 99% 20.2M 0s
+ 12400K .......... .                                          100% 27.0M=1.8s
+
+2025-04-19 00:38:57 (6.62 MB/s) - ‘../data/raw/genome/hg38.chr21.fa.gz’ saved [12709705/12709705]
+
+Downloading JASPAR data...
+--2025-04-19 00:38:57--  http://jaspar.genereg.net/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt
+Resolving jaspar.genereg.net (jaspar.genereg.net)... 193.60.222.202
+Connecting to jaspar.genereg.net (jaspar.genereg.net)|193.60.222.202|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://jaspar.elixir.no/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt [following]
+--2025-04-19 00:38:57--  https://jaspar.elixir.no/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt
+Resolving jaspar.elixir.no (jaspar.elixir.no)... 158.37.66.95
+Connecting to jaspar.elixir.no (jaspar.elixir.no)|158.37.66.95|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 327864 (320K) [text/plain]
+Saving to: ‘../data/raw/jaspar/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt’
+
+     0K .......... .......... .......... .......... .......... 15% 80.5K 3s
+    50K .......... .......... .......... .......... .......... 31%  282K 2s
+   100K .......... .......... .......... .......... .......... 46%  281K 1s
+   150K .......... .......... .......... .......... .......... 62% 3.55M 1s
+   200K .......... .......... .......... .......... .......... 78%  103K 0s
+   250K .......... .......... .......... .......... .......... 93% 27.5M 0s
+   300K .......... ..........                                 100% 28.4M=1.5s
+
+2025-04-19 00:39:00 (216 KB/s) - ‘../data/raw/jaspar/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt’ saved [327864/327864]
+
+Downloading sample ENCODE ChIP-seq data...
+--2025-04-19 00:39:00--  https://www.encodeproject.org/files/ENCFF002CEL/@@download/ENCFF002CEL.bed.gz
+Resolving www.encodeproject.org (www.encodeproject.org)... 34.211.244.144
+Connecting to www.encodeproject.org (www.encodeproject.org)|34.211.244.144|:443... connected.
+HTTP request sent, awaiting response... 307 Temporary Redirect
+Location: https://encode-public.s3.amazonaws.com/2014/06/06/23bfd2ac-7a0d-46b2-b3bf-a34f6d03134f/ENCFF002CEL.narrowPeak.gz?response-content-disposition=attachment%3B%20filename%3DENCFF002CEL.bed.gz&AWSAccessKeyId=ASIATGZNGCNXZ3DAYXUD&Signature=ByQXX3%2BP%2BZgaCS9izLO%2F8CVwdtA%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEP3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQDAtK3nNKhFFYILVkK4F7s1Yp4SkNfyUjzuRZfVl6WSDwIhAOmCg2nqtljmA5y1C5gCtFzqu7%2FUL73atKpLJm2myylxKrwFCIb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMjIwNzQ4NzE0ODYzIgwnHF89OHLbCqLVCBQqkAXUXVp0y6ZjJPcYLKSULp4RSKe1zPnCFz%2FQQrpC8TWAu3j90%2Bm52Tgo4Qy9PmbWbXy%2FfsdvWHLoNr%2BJwvbkN2QZ4mB%2BPGcK6ORdB34vBpzXmgiEH%2BfY7OCPSlce%2B4S6%2BXALxxivwppfj1pANgCOUbcOGm5ZU3LVglPO%2FgvfS%2F%2FbtLNfvrjJwRo06iH4idIY4T9ciAq7tc9u9MJ88wit7w9eGGCX67VCHzw6O29QhYL7TJEKID3aWRCbf3WHDYcWFsBbKvNfzWC3kn1SqvVrY7tjZy8EwtfGPiN8VjfxwsSdztjKMQQ6uasbiZL8X%2FhXKz58urc8eIr6ywNaB3KsQSBoX0oHzLwUVWBQhzUfli%2FnJ5lOkQo84telcmqR2USyM0l1b6C8RGXZ6vVEPDa1vghHK%2FzhZ1RcDv30bPKdX%2BMUp9oduLpsIE58tLFjd2rSdm183DyzD%2FbXz%2FJhJGTank2GgNm5kLmmxK5mhX0Iuf97axdT4ulM%2FNwthKzMupcukdmYIbJt1ANdgNubelPerEBeMtpUwHjU5dRCxQCTj7m%2Fn0Tnwtw1ZWSl4o5urCurIG78vVjG4qUumwRohZcr8USR4Fi1mGDujYuqxvvtlsjUsiNZcrPPvaqyivYDVZOzdOMgeNBe9VMb42E78D9gKIOT%2FTyNVzcL9Dt%2BScLlgTX5%2BijxonPdnkNBaS%2B5D%2FGbCSwXgTtxmS80YGezabSqznOvGViU8yhvhtwMcXJG3HElRcgPzsPBTvlkXWSUtRdvMScpexpcy%2FH63eLsK2WJDkLvSjVCRrnK0xtlMRtfq4%2FhmNDLDdf5adh1Ad5%2F3eLuAdeQfVkhTgSDrBDm29wtB%2F2uqyvT4Y9VHAu1oTH1txqWVzCY1YzABjqwAf7xYijuzbHMNUurzSlRh%2FujZou572v6bTuCWxwVCejS30utZLYR5ssMs1eFL3Mo%2B9ob3BpSqO4wxx9ZqK1PdNrScFR2Hwi%2BhP8A6mApTKDuok1bkxuGCsro8NlQX4AyC%2FK33%2B5ux8FQ%2FLPprxHr5IHLS7BW56Aqoi6ZanQ2kTTO4iknFD3ef3ivs%2F8BuU6dbMhI%2BJeZ6CKJeI5stEqXC66WPgf7zVMA27wczXNZJOeY&Expires=1745170740 [following]
+--2025-04-19 00:39:00--  https://encode-public.s3.amazonaws.com/2014/06/06/23bfd2ac-7a0d-46b2-b3bf-a34f6d03134f/ENCFF002CEL.narrowPeak.gz?response-content-disposition=attachment%3B%20filename%3DENCFF002CEL.bed.gz&AWSAccessKeyId=ASIATGZNGCNXZ3DAYXUD&Signature=ByQXX3%2BP%2BZgaCS9izLO%2F8CVwdtA%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEP3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJIMEYCIQDAtK3nNKhFFYILVkK4F7s1Yp4SkNfyUjzuRZfVl6WSDwIhAOmCg2nqtljmA5y1C5gCtFzqu7%2FUL73atKpLJm2myylxKrwFCIb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMjIwNzQ4NzE0ODYzIgwnHF89OHLbCqLVCBQqkAXUXVp0y6ZjJPcYLKSULp4RSKe1zPnCFz%2FQQrpC8TWAu3j90%2Bm52Tgo4Qy9PmbWbXy%2FfsdvWHLoNr%2BJwvbkN2QZ4mB%2BPGcK6ORdB34vBpzXmgiEH%2BfY7OCPSlce%2B4S6%2BXALxxivwppfj1pANgCOUbcOGm5ZU3LVglPO%2FgvfS%2F%2FbtLNfvrjJwRo06iH4idIY4T9ciAq7tc9u9MJ88wit7w9eGGCX67VCHzw6O29QhYL7TJEKID3aWRCbf3WHDYcWFsBbKvNfzWC3kn1SqvVrY7tjZy8EwtfGPiN8VjfxwsSdztjKMQQ6uasbiZL8X%2FhXKz58urc8eIr6ywNaB3KsQSBoX0oHzLwUVWBQhzUfli%2FnJ5lOkQo84telcmqR2USyM0l1b6C8RGXZ6vVEPDa1vghHK%2FzhZ1RcDv30bPKdX%2BMUp9oduLpsIE58tLFjd2rSdm183DyzD%2FbXz%2FJhJGTank2GgNm5kLmmxK5mhX0Iuf97axdT4ulM%2FNwthKzMupcukdmYIbJt1ANdgNubelPerEBeMtpUwHjU5dRCxQCTj7m%2Fn0Tnwtw1ZWSl4o5urCurIG78vVjG4qUumwRohZcr8USR4Fi1mGDujYuqxvvtlsjUsiNZcrPPvaqyivYDVZOzdOMgeNBe9VMb42E78D9gKIOT%2FTyNVzcL9Dt%2BScLlgTX5%2BijxonPdnkNBaS%2B5D%2FGbCSwXgTtxmS80YGezabSqznOvGViU8yhvhtwMcXJG3HElRcgPzsPBTvlkXWSUtRdvMScpexpcy%2FH63eLsK2WJDkLvSjVCRrnK0xtlMRtfq4%2FhmNDLDdf5adh1Ad5%2F3eLuAdeQfVkhTgSDrBDm29wtB%2F2uqyvT4Y9VHAu1oTH1txqWVzCY1YzABjqwAf7xYijuzbHMNUurzSlRh%2FujZou572v6bTuCWxwVCejS30utZLYR5ssMs1eFL3Mo%2B9ob3BpSqO4wxx9ZqK1PdNrScFR2Hwi%2BhP8A6mApTKDuok1bkxuGCsro8NlQX4AyC%2FK33%2B5ux8FQ%2FLPprxHr5IHLS7BW56Aqoi6ZanQ2kTTO4iknFD3ef3ivs%2F8BuU6dbMhI%2BJeZ6CKJeI5stEqXC66WPgf7zVMA27wczXNZJOeY&Expires=1745170740
+Resolving encode-public.s3.amazonaws.com (encode-public.s3.amazonaws.com)... 52.218.218.155, 52.92.212.49, 52.218.216.178, ...
+Connecting to encode-public.s3.amazonaws.com (encode-public.s3.amazonaws.com)|52.218.218.155|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1231983 (1.2M) [binary/octet-stream]
+Saving to: ‘../data/raw/encode/CTCF/ENCFF002CEL.bed.gz’
+
+     0K .......... .......... .......... .......... ..........  4%  462K 2s
+    50K .......... .......... .......... .......... ..........  8%  409K 3s
+   100K .......... .......... .......... .......... .......... 12% 3.92M 2s
+   150K .......... .......... .......... .......... .......... 16%  653K 2s
+   200K .......... .......... .......... .......... .......... 20% 3.08M 1s
+   250K .......... .......... .......... .......... .......... 24% 4.30M 1s
+   300K .......... .......... .......... .......... .......... 29% 5.15M 1s
+   350K .......... .......... .......... .......... .......... 33%  797K 1s
+   400K .......... .......... .......... .......... .......... 37% 3.81M 1s
+   450K .......... .......... .......... .......... .......... 41% 5.50M 1s
+   500K .......... .......... .......... .......... .......... 45% 7.68M 1s
+   550K .......... .......... .......... .......... .......... 49% 3.90M 0s
+   600K .......... .......... .......... .......... .......... 54% 3.66M 0s
+   650K .......... .......... .......... .......... .......... 58% 29.0M 0s
+   700K .......... .......... .......... .......... .......... 62% 13.6M 0s
+   750K .......... .......... .......... .......... .......... 66% 1.54M 0s
+   800K .......... .......... .......... .......... .......... 70% 2.83M 0s
+   850K .......... .......... .......... .......... .......... 74% 2.08M 0s
+   900K .......... .......... .......... .......... .......... 78% 14.2M 0s
+   950K .......... .......... .......... .......... .......... 83% 13.6M 0s
+  1000K .......... .......... .......... .......... .......... 87% 8.06M 0s
+  1050K .......... .......... .......... .......... .......... 91% 3.90M 0s
+  1100K .......... .......... .......... .......... .......... 95% 7.97M 0s
+  1150K .......... .......... .......... .......... .......... 99% 14.9M 0s
+  1200K ...                                                   100% 62.2K=0.6s
+
+2025-04-19 00:39:01 (2.01 MB/s) - ‘../data/raw/encode/CTCF/ENCFF002CEL.bed.gz’ saved [1231983/1231983]
+
+Using gdown to download additional files...
+Download complete!
+[0;32m[SUCCESS][0m 2025-04-19 00:39:01 - Data download completed
+
+[1;33m========== PROCESSING DATA ==========[0m
+[0;34m[INFO][0m 2025-04-19 00:39:01 - Processing data for CTCF
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/data.py", line 18, in <module>
+    from Bio.Alphabet import generic_dna
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/Bio/Alphabet/__init__.py", line 20, in <module>
+    raise ImportError(
+ImportError: Bio.Alphabet has been removed from Biopython. In many cases, the alphabet can simply be ignored and removed from scripts. In a few cases, you may need to specify the ``molecule_type`` as an annotation on a SeqRecord for your script to work correctly. Please see https://biopython.org/wiki/Alphabet for more information.
+[0;31m[ERROR][0m 2025-04-19 00:39:02 - Data processing failed for CTCF
+[0;34m[INFO][0m 2025-04-19 00:39:02 - Processing data for GATA1
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/data.py", line 18, in <module>
+    from Bio.Alphabet import generic_dna
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/Bio/Alphabet/__init__.py", line 20, in <module>
+    raise ImportError(
+ImportError: Bio.Alphabet has been removed from Biopython. In many cases, the alphabet can simply be ignored and removed from scripts. In a few cases, you may need to specify the ``molecule_type`` as an annotation on a SeqRecord for your script to work correctly. Please see https://biopython.org/wiki/Alphabet for more information.
+[0;31m[ERROR][0m 2025-04-19 00:39:02 - Data processing failed for GATA1
+[0;34m[INFO][0m 2025-04-19 00:39:02 - Processing data for CEBPA
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/data.py", line 18, in <module>
+    from Bio.Alphabet import generic_dna
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/Bio/Alphabet/__init__.py", line 20, in <module>
+    raise ImportError(
+ImportError: Bio.Alphabet has been removed from Biopython. In many cases, the alphabet can simply be ignored and removed from scripts. In a few cases, you may need to specify the ``molecule_type`` as an annotation on a SeqRecord for your script to work correctly. Please see https://biopython.org/wiki/Alphabet for more information.
+[0;31m[ERROR][0m 2025-04-19 00:39:02 - Data processing failed for CEBPA
+[0;34m[INFO][0m 2025-04-19 00:39:02 - Processing data for TP53
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/data.py", line 18, in <module>
+    from Bio.Alphabet import generic_dna
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/Bio/Alphabet/__init__.py", line 20, in <module>
+    raise ImportError(
+ImportError: Bio.Alphabet has been removed from Biopython. In many cases, the alphabet can simply be ignored and removed from scripts. In a few cases, you may need to specify the ``molecule_type`` as an annotation on a SeqRecord for your script to work correctly. Please see https://biopython.org/wiki/Alphabet for more information.
+[0;31m[ERROR][0m 2025-04-19 00:39:02 - Data processing failed for TP53
+
+[1;33m========== TRAINING MODELS ==========[0m
+[1;33m[WARNING][0m 2025-04-19 00:39:03 - No training data for CTCF, skipping
+[1;33m[WARNING][0m 2025-04-19 00:39:03 - No training data for GATA1, skipping
+[1;33m[WARNING][0m 2025-04-19 00:39:03 - No training data for CEBPA, skipping
+[1;33m[WARNING][0m 2025-04-19 00:39:03 - No training data for TP53, skipping
+
+[1;33m========== EVALUATING MODELS ==========[0m
+[0;34m[INFO][0m 2025-04-19 00:39:03 - Evaluating model for CTCF
+2025-04-19 00:39:08,589 - tf_evaluation - INFO - Starting evaluation for CTCF
+2025-04-19 00:39:08,600 - tf_evaluation - ERROR - Model loading/validation failed: Unable to open file (file signature not found)
+2025-04-19 00:39:08,600 - tf_evaluation - ERROR - Evaluation failed for CTCF: Unable to open file (file signature not found)
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 148, in <module>
+    main()
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 143, in main
+    evaluate_tf(args.tf, args.output_dir)
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 119, in evaluate_tf
+    model, X_test, y_test = load_model_and_data(tf_name)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 45, in load_model_and_data
+    model = tf.keras.models.load_model(model_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/keras/src/saving/saving_api.py", line 196, in load_model
+    return legacy_h5_format.load_model_from_hdf5(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/keras/src/legacy/saving/legacy_h5_format.py", line 116, in load_model_from_hdf5
+    f = h5py.File(filepath, mode="r")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/h5py/_hl/files.py", line 561, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/h5py/_hl/files.py", line 235, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 102, in h5py.h5f.open
+OSError: Unable to open file (file signature not found)
+[0;31m[ERROR][0m 2025-04-19 00:39:09 - Model evaluation failed for CTCF
+[0;34m[INFO][0m 2025-04-19 00:39:09 - Evaluating model for GATA1
+2025-04-19 00:39:13,680 - tf_evaluation - INFO - Starting evaluation for GATA1
+2025-04-19 00:39:13,688 - tf_evaluation - ERROR - Model loading/validation failed: Unable to open file (file signature not found)
+2025-04-19 00:39:13,688 - tf_evaluation - ERROR - Evaluation failed for GATA1: Unable to open file (file signature not found)
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 148, in <module>
+    main()
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 143, in main
+    evaluate_tf(args.tf, args.output_dir)
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 119, in evaluate_tf
+    model, X_test, y_test = load_model_and_data(tf_name)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 45, in load_model_and_data
+    model = tf.keras.models.load_model(model_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/keras/src/saving/saving_api.py", line 196, in load_model
+    return legacy_h5_format.load_model_from_hdf5(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/keras/src/legacy/saving/legacy_h5_format.py", line 116, in load_model_from_hdf5
+    f = h5py.File(filepath, mode="r")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/h5py/_hl/files.py", line 561, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/h5py/_hl/files.py", line 235, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 102, in h5py.h5f.open
+OSError: Unable to open file (file signature not found)
+[0;31m[ERROR][0m 2025-04-19 00:39:14 - Model evaluation failed for GATA1
+[0;34m[INFO][0m 2025-04-19 00:39:14 - Evaluating model for CEBPA
+2025-04-19 00:39:20,838 - tf_evaluation - INFO - Starting evaluation for CEBPA
+2025-04-19 00:39:20,853 - tf_evaluation - ERROR - Model loading/validation failed: Unable to open file (file signature not found)
+2025-04-19 00:39:20,853 - tf_evaluation - ERROR - Evaluation failed for CEBPA: Unable to open file (file signature not found)
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 148, in <module>
+    main()
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 143, in main
+    evaluate_tf(args.tf, args.output_dir)
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 119, in evaluate_tf
+    model, X_test, y_test = load_model_and_data(tf_name)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 45, in load_model_and_data
+    model = tf.keras.models.load_model(model_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/keras/src/saving/saving_api.py", line 196, in load_model
+    return legacy_h5_format.load_model_from_hdf5(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/keras/src/legacy/saving/legacy_h5_format.py", line 116, in load_model_from_hdf5
+    f = h5py.File(filepath, mode="r")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/h5py/_hl/files.py", line 561, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/h5py/_hl/files.py", line 235, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 102, in h5py.h5f.open
+OSError: Unable to open file (file signature not found)
+[0;31m[ERROR][0m 2025-04-19 00:39:21 - Model evaluation failed for CEBPA
+[0;34m[INFO][0m 2025-04-19 00:39:21 - Evaluating model for TP53
+2025-04-19 00:39:26,154 - tf_evaluation - INFO - Starting evaluation for TP53
+2025-04-19 00:39:26,162 - tf_evaluation - ERROR - Model loading/validation failed: Unable to open file (file signature not found)
+2025-04-19 00:39:26,162 - tf_evaluation - ERROR - Evaluation failed for TP53: Unable to open file (file signature not found)
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 148, in <module>
+    main()
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 143, in main
+    evaluate_tf(args.tf, args.output_dir)
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 119, in evaluate_tf
+    model, X_test, y_test = load_model_and_data(tf_name)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/evaluate.py", line 45, in load_model_and_data
+    model = tf.keras.models.load_model(model_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/keras/src/saving/saving_api.py", line 196, in load_model
+    return legacy_h5_format.load_model_from_hdf5(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/keras/src/legacy/saving/legacy_h5_format.py", line 116, in load_model_from_hdf5
+    f = h5py.File(filepath, mode="r")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/h5py/_hl/files.py", line 561, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/h5py/_hl/files.py", line 235, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 102, in h5py.h5f.open
+OSError: Unable to open file (file signature not found)
+[0;31m[ERROR][0m 2025-04-19 00:39:26 - Model evaluation failed for TP53
+
+[1;33m========== GENERATING SUMMARY REPORT ==========[0m
+[0;34m[INFO][0m 2025-04-19 00:39:26 - Generating summary report...
+[NbConvertApp] Converting notebook /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/results.ipynb to html
+[NbConvertApp] Writing 269952 bytes to /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/summary_report.html
+[0;32m[SUCCESS][0m 2025-04-19 00:39:29 - Summary report generated
+
+[1;33m========== WORKFLOW COMPLETED ==========[0m
+[0;34m[INFO][0m 2025-04-19 00:39:29 - Results directory: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/results/
+[0;34m[INFO][0m 2025-04-19 00:39:29 - Log file: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/workflow.log
+[0;34m[INFO][0m 2025-04-19 00:39:29 - Summary report: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/summary_report.html
+
+[1;33m========== STARTING TF BINDING PREDICTION WORKFLOW ==========[0m
+[0;34m[INFO][0m 2025-04-19 01:01:16 - Project root: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files
+
+[1;33m========== VERIFYING DEPENDENCIES ==========[0m
+[0;34m[INFO][0m 2025-04-19 01:01:16 - Python found: Python 3.11.5
+TensorFlow 2.16.2 found
+
+[1;33m========== SETTING UP DIRECTORY STRUCTURE ==========[0m
+[0;32m[SUCCESS][0m 2025-04-19 01:01:36 - Directory structure created
+
+[1;33m========== DOWNLOADING DATA ==========[0m
+[0;34m[INFO][0m 2025-04-19 01:01:36 - Running download script...
+Downloading hg38 genome (chr21 only for testing)...
+--2025-04-19 01:01:36--  https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr21.fa.gz
+Resolving hgdownload.soe.ucsc.edu (hgdownload.soe.ucsc.edu)... 128.114.119.163
+Connecting to hgdownload.soe.ucsc.edu (hgdownload.soe.ucsc.edu)|128.114.119.163|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 12709705 (12M) [application/x-gzip]
+Saving to: ‘../data/raw/genome/hg38.chr21.fa.gz’
+
+     0K .......... .......... .......... .......... ..........  0%  315K 39s
+    50K .......... .......... .......... .......... ..........  0%  535K 31s
+   100K .......... .......... .......... .......... ..........  1%  694K 27s
+   150K .......... .......... .......... .......... ..........  1% 4.63M 20s
+   200K .......... .......... .......... .......... ..........  2%  762K 19s
+   250K .......... .......... .......... .......... ..........  2% 4.03M 17s
+   300K .......... .......... .......... .......... ..........  2% 4.57M 15s
+   350K .......... .......... .......... .......... ..........  3% 1.84M 14s
+   400K .......... .......... .......... .......... ..........  3% 76.3M 12s
+   450K .......... .......... .......... .......... ..........  4% 2.00M 11s
+   500K .......... .......... .......... .......... ..........  4% 2.48M 11s
+   550K .......... .......... .......... .......... ..........  4% 22.8M 10s
+   600K .......... .......... .......... .......... ..........  5% 17.8M 9s
+   650K .......... .......... .......... .......... ..........  5% 1.89M 9s
+   700K .......... .......... .......... .......... ..........  6% 3.27M 8s
+   750K .......... .......... .......... .......... ..........  6% 12.7M 8s
+   800K .......... .......... .......... .......... ..........  6% 14.5M 7s
+   850K .......... .......... .......... .......... ..........  7% 23.6M 7s
+   900K .......... .......... .......... .......... ..........  7% 3.57M 7s
+   950K .......... .......... .......... .......... ..........  8% 2.89M 7s
+  1000K .......... .......... .......... .......... ..........  8% 23.1M 6s
+  1050K .......... .......... .......... .......... ..........  8% 4.49M 6s
+  1100K .......... .......... .......... .......... ..........  9% 24.0M 6s
+  1150K .......... .......... .......... .......... ..........  9% 24.8M 6s
+  1200K .......... .......... .......... .......... .......... 10% 35.7M 5s
+  1250K .......... .......... .......... .......... .......... 10% 70.9M 5s
+  1300K .......... .......... .......... .......... .......... 10% 4.55M 5s
+  1350K .......... .......... .......... .......... .......... 11% 2.92M 5s
+  1400K .......... .......... .......... .......... .......... 11% 12.5M 5s
+  1450K .......... .......... .......... .......... .......... 12% 12.0M 5s
+  1500K .......... .......... .......... .......... .......... 12% 74.0M 4s
+  1550K .......... .......... .......... .......... .......... 12% 22.0M 4s
+  1600K .......... .......... .......... .......... .......... 13% 76.4M 4s
+  1650K .......... .......... .......... .......... .......... 13% 6.68M 4s
+  1700K .......... .......... .......... .......... .......... 14% 6.79M 4s
+  1750K .......... .......... .......... .......... .......... 14% 10.0M 4s
+  1800K .......... .......... .......... .......... .......... 14% 4.29M 4s
+  1850K .......... .......... .......... .......... .......... 15% 32.4M 4s
+  1900K .......... .......... .......... .......... .......... 15% 45.0M 4s
+  1950K .......... .......... .......... .......... .......... 16% 3.63M 4s
+  2000K .......... .......... .......... .......... .......... 16% 77.8M 3s
+  2050K .......... .......... .......... .......... .......... 16% 53.2M 3s
+  2100K .......... .......... .......... .......... .......... 17% 65.6M 3s
+  2150K .......... .......... .......... .......... .......... 17% 92.3M 3s
+  2200K .......... .......... .......... .......... .......... 18% 79.5M 3s
+  2250K .......... .......... .......... .......... .......... 18% 88.5M 3s
+  2300K .......... .......... .......... .......... .......... 18% 93.5M 3s
+  2350K .......... .......... .......... .......... .......... 19% 21.2M 3s
+  2400K .......... .......... .......... .......... .......... 19% 5.30M 3s
+  2450K .......... .......... .......... .......... .......... 20% 73.5M 3s
+  2500K .......... .......... .......... .......... .......... 20% 6.07M 3s
+  2550K .......... .......... .......... .......... .......... 20% 15.9M 3s
+  2600K .......... .......... .......... .......... .......... 21% 17.7M 3s
+  2650K .......... .......... .......... .......... .......... 21% 83.3M 3s
+  2700K .......... .......... .......... .......... .......... 22% 38.5M 3s
+  2750K .......... .......... .......... .......... .......... 22% 22.3M 2s
+  2800K .......... .......... .......... .......... .......... 22% 25.9M 2s
+  2850K .......... .......... .......... .......... .......... 23% 14.3M 2s
+  2900K .......... .......... .......... .......... .......... 23% 27.3M 2s
+  2950K .......... .......... .......... .......... .......... 24% 24.5M 2s
+  3000K .......... .......... .......... .......... .......... 24% 20.8M 2s
+  3050K .......... .......... .......... .......... .......... 24% 13.1M 2s
+  3100K .......... .......... .......... .......... .......... 25% 15.7M 2s
+  3150K .......... .......... .......... .......... .......... 25% 17.6M 2s
+  3200K .......... .......... .......... .......... .......... 26% 11.0M 2s
+  3250K .......... .......... .......... .......... .......... 26% 3.26M 2s
+  3300K .......... .......... .......... .......... .......... 26% 29.6M 2s
+  3350K .......... .......... .......... .......... .......... 27% 75.4M 2s
+  3400K .......... .......... .......... .......... .......... 27% 5.13M 2s
+  3450K .......... .......... .......... .......... .......... 28% 31.6M 2s
+  3500K .......... .......... .......... .......... .......... 28% 92.0M 2s
+  3550K .......... .......... .......... .......... .......... 29% 27.0M 2s
+  3600K .......... .......... .......... .......... .......... 29% 58.7M 2s
+  3650K .......... .......... .......... .......... .......... 29% 25.8M 2s
+  3700K .......... .......... .......... .......... .......... 30% 3.51M 2s
+  3750K .......... .......... .......... .......... .......... 30% 4.35M 2s
+  3800K .......... .......... .......... .......... .......... 31% 86.3M 2s
+  3850K .......... .......... .......... .......... .......... 31% 80.7M 2s
+  3900K .......... .......... .......... .......... .......... 31% 52.1M 2s
+  3950K .......... .......... .......... .......... .......... 32% 82.3M 2s
+  4000K .......... .......... .......... .......... .......... 32% 95.0M 2s
+  4050K .......... .......... .......... .......... .......... 33% 90.1M 2s
+  4100K .......... .......... .......... .......... .......... 33% 77.9M 2s
+  4150K .......... .......... .......... .......... .......... 33% 28.6M 2s
+  4200K .......... .......... .......... .......... .......... 34% 8.97M 2s
+  4250K .......... .......... .......... .......... .......... 34% 74.8M 2s
+  4300K .......... .......... .......... .......... .......... 35% 19.2M 2s
+  4350K .......... .......... .......... .......... .......... 35% 18.6M 1s
+  4400K .......... .......... .......... .......... .......... 35% 47.9M 1s
+  4450K .......... .......... .......... .......... .......... 36% 11.1M 1s
+  4500K .......... .......... .......... .......... .......... 36% 92.5M 1s
+  4550K .......... .......... .......... .......... .......... 37% 93.4M 1s
+  4600K .......... .......... .......... .......... .......... 37% 4.93M 1s
+  4650K .......... .......... .......... .......... .......... 37% 3.18M 1s
+  4700K .......... .......... .......... .......... .......... 38% 24.1M 1s
+  4750K .......... .......... .......... .......... .......... 38% 58.2M 1s
+  4800K .......... .......... .......... .......... .......... 39% 23.1M 1s
+  4850K .......... .......... .......... .......... .......... 39% 46.2M 1s
+  4900K .......... .......... .......... .......... .......... 39% 92.7M 1s
+  4950K .......... .......... .......... .......... .......... 40% 26.7M 1s
+  5000K .......... .......... .......... .......... .......... 40% 7.97M 1s
+  5050K .......... .......... .......... .......... .......... 41% 2.00M 1s
+  5100K .......... .......... .......... .......... .......... 41% 29.0M 1s
+  5150K .......... .......... .......... .......... .......... 41% 91.3M 1s
+  5200K .......... .......... .......... .......... .......... 42% 12.2M 1s
+  5250K .......... .......... .......... .......... .......... 42% 86.9M 1s
+  5300K .......... .......... .......... .......... .......... 43% 49.9M 1s
+  5350K .......... .......... .......... .......... .......... 43% 14.8M 1s
+  5400K .......... .......... .......... .......... .......... 43% 20.3M 1s
+  5450K .......... .......... .......... .......... .......... 44% 79.9M 1s
+  5500K .......... .......... .......... .......... .......... 44% 15.1M 1s
+  5550K .......... .......... .......... .......... .......... 45% 43.8M 1s
+  5600K .......... .......... .......... .......... .......... 45% 23.9M 1s
+  5650K .......... .......... .......... .......... .......... 45% 3.39M 1s
+  5700K .......... .......... .......... .......... .......... 46% 81.4M 1s
+  5750K .......... .......... .......... .......... .......... 46% 29.7M 1s
+  5800K .......... .......... .......... .......... .......... 47% 90.9M 1s
+  5850K .......... .......... .......... .......... .......... 47% 79.7M 1s
+  5900K .......... .......... .......... .......... .......... 47% 25.6M 1s
+  5950K .......... .......... .......... .......... .......... 48% 42.0M 1s
+  6000K .......... .......... .......... .......... .......... 48% 61.0M 1s
+  6050K .......... .......... .......... .......... .......... 49% 28.5M 1s
+  6100K .......... .......... .......... .......... .......... 49% 16.2M 1s
+  6150K .......... .......... .......... .......... .......... 49% 86.4M 1s
+  6200K .......... .......... .......... .......... .......... 50% 22.0M 1s
+  6250K .......... .......... .......... .......... .......... 50% 95.7M 1s
+  6300K .......... .......... .......... .......... .......... 51% 15.3M 1s
+  6350K .......... .......... .......... .......... .......... 51% 2.25M 1s
+  6400K .......... .......... .......... .......... .......... 51% 29.9M 1s
+  6450K .......... .......... .......... .......... .......... 52% 58.1M 1s
+  6500K .......... .......... .......... .......... .......... 52% 5.25M 1s
+  6550K .......... .......... .......... .......... .......... 53% 6.99M 1s
+  6600K .......... .......... .......... .......... .......... 53% 41.4M 1s
+  6650K .......... .......... .......... .......... .......... 53% 10.8M 1s
+  6700K .......... .......... .......... .......... .......... 54% 39.4M 1s
+  6750K .......... .......... .......... .......... .......... 54% 34.7M 1s
+  6800K .......... .......... .......... .......... .......... 55% 93.2M 1s
+  6850K .......... .......... .......... .......... .......... 55% 17.7M 1s
+  6900K .......... .......... .......... .......... .......... 55% 37.5M 1s
+  6950K .......... .......... .......... .......... .......... 56% 7.50M 1s
+  7000K .......... .......... .......... .......... .......... 56% 9.49M 1s
+  7050K .......... .......... .......... .......... .......... 57% 76.3M 1s
+  7100K .......... .......... .......... .......... .......... 57% 3.02M 1s
+  7150K .......... .......... .......... .......... .......... 58% 83.6M 1s
+  7200K .......... .......... .......... .......... .......... 58% 77.9M 1s
+  7250K .......... .......... .......... .......... .......... 58% 84.3M 1s
+  7300K .......... .......... .......... .......... .......... 59% 71.6M 1s
+  7350K .......... .......... .......... .......... .......... 59% 81.5M 1s
+  7400K .......... .......... .......... .......... .......... 60% 85.1M 1s
+  7450K .......... .......... .......... .......... .......... 60% 52.8M 1s
+  7500K .......... .......... .......... .......... .......... 60% 25.1M 1s
+  7550K .......... .......... .......... .......... .......... 61% 3.87M 1s
+  7600K .......... .......... .......... .......... .......... 61% 57.9M 1s
+  7650K .......... .......... .......... .......... .......... 62% 55.2M 1s
+  7700K .......... .......... .......... .......... .......... 62% 7.02M 1s
+  7750K .......... .......... .......... .......... .......... 62% 22.6M 1s
+  7800K .......... .......... .......... .......... .......... 63% 90.4M 1s
+  7850K .......... .......... .......... .......... .......... 63% 4.06M 1s
+  7900K .......... .......... .......... .......... .......... 64% 7.59M 1s
+  7950K .......... .......... .......... .......... .......... 64% 26.8M 1s
+  8000K .......... .......... .......... .......... .......... 64% 28.3M 1s
+  8050K .......... .......... .......... .......... .......... 65% 50.7M 1s
+  8100K .......... .......... .......... .......... .......... 65% 17.8M 1s
+  8150K .......... .......... .......... .......... .......... 66% 5.26M 1s
+  8200K .......... .......... .......... .......... .......... 66% 76.9M 1s
+  8250K .......... .......... .......... .......... .......... 66% 95.0M 1s
+  8300K .......... .......... .......... .......... .......... 67% 97.3M 1s
+  8350K .......... .......... .......... .......... .......... 67% 82.2M 1s
+  8400K .......... .......... .......... .......... .......... 68% 7.84M 1s
+  8450K .......... .......... .......... .......... .......... 68% 8.01M 1s
+  8500K .......... .......... .......... .......... .......... 68% 39.1M 1s
+  8550K .......... .......... .......... .......... .......... 69% 26.3M 0s
+  8600K .......... .......... .......... .......... .......... 69% 16.7M 0s
+  8650K .......... .......... .......... .......... .......... 70% 2.17M 0s
+  8700K .......... .......... .......... .......... .......... 70% 27.1M 0s
+  8750K .......... .......... .......... .......... .......... 70% 92.1M 0s
+  8800K .......... .......... .......... .......... .......... 71% 11.1M 0s
+  8850K .......... .......... .......... .......... .......... 71% 81.7M 0s
+  8900K .......... .......... .......... .......... .......... 72% 41.0M 0s
+  8950K .......... .......... .......... .......... .......... 72% 19.4M 0s
+  9000K .......... .......... .......... .......... .......... 72% 88.6M 0s
+  9050K .......... .......... .......... .......... .......... 73% 50.2M 0s
+  9100K .......... .......... .......... .......... .......... 73% 42.3M 0s
+  9150K .......... .......... .......... .......... .......... 74% 11.5M 0s
+  9200K .......... .......... .......... .......... .......... 74% 77.6M 0s
+  9250K .......... .......... .......... .......... .......... 74% 3.93M 0s
+  9300K .......... .......... .......... .......... .......... 75% 85.8M 0s
+  9350K .......... .......... .......... .......... .......... 75% 11.4M 0s
+  9400K .......... .......... .......... .......... .......... 76% 73.6M 0s
+  9450K .......... .......... .......... .......... .......... 76% 27.8M 0s
+  9500K .......... .......... .......... .......... .......... 76% 14.7M 0s
+  9550K .......... .......... .......... .......... .......... 77% 36.6M 0s
+  9600K .......... .......... .......... .......... .......... 77% 46.5M 0s
+  9650K .......... .......... .......... .......... .......... 78% 13.4M 0s
+  9700K .......... .......... .......... .......... .......... 78% 76.1M 0s
+  9750K .......... .......... .......... .......... .......... 78% 4.55M 0s
+  9800K .......... .......... .......... .......... .......... 79% 51.3M 0s
+  9850K .......... .......... .......... .......... .......... 79% 9.00M 0s
+  9900K .......... .......... .......... .......... .......... 80% 27.6M 0s
+  9950K .......... .......... .......... .......... .......... 80% 2.23M 0s
+ 10000K .......... .......... .......... .......... .......... 80% 7.71M 0s
+ 10050K .......... .......... .......... .......... .......... 81% 43.6M 0s
+ 10100K .......... .......... .......... .......... .......... 81% 77.5M 0s
+ 10150K .......... .......... .......... .......... .......... 82% 88.5M 0s
+ 10200K .......... .......... .......... .......... .......... 82% 76.5M 0s
+ 10250K .......... .......... .......... .......... .......... 82% 14.3M 0s
+ 10300K .......... .......... .......... .......... .......... 83% 95.4M 0s
+ 10350K .......... .......... .......... .......... .......... 83% 29.3M 0s
+ 10400K .......... .......... .......... .......... .......... 84% 77.9M 0s
+ 10450K .......... .......... .......... .......... .......... 84% 4.43M 0s
+ 10500K .......... .......... .......... .......... .......... 84% 34.7M 0s
+ 10550K .......... .......... .......... .......... .......... 85% 74.5M 0s
+ 10600K .......... .......... .......... .......... .......... 85% 71.1M 0s
+ 10650K .......... .......... .......... .......... .......... 86% 95.6M 0s
+ 10700K .......... .......... .......... .......... .......... 86% 13.7M 0s
+ 10750K .......... .......... .......... .......... .......... 87% 39.3M 0s
+ 10800K .......... .......... .......... .......... .......... 87% 89.6M 0s
+ 10850K .......... .......... .......... .......... .......... 87% 3.33M 0s
+ 10900K .......... .......... .......... .......... .......... 88% 3.85M 0s
+ 10950K .......... .......... .......... .......... .......... 88% 59.5M 0s
+ 11000K .......... .......... .......... .......... .......... 89% 89.8M 0s
+ 11050K .......... .......... .......... .......... .......... 89% 91.6M 0s
+ 11100K .......... .......... .......... .......... .......... 89% 75.6M 0s
+ 11150K .......... .......... .......... .......... .......... 90% 90.4M 0s
+ 11200K .......... .......... .......... .......... .......... 90% 16.1M 0s
+ 11250K .......... .......... .......... .......... .......... 91% 83.6M 0s
+ 11300K .......... .......... .......... .......... .......... 91% 67.0M 0s
+ 11350K .......... .......... .......... .......... .......... 91% 2.93M 0s
+ 11400K .......... .......... .......... .......... .......... 92% 7.96M 0s
+ 11450K .......... .......... .......... .......... .......... 92% 80.7M 0s
+ 11500K .......... .......... .......... .......... .......... 93% 69.4M 0s
+ 11550K .......... .......... .......... .......... .......... 93% 11.8M 0s
+ 11600K .......... .......... .......... .......... .......... 93% 19.0M 0s
+ 11650K .......... .......... .......... .......... .......... 94% 95.9M 0s
+ 11700K .......... .......... .......... .......... .......... 94% 15.0M 0s
+ 11750K .......... .......... .......... .......... .......... 95% 25.4M 0s
+ 11800K .......... .......... .......... .......... .......... 95% 29.8M 0s
+ 11850K .......... .......... .......... .......... .......... 95% 13.2M 0s
+ 11900K .......... .......... .......... .......... .......... 96% 57.7M 0s
+ 11950K .......... .......... .......... .......... .......... 96% 76.7M 0s
+ 12000K .......... .......... .......... .......... .......... 97% 3.56M 0s
+ 12050K .......... .......... .......... .......... .......... 97% 32.8M 0s
+ 12100K .......... .......... .......... .......... .......... 97% 60.3M 0s
+ 12150K .......... .......... .......... .......... .......... 98% 90.3M 0s
+ 12200K .......... .......... .......... .......... .......... 98% 25.9M 0s
+ 12250K .......... .......... .......... .......... .......... 99% 2.56M 0s
+ 12300K .......... .......... .......... .......... .......... 99% 84.6M 0s
+ 12350K .......... .......... .......... .......... .......... 99% 47.9M 0s
+ 12400K .......... .                                          100% 93.9M=1.4s
+
+2025-04-19 01:01:39 (8.80 MB/s) - ‘../data/raw/genome/hg38.chr21.fa.gz’ saved [12709705/12709705]
+
+Downloading JASPAR data...
+--2025-04-19 01:01:39--  http://jaspar.genereg.net/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt
+Resolving jaspar.genereg.net (jaspar.genereg.net)... 193.60.222.202
+Connecting to jaspar.genereg.net (jaspar.genereg.net)|193.60.222.202|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://jaspar.elixir.no/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt [following]
+--2025-04-19 01:01:40--  https://jaspar.elixir.no/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt
+Resolving jaspar.elixir.no (jaspar.elixir.no)... 158.37.66.95
+Connecting to jaspar.elixir.no (jaspar.elixir.no)|158.37.66.95|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 327864 (320K) [text/plain]
+Saving to: ‘../data/raw/jaspar/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt’
+
+     0K .......... .......... .......... .......... .......... 15%  151K 2s
+    50K .......... .......... .......... .......... .......... 31%  263K 1s
+   100K .......... .......... .......... .......... .......... 46% 95.0K 1s
+   150K .......... .......... .......... .......... .......... 62% 39.3M 1s
+   200K .......... .......... .......... .......... .......... 78%  303K 0s
+   250K .......... .......... .......... .......... .......... 93% 1.69M 0s
+   300K .......... ..........                                 100% 10.3M=1.2s
+
+2025-04-19 01:01:42 (257 KB/s) - ‘../data/raw/jaspar/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt’ saved [327864/327864]
+
+Downloading sample ENCODE ChIP-seq data...
+--2025-04-19 01:01:42--  https://www.encodeproject.org/files/ENCFF002CEL/@@download/ENCFF002CEL.bed.gz
+Resolving www.encodeproject.org (www.encodeproject.org)... 34.211.244.144
+Connecting to www.encodeproject.org (www.encodeproject.org)|34.211.244.144|:443... connected.
+HTTP request sent, awaiting response... 307 Temporary Redirect
+Location: https://encode-public.s3.amazonaws.com/2014/06/06/23bfd2ac-7a0d-46b2-b3bf-a34f6d03134f/ENCFF002CEL.narrowPeak.gz?response-content-disposition=attachment%3B%20filename%3DENCFF002CEL.bed.gz&AWSAccessKeyId=ASIATGZNGCNX4PSGTZSJ&Signature=nwAPUAPQVxOS6djjhy3KM%2BgnyA4%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEP7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIE%2FWZpr7RkfU04tvpIbeA76i%2F4vMzK6fpItpUYwhYtX6AiEAnV%2BBhKYS0k1uxVuF9oQUj8R5aVsHHUq9SgiCTatYAncqvAUIh%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwyMjA3NDg3MTQ4NjMiDOjerA50AhCg9yxsHiqQBaD2gbluC%2Fc6Mr3J%2BI7OnYMJ9T%2BNGwIO2ZMnrtafawrtfi5LPz%2B4FVtdkOdRGBvvlPbh1BP29QfDkiwGGrQirj5wMyQ5nNB1PVohQAEtTk6OpRU%2FFB72j%2F0133TWLMF5aP3AWKOgUFS%2FqgCPpWkUP7pZMaC0wCu9MI0mFPlO9JDM32nmksSdDo3wzg7EGf%2FfZUFLQ%2BL2CzYNs5pymawMmsB7oFtYmGHYs%2F9ZBt29Io6Q98tWWe6xYUPEsQldo%2BkPXrSJWqLo29InW4A8vGYys9Vs8x%2Fomq00qnKqYMFkN7VYM9OCLHhhYo%2F3pwppIUCvhyrVALzyk7hfSXOpwIQP1FRG5TyKcS3frnmKxZYIrRz2PzMQ4H6AmbCsAOqEcPbMgcCIex2%2BX%2B1BGJVZSIOsIhIXB3KhIDhoa8c2H26VlMl%2Fs%2BTkaFAL46UCpNPcCS1kG7IBXskfZGSc567lqr2bCxkSXefZ4c5tiwlT2ILcg15XqnetGuRPqmJyxTjtBLelsXejwysqYmy5tXDnz8Wti5miXtMsETrp15GiFeQgFeU2Do%2FNsrn2PARZk9Wa8PI9ac03oL9Im8SpCqRXD77fOds7oUKP4YiEIeTk6RcO3OXkTtACuNnK0FIyq38NdZMCX8nZcKoJvXXTtBYRqFiMqafKK9l%2BRuBcm0ovdQyBS6OloZ99wrW61L5BaTa0qhVcm8fPS9GGspMYATy4C9imRXafrV%2BoA%2FvtUwtei2X6UrDoEEspZ48HRBzVLinSk8PmSKHSiMt96Ep641ILYfT24TkLdWxef9N1wiUTzcr8%2B9mR6kS86kZgWqxYgtYLgeizpNodz9aDYgug4HuufZtsC45rBbR4bvuzjSElfxB78n9PMKLyjMAGOrEBm5dcEPZZCyhMROz41cCpfsy6F890J3fUf%2FYslf1r8ePbPbXX%2FarAIdUNHjLolI7rlAa%2FtujI7PuONkeWcWADKVtsc79yHcIL%2Fou6MlLT0YlB0oHNFDlwqFGIoCQ2Gz4ZRbbQ7DKOR2%2BqWHyP1kQEmGFkH2kp7zkVcvqsAp3spo7LM4DxLw8F8FGpZGdPfJsX1RbI14f%2BIqinKnPFBrjEY%2FSbNfzy43stGQOV%2FJWzAMPS&Expires=1745172103 [following]
+--2025-04-19 01:01:43--  https://encode-public.s3.amazonaws.com/2014/06/06/23bfd2ac-7a0d-46b2-b3bf-a34f6d03134f/ENCFF002CEL.narrowPeak.gz?response-content-disposition=attachment%3B%20filename%3DENCFF002CEL.bed.gz&AWSAccessKeyId=ASIATGZNGCNX4PSGTZSJ&Signature=nwAPUAPQVxOS6djjhy3KM%2BgnyA4%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEP7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIE%2FWZpr7RkfU04tvpIbeA76i%2F4vMzK6fpItpUYwhYtX6AiEAnV%2BBhKYS0k1uxVuF9oQUj8R5aVsHHUq9SgiCTatYAncqvAUIh%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwyMjA3NDg3MTQ4NjMiDOjerA50AhCg9yxsHiqQBaD2gbluC%2Fc6Mr3J%2BI7OnYMJ9T%2BNGwIO2ZMnrtafawrtfi5LPz%2B4FVtdkOdRGBvvlPbh1BP29QfDkiwGGrQirj5wMyQ5nNB1PVohQAEtTk6OpRU%2FFB72j%2F0133TWLMF5aP3AWKOgUFS%2FqgCPpWkUP7pZMaC0wCu9MI0mFPlO9JDM32nmksSdDo3wzg7EGf%2FfZUFLQ%2BL2CzYNs5pymawMmsB7oFtYmGHYs%2F9ZBt29Io6Q98tWWe6xYUPEsQldo%2BkPXrSJWqLo29InW4A8vGYys9Vs8x%2Fomq00qnKqYMFkN7VYM9OCLHhhYo%2F3pwppIUCvhyrVALzyk7hfSXOpwIQP1FRG5TyKcS3frnmKxZYIrRz2PzMQ4H6AmbCsAOqEcPbMgcCIex2%2BX%2B1BGJVZSIOsIhIXB3KhIDhoa8c2H26VlMl%2Fs%2BTkaFAL46UCpNPcCS1kG7IBXskfZGSc567lqr2bCxkSXefZ4c5tiwlT2ILcg15XqnetGuRPqmJyxTjtBLelsXejwysqYmy5tXDnz8Wti5miXtMsETrp15GiFeQgFeU2Do%2FNsrn2PARZk9Wa8PI9ac03oL9Im8SpCqRXD77fOds7oUKP4YiEIeTk6RcO3OXkTtACuNnK0FIyq38NdZMCX8nZcKoJvXXTtBYRqFiMqafKK9l%2BRuBcm0ovdQyBS6OloZ99wrW61L5BaTa0qhVcm8fPS9GGspMYATy4C9imRXafrV%2BoA%2FvtUwtei2X6UrDoEEspZ48HRBzVLinSk8PmSKHSiMt96Ep641ILYfT24TkLdWxef9N1wiUTzcr8%2B9mR6kS86kZgWqxYgtYLgeizpNodz9aDYgug4HuufZtsC45rBbR4bvuzjSElfxB78n9PMKLyjMAGOrEBm5dcEPZZCyhMROz41cCpfsy6F890J3fUf%2FYslf1r8ePbPbXX%2FarAIdUNHjLolI7rlAa%2FtujI7PuONkeWcWADKVtsc79yHcIL%2Fou6MlLT0YlB0oHNFDlwqFGIoCQ2Gz4ZRbbQ7DKOR2%2BqWHyP1kQEmGFkH2kp7zkVcvqsAp3spo7LM4DxLw8F8FGpZGdPfJsX1RbI14f%2BIqinKnPFBrjEY%2FSbNfzy43stGQOV%2FJWzAMPS&Expires=1745172103
+Resolving encode-public.s3.amazonaws.com (encode-public.s3.amazonaws.com)... 52.92.185.1, 52.218.183.145, 52.92.192.97, ...
+Connecting to encode-public.s3.amazonaws.com (encode-public.s3.amazonaws.com)|52.92.185.1|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1231983 (1.2M) [binary/octet-stream]
+Saving to: ‘../data/raw/encode/CTCF/ENCFF002CEL.bed.gz’
+
+     0K .......... .......... .......... .......... ..........  4%  480K 2s
+    50K .......... .......... .......... .......... ..........  8%  492K 2s
+   100K .......... .......... .......... .......... .......... 12% 2.93M 2s
+   150K .......... .......... .......... .......... .......... 16%  633K 2s
+   200K .......... .......... .......... .......... .......... 20% 18.3M 1s
+   250K .......... .......... .......... .......... .......... 24% 2.65M 1s
+   300K .......... .......... .......... .......... .......... 29% 2.75M 1s
+   350K .......... .......... .......... .......... .......... 33%  876K 1s
+   400K .......... .......... .......... .......... .......... 37% 7.94M 1s
+   450K .......... .......... .......... .......... .......... 41% 31.9M 1s
+   500K .......... .......... .......... .......... .......... 45% 3.73M 0s
+   550K .......... .......... .......... .......... .......... 49% 2.65M 0s
+   600K .......... .......... .......... .......... .......... 54% 31.3M 0s
+   650K .......... .......... .......... .......... .......... 58% 5.33M 0s
+   700K .......... .......... .......... .......... .......... 62% 35.4M 0s
+   750K .......... .......... .......... .......... .......... 66% 1.01M 0s
+   800K .......... .......... .......... .......... .......... 70% 3.55M 0s
+   850K .......... .......... .......... .......... .......... 74% 34.5M 0s
+   900K .......... .......... .......... .......... .......... 78% 22.3M 0s
+   950K .......... .......... .......... .......... .......... 83% 9.06M 0s
+  1000K .......... .......... .......... .......... .......... 87% 3.32M 0s
+  1050K .......... .......... .......... .......... .......... 91% 2.35M 0s
+  1100K .......... .......... .......... .......... .......... 95% 7.85M 0s
+  1150K .......... .......... .......... .......... .......... 99% 51.9M 0s
+  1200K ...                                                   100% 62.2K=0.6s
+
+2025-04-19 01:01:44 (2.09 MB/s) - ‘../data/raw/encode/CTCF/ENCFF002CEL.bed.gz’ saved [1231983/1231983]
+
+Using gdown to download additional files...
+Download complete!
+[0;32m[SUCCESS][0m 2025-04-19 01:01:44 - Data download completed
+
+[1;33m========== PROCESSING DATA ==========[0m
+[0;34m[INFO][0m 2025-04-19 01:01:44 - Processing data for CTCF
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/data.py", line 18, in <module>
+    from Bio.Alphabet import generic_dna
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/Bio/Alphabet/__init__.py", line 20, in <module>
+    raise ImportError(
+ImportError: Bio.Alphabet has been removed from Biopython. In many cases, the alphabet can simply be ignored and removed from scripts. In a few cases, you may need to specify the ``molecule_type`` as an annotation on a SeqRecord for your script to work correctly. Please see https://biopython.org/wiki/Alphabet for more information.
+[0;31m[ERROR][0m 2025-04-19 01:01:44 - Data processing failed for CTCF
+[0;34m[INFO][0m 2025-04-19 01:01:45 - Processing data for GATA1
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/data.py", line 18, in <module>
+    from Bio.Alphabet import generic_dna
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/Bio/Alphabet/__init__.py", line 20, in <module>
+    raise ImportError(
+ImportError: Bio.Alphabet has been removed from Biopython. In many cases, the alphabet can simply be ignored and removed from scripts. In a few cases, you may need to specify the ``molecule_type`` as an annotation on a SeqRecord for your script to work correctly. Please see https://biopython.org/wiki/Alphabet for more information.
+[0;31m[ERROR][0m 2025-04-19 01:01:45 - Data processing failed for GATA1
+[0;34m[INFO][0m 2025-04-19 01:01:45 - Processing data for CEBPA
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/data.py", line 18, in <module>
+    from Bio.Alphabet import generic_dna
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/Bio/Alphabet/__init__.py", line 20, in <module>
+    raise ImportError(
+ImportError: Bio.Alphabet has been removed from Biopython. In many cases, the alphabet can simply be ignored and removed from scripts. In a few cases, you may need to specify the ``molecule_type`` as an annotation on a SeqRecord for your script to work correctly. Please see https://biopython.org/wiki/Alphabet for more information.
+[0;31m[ERROR][0m 2025-04-19 01:01:45 - Data processing failed for CEBPA
+[0;34m[INFO][0m 2025-04-19 01:01:45 - Processing data for TP53
+Traceback (most recent call last):
+  File "/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/src/data.py", line 18, in <module>
+    from Bio.Alphabet import generic_dna
+  File "/Users/hypoglossal/anaconda3/lib/python3.11/site-packages/Bio/Alphabet/__init__.py", line 20, in <module>
+    raise ImportError(
+ImportError: Bio.Alphabet has been removed from Biopython. In many cases, the alphabet can simply be ignored and removed from scripts. In a few cases, you may need to specify the ``molecule_type`` as an annotation on a SeqRecord for your script to work correctly. Please see https://biopython.org/wiki/Alphabet for more information.
+[0;31m[ERROR][0m 2025-04-19 01:01:45 - Data processing failed for TP53
+
+[1;33m========== TRAINING MODELS ==========[0m
+[1;33m[WARNING][0m 2025-04-19 01:01:45 - No training data for CTCF, skipping
+[1;33m[WARNING][0m 2025-04-19 01:01:45 - No training data for GATA1, skipping
+[1;33m[WARNING][0m 2025-04-19 01:01:45 - No training data for CEBPA, skipping
+[1;33m[WARNING][0m 2025-04-19 01:01:45 - No training data for TP53, skipping
+
+[1;33m========== EVALUATING MODELS ==========[0m
+[1;33m[WARNING][0m 2025-04-19 01:01:45 - No model found for CTCF, skipping
+[1;33m[WARNING][0m 2025-04-19 01:01:45 - No model found for GATA1, skipping
+[1;33m[WARNING][0m 2025-04-19 01:01:45 - No model found for CEBPA, skipping
+[1;33m[WARNING][0m 2025-04-19 01:01:45 - No model found for TP53, skipping
+
+[1;33m========== GENERATING SUMMARY REPORT ==========[0m
+[0;34m[INFO][0m 2025-04-19 01:01:45 - Generating summary report...
+[NbConvertApp] Converting notebook /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/results.ipynb to html
+[NbConvertApp] Writing 269952 bytes to /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/summary_report.html
+[0;32m[SUCCESS][0m 2025-04-19 01:01:48 - Summary report generated
+
+[1;33m========== WORKFLOW COMPLETED ==========[0m
+[0;34m[INFO][0m 2025-04-19 01:01:48 - Results directory: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/results/
+[0;34m[INFO][0m 2025-04-19 01:01:48 - Log file: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/workflow.log
+[0;34m[INFO][0m 2025-04-19 01:01:48 - Summary report: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/summary_report.html
+
+[1;33m========== STARTING TF BINDING PREDICTION WORKFLOW ==========[0m
+[0;34m[INFO][0m 2025-04-19 02:10:11 - Project root: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files
+
+[1;33m========== VERIFYING DEPENDENCIES ==========[0m
+[0;34m[INFO][0m 2025-04-19 02:10:11 - Python found: Python 3.11.5
+TensorFlow 2.16.2 found
+
+[1;33m========== SETTING UP DIRECTORY STRUCTURE ==========[0m
+[0;32m[SUCCESS][0m 2025-04-19 02:10:21 - Directory structure created
+
+[1;33m========== DOWNLOADING DATA ==========[0m
+[0;34m[INFO][0m 2025-04-19 02:10:21 - Running download script...
+Downloading hg38 genome (chr21 only for testing)...
+--2025-04-19 02:10:21--  https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr21.fa.gz
+Resolving hgdownload.soe.ucsc.edu (hgdownload.soe.ucsc.edu)... 128.114.119.163
+Connecting to hgdownload.soe.ucsc.edu (hgdownload.soe.ucsc.edu)|128.114.119.163|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 12709705 (12M) [application/x-gzip]
+Saving to: ‘../data/raw/genome/hg38.chr21.fa.gz’
+
+     0K .......... .......... .......... .......... ..........  0%  299K 41s
+    50K .......... .......... .......... .......... ..........  0%  707K 29s
+   100K .......... .......... .......... .......... ..........  1% 4.33M 20s
+   150K .......... .......... .......... .......... ..........  1%  856K 19s
+   200K .......... .......... .......... .......... ..........  2% 2.32M 16s
+   250K .......... .......... .......... .......... ..........  2% 20.4M 13s
+   300K .......... .......... .......... .......... ..........  2% 3.96M 12s
+   350K .......... .......... .......... .......... ..........  3% 4.35M 11s
+   400K .......... .......... .......... .......... ..........  3% 1.42M 10s
+   450K .......... .......... .......... .......... ..........  4% 3.88M 10s
+   500K .......... .......... .......... .......... ..........  4% 10.2M 9s
+   550K .......... .......... .......... .......... ..........  4% 10.8M 8s
+   600K .......... .......... .......... .......... ..........  5% 5.57M 8s
+   650K .......... .......... .......... .......... ..........  5% 11.2M 7s
+   700K .......... .......... .......... .......... ..........  6% 3.25M 7s
+   750K .......... .......... .......... .......... ..........  6% 14.3M 6s
+   800K .......... .......... .......... .......... ..........  6% 5.34M 6s
+   850K .......... .......... .......... .......... ..........  7% 2.37M 6s
+   900K .......... .......... .......... .......... ..........  7% 18.9M 6s
+   950K .......... .......... .......... .......... ..........  8% 75.2M 5s
+  1000K .......... .......... .......... .......... ..........  8% 4.87M 5s
+  1050K .......... .......... .......... .......... ..........  8% 5.60M 5s
+  1100K .......... .......... .......... .......... ..........  9% 70.2M 5s
+  1150K .......... .......... .......... .......... ..........  9% 77.4M 5s
+  1200K .......... .......... .......... .......... .......... 10% 17.2M 4s
+  1250K .......... .......... .......... .......... .......... 10% 23.6M 4s
+  1300K .......... .......... .......... .......... .......... 10% 15.8M 4s
+  1350K .......... .......... .......... .......... .......... 11% 73.0M 4s
+  1400K .......... .......... .......... .......... .......... 11% 9.46M 4s
+  1450K .......... .......... .......... .......... .......... 12% 10.3M 4s
+  1500K .......... .......... .......... .......... .......... 12% 35.7M 4s
+  1550K .......... .......... .......... .......... .......... 12% 7.47M 4s
+  1600K .......... .......... .......... .......... .......... 13% 20.3M 3s
+  1650K .......... .......... .......... .......... .......... 13% 7.64M 3s
+  1700K .......... .......... .......... .......... .......... 14% 13.9M 3s
+  1750K .......... .......... .......... .......... .......... 14% 3.21M 3s
+  1800K .......... .......... .......... .......... .......... 14% 2.50M 3s
+  1850K .......... .......... .......... .......... .......... 15% 39.2M 3s
+  1900K .......... .......... .......... .......... .......... 15% 37.0M 3s
+  1950K .......... .......... .......... .......... .......... 16% 71.1M 3s
+  2000K .......... .......... .......... .......... .......... 16% 5.09M 3s
+  2050K .......... .......... .......... .......... .......... 16% 24.8M 3s
+  2100K .......... .......... .......... .......... .......... 17% 21.8M 3s
+  2150K .......... .......... .......... .......... .......... 17% 6.17M 3s
+  2200K .......... .......... .......... .......... .......... 18% 52.6M 3s
+  2250K .......... .......... .......... .......... .......... 18% 48.5M 3s
+  2300K .......... .......... .......... .......... .......... 18%  966K 3s
+  2350K .......... .......... .......... .......... .......... 19% 1.44M 3s
+  2400K .......... .......... .......... .......... .......... 19% 35.9M 3s
+  2450K .......... .......... .......... .......... .......... 20% 72.1M 3s
+  2500K .......... .......... .......... .......... .......... 20% 49.0M 3s
+  2550K .......... .......... .......... .......... .......... 20% 75.9M 3s
+  2600K .......... .......... .......... .......... .......... 21% 59.5M 3s
+  2650K .......... .......... .......... .......... .......... 21% 69.0M 2s
+  2700K .......... .......... .......... .......... .......... 22% 38.5M 2s
+  2750K .......... .......... .......... .......... .......... 22% 72.2M 2s
+  2800K .......... .......... .......... .......... .......... 22% 81.1M 2s
+  2850K .......... .......... .......... .......... .......... 23% 83.3M 2s
+  2900K .......... .......... .......... .......... .......... 23% 80.3M 2s
+  2950K .......... .......... .......... .......... .......... 24% 47.3M 2s
+  3000K .......... .......... .......... .......... .......... 24% 27.2M 2s
+  3050K .......... .......... .......... .......... .......... 24% 39.2M 2s
+  3100K .......... .......... .......... .......... .......... 25% 53.0M 2s
+  3150K .......... .......... .......... .......... .......... 25% 72.3M 2s
+  3200K .......... .......... .......... .......... .......... 26% 43.6M 2s
+  3250K .......... .......... .......... .......... .......... 26% 79.4M 2s
+  3300K .......... .......... .......... .......... .......... 26% 96.9M 2s
+  3350K .......... .......... .......... .......... .......... 27% 83.3M 2s
+  3400K .......... .......... .......... .......... .......... 27% 89.1M 2s
+  3450K .......... .......... .......... .......... .......... 28% 83.5M 2s
+  3500K .......... .......... .......... .......... .......... 28% 36.1M 2s
+  3550K .......... .......... .......... .......... .......... 29% 62.7M 2s
+  3600K .......... .......... .......... .......... .......... 29% 77.8M 2s
+  3650K .......... .......... .......... .......... .......... 29% 69.1M 2s
+  3700K .......... .......... .......... .......... .......... 30% 79.4M 2s
+  3750K .......... .......... .......... .......... .......... 30% 82.9M 2s
+  3800K .......... .......... .......... .......... .......... 31% 68.6M 2s
+  3850K .......... .......... .......... .......... .......... 31% 76.7M 2s
+  3900K .......... .......... .......... .......... .......... 31% 93.0M 2s
+  3950K .......... .......... .......... .......... .......... 32% 25.0M 1s
+  4000K .......... .......... .......... .......... .......... 32% 95.0M 1s
+  4050K .......... .......... .......... .......... .......... 33% 96.9M 1s
+  4100K .......... .......... .......... .......... .......... 33% 80.0M 1s
+  4150K .......... .......... .......... .......... .......... 33% 39.3M 1s
+  4200K .......... .......... .......... .......... .......... 34% 79.7M 1s
+  4250K .......... .......... .......... .......... .......... 34% 89.1M 1s
+  4300K .......... .......... .......... .......... .......... 35% 77.5M 1s
+  4350K .......... .......... .......... .......... .......... 35% 37.8M 1s
+  4400K .......... .......... .......... .......... .......... 35% 91.8M 1s
+  4450K .......... .......... .......... .......... .......... 36% 72.4M 1s
+  4500K .......... .......... .......... .......... .......... 36% 26.9M 1s
+  4550K .......... .......... .......... .......... .......... 37% 44.5M 1s
+  4600K .......... .......... .......... .......... .......... 37% 9.17M 1s
+  4650K .......... .......... .......... .......... .......... 37% 1.47M 1s
+  4700K .......... .......... .......... .......... .......... 38% 21.4M 1s
+  4750K .......... .......... .......... .......... .......... 38% 5.06M 1s
+  4800K .......... .......... .......... .......... .......... 39% 92.0M 1s
+  4850K .......... .......... .......... .......... .......... 39% 11.9M 1s
+  4900K .......... .......... .......... .......... .......... 39% 42.8M 1s
+  4950K .......... .......... .......... .......... .......... 40% 19.8M 1s
+  5000K .......... .......... .......... .......... .......... 40% 82.2M 1s
+  5050K .......... .......... .......... .......... .......... 41% 30.5M 1s
+  5100K .......... .......... .......... .......... .......... 41% 9.23M 1s
+  5150K .......... .......... .......... .......... .......... 41% 75.8M 1s
+  5200K .......... .......... .......... .......... .......... 42% 18.8M 1s
+  5250K .......... .......... .......... .......... .......... 42% 10.4M 1s
+  5300K .......... .......... .......... .......... .......... 43% 49.6M 1s
+  5350K .......... .......... .......... .......... .......... 43% 16.3M 1s
+  5400K .......... .......... .......... .......... .......... 43%  964K 1s
+  5450K .......... .......... .......... .......... .......... 44% 82.3M 1s
+  5500K .......... .......... .......... .......... .......... 44% 88.1M 1s
+  5550K .......... .......... .......... .......... .......... 45% 35.0M 1s
+  5600K .......... .......... .......... .......... .......... 45% 2.44M 1s
+  5650K .......... .......... .......... .......... .......... 45% 23.7M 1s
+  5700K .......... .......... .......... .......... .......... 46% 53.4M 1s
+  5750K .......... .......... .......... .......... .......... 46% 61.7M 1s
+  5800K .......... .......... .......... .......... .......... 47% 52.6M 1s
+  5850K .......... .......... .......... .......... .......... 47% 27.6M 1s
+  5900K .......... .......... .......... .......... .......... 47% 45.8M 1s
+  5950K .......... .......... .......... .......... .......... 48% 62.8M 1s
+  6000K .......... .......... .......... .......... .......... 48% 50.4M 1s
+  6050K .......... .......... .......... .......... .......... 49% 45.3M 1s
+  6100K .......... .......... .......... .......... .......... 49% 32.6M 1s
+  6150K .......... .......... .......... .......... .......... 49% 30.8M 1s
+  6200K .......... .......... .......... .......... .......... 50% 32.4M 1s
+  6250K .......... .......... .......... .......... .......... 50% 53.1M 1s
+  6300K .......... .......... .......... .......... .......... 51% 78.9M 1s
+  6350K .......... .......... .......... .......... .......... 51% 62.8M 1s
+  6400K .......... .......... .......... .......... .......... 51% 84.6M 1s
+  6450K .......... .......... .......... .......... .......... 52% 73.1M 1s
+  6500K .......... .......... .......... .......... .......... 52% 32.5M 1s
+  6550K .......... .......... .......... .......... .......... 53% 49.6M 1s
+  6600K .......... .......... .......... .......... .......... 53% 53.0M 1s
+  6650K .......... .......... .......... .......... .......... 53% 42.8M 1s
+  6700K .......... .......... .......... .......... .......... 54% 31.2M 1s
+  6750K .......... .......... .......... .......... .......... 54% 39.1M 1s
+  6800K .......... .......... .......... .......... .......... 55% 39.0M 1s
+  6850K .......... .......... .......... .......... .......... 55% 34.9M 1s
+  6900K .......... .......... .......... .......... .......... 55% 36.3M 1s
+  6950K .......... .......... .......... .......... .......... 56% 30.4M 1s
+  7000K .......... .......... .......... .......... .......... 56% 40.7M 1s
+  7050K .......... .......... .......... .......... .......... 57% 42.8M 1s
+  7100K .......... .......... .......... .......... .......... 57% 43.3M 1s
+  7150K .......... .......... .......... .......... .......... 58% 39.0M 1s
+  7200K .......... .......... .......... .......... .......... 58% 64.9M 1s
+  7250K .......... .......... .......... .......... .......... 58% 92.0M 1s
+  7300K .......... .......... .......... .......... .......... 59% 91.4M 1s
+  7350K .......... .......... .......... .......... .......... 59% 78.1M 1s
+  7400K .......... .......... .......... .......... .......... 60% 90.9M 1s
+  7450K .......... .......... .......... .......... .......... 60% 67.7M 1s
+  7500K .......... .......... .......... .......... .......... 60% 67.7M 1s
+  7550K .......... .......... .......... .......... .......... 61% 87.3M 1s
+  7600K .......... .......... .......... .......... .......... 61% 23.4M 1s
+  7650K .......... .......... .......... .......... .......... 62% 90.6M 1s
+  7700K .......... .......... .......... .......... .......... 62% 9.78M 1s
+  7750K .......... .......... .......... .......... .......... 62% 14.2M 1s
+  7800K .......... .......... .......... .......... .......... 63% 47.7M 1s
+  7850K .......... .......... .......... .......... .......... 63% 8.77M 1s
+  7900K .......... .......... .......... .......... .......... 64% 25.2M 1s
+  7950K .......... .......... .......... .......... .......... 64% 22.4M 1s
+  8000K .......... .......... .......... .......... .......... 64% 9.96M 1s
+  8050K .......... .......... .......... .......... .......... 65% 8.05M 1s
+  8100K .......... .......... .......... .......... .......... 65% 11.0M 0s
+  8150K .......... .......... .......... .......... .......... 66% 8.62M 0s
+  8200K .......... .......... .......... .......... .......... 66% 14.5M 0s
+  8250K .......... .......... .......... .......... .......... 66% 26.5M 0s
+  8300K .......... .......... .......... .......... .......... 67%  104M 0s
+  8350K .......... .......... .......... .......... .......... 67% 93.5M 0s
+  8400K .......... .......... .......... .......... .......... 68% 5.59M 0s
+  8450K .......... .......... .......... .......... .......... 68% 38.2M 0s
+  8500K .......... .......... .......... .......... .......... 68% 11.6M 0s
+  8550K .......... .......... .......... .......... .......... 69% 14.4M 0s
+  8600K .......... .......... .......... .......... .......... 69% 44.1M 0s
+  8650K .......... .......... .......... .......... .......... 70% 57.6M 0s
+  8700K .......... .......... .......... .......... .......... 70% 2.59M 0s
+  8750K .......... .......... .......... .......... .......... 70% 87.5M 0s
+  8800K .......... .......... .......... .......... .......... 71% 66.2M 0s
+  8850K .......... .......... .......... .......... .......... 71% 65.4M 0s
+  8900K .......... .......... .......... .......... .......... 72% 31.2M 0s
+  8950K .......... .......... .......... .......... .......... 72% 52.1M 0s
+  9000K .......... .......... .......... .......... .......... 72% 68.4M 0s
+  9050K .......... .......... .......... .......... .......... 73% 67.7M 0s
+  9100K .......... .......... .......... .......... .......... 73% 67.5M 0s
+  9150K .......... .......... .......... .......... .......... 74% 72.6M 0s
+  9200K .......... .......... .......... .......... .......... 74% 69.8M 0s
+  9250K .......... .......... .......... .......... .......... 74% 86.4M 0s
+  9300K .......... .......... .......... .......... .......... 75% 92.0M 0s
+  9350K .......... .......... .......... .......... .......... 75% 16.8M 0s
+  9400K .......... .......... .......... .......... .......... 76% 19.7M 0s
+  9450K .......... .......... .......... .......... .......... 76% 18.4M 0s
+  9500K .......... .......... .......... .......... .......... 76% 29.8M 0s
+  9550K .......... .......... .......... .......... .......... 77% 17.5M 0s
+  9600K .......... .......... .......... .......... .......... 77% 23.3M 0s
+  9650K .......... .......... .......... .......... .......... 78% 10.7M 0s
+  9700K .......... .......... .......... .......... .......... 78% 40.8M 0s
+  9750K .......... .......... .......... .......... .......... 78% 12.6M 0s
+  9800K .......... .......... .......... .......... .......... 79% 54.8M 0s
+  9850K .......... .......... .......... .......... .......... 79% 12.9M 0s
+  9900K .......... .......... .......... .......... .......... 80% 13.0M 0s
+  9950K .......... .......... .......... .......... .......... 80% 78.4M 0s
+ 10000K .......... .......... .......... .......... .......... 80% 7.14M 0s
+ 10050K .......... .......... .......... .......... .......... 81% 42.4M 0s
+ 10100K .......... .......... .......... .......... .......... 81% 18.3M 0s
+ 10150K .......... .......... .......... .......... .......... 82% 48.7M 0s
+ 10200K .......... .......... .......... .......... .......... 82% 51.4M 0s
+ 10250K .......... .......... .......... .......... .......... 82% 38.0M 0s
+ 10300K .......... .......... .......... .......... .......... 83% 28.5M 0s
+ 10350K .......... .......... .......... .......... .......... 83% 20.2M 0s
+ 10400K .......... .......... .......... .......... .......... 84% 14.2M 0s
+ 10450K .......... .......... .......... .......... .......... 84% 71.4M 0s
+ 10500K .......... .......... .......... .......... .......... 84% 8.96M 0s
+ 10550K .......... .......... .......... .......... .......... 85% 36.5M 0s
+ 10600K .......... .......... .......... .......... .......... 85% 20.2M 0s
+ 10650K .......... .......... .......... .......... .......... 86% 77.5M 0s
+ 10700K .......... .......... .......... .......... .......... 86% 12.6M 0s
+ 10750K .......... .......... .......... .......... .......... 87% 32.5M 0s
+ 10800K .......... .......... .......... .......... .......... 87% 57.4M 0s
+ 10850K .......... .......... .......... .......... .......... 87% 11.3M 0s
+ 10900K .......... .......... .......... .......... .......... 88% 11.0M 0s
+ 10950K .......... .......... .......... .......... .......... 88% 78.1M 0s
+ 11000K .......... .......... .......... .......... .......... 89% 21.6M 0s
+ 11050K .......... .......... .......... .......... .......... 89% 16.5M 0s
+ 11100K .......... .......... .......... .......... .......... 89% 32.0M 0s
+ 11150K .......... .......... .......... .......... .......... 90% 39.6M 0s
+ 11200K .......... .......... .......... .......... .......... 90% 82.8M 0s
+ 11250K .......... .......... .......... .......... .......... 91% 21.0M 0s
+ 11300K .......... .......... .......... .......... .......... 91% 14.0M 0s
+ 11350K .......... .......... .......... .......... .......... 91% 82.5M 0s
+ 11400K .......... .......... .......... .......... .......... 92% 12.7M 0s
+ 11450K .......... .......... .......... .......... .......... 92% 40.1M 0s
+ 11500K .......... .......... .......... .......... .......... 93% 15.2M 0s
+ 11550K .......... .......... .......... .......... .......... 93% 77.8M 0s
+ 11600K .......... .......... .......... .......... .......... 93% 23.1M 0s
+ 11650K .......... .......... .......... .......... .......... 94% 22.3M 0s
+ 11700K .......... .......... .......... .......... .......... 94% 46.9M 0s
+ 11750K .......... .......... .......... .......... .......... 95% 14.0M 0s
+ 11800K .......... .......... .......... .......... .......... 95% 85.2M 0s
+ 11850K .......... .......... .......... .......... .......... 95% 23.2M 0s
+ 11900K .......... .......... .......... .......... .......... 96% 83.3M 0s
+ 11950K .......... .......... .......... .......... .......... 96% 4.97M 0s
+ 12000K .......... .......... .......... .......... .......... 97% 45.3M 0s
+ 12050K .......... .......... .......... .......... .......... 97% 46.2M 0s
+ 12100K .......... .......... .......... .......... .......... 97% 14.0M 0s
+ 12150K .......... .......... .......... .......... .......... 98% 87.7M 0s
+ 12200K .......... .......... .......... .......... .......... 98% 7.71M 0s
+ 12250K .......... .......... .......... .......... .......... 99% 49.6M 0s
+ 12300K .......... .......... .......... .......... .......... 99% 91.1M 0s
+ 12350K .......... .......... .......... .......... .......... 99% 79.5M 0s
+ 12400K .......... .                                          100% 44.1M=1.2s
+
+2025-04-19 02:10:23 (10.5 MB/s) - ‘../data/raw/genome/hg38.chr21.fa.gz’ saved [12709705/12709705]
+
+Downloading JASPAR data...
+--2025-04-19 02:10:23--  http://jaspar.genereg.net/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt
+Resolving jaspar.genereg.net (jaspar.genereg.net)... 193.60.222.202
+Connecting to jaspar.genereg.net (jaspar.genereg.net)|193.60.222.202|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://jaspar.elixir.no/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt [following]
+--2025-04-19 02:10:24--  https://jaspar.elixir.no/download/data/2022/CORE/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt
+Resolving jaspar.elixir.no (jaspar.elixir.no)... 158.37.66.95
+Connecting to jaspar.elixir.no (jaspar.elixir.no)|158.37.66.95|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 327864 (320K) [text/plain]
+Saving to: ‘../data/raw/jaspar/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt’
+
+     0K .......... .......... .......... .......... .......... 15%  130K 2s
+    50K .......... .......... .......... .......... .......... 31%  137K 2s
+   100K .......... .......... .......... .......... .......... 46%  163K 1s
+   150K .......... .......... .......... .......... .......... 62% 27.0M 1s
+   200K .......... .......... .......... .......... .......... 78%  164K 0s
+   250K .......... .......... .......... .......... .......... 93% 25.0M 0s
+   300K .......... ..........                                 100% 19.0M=1.4s
+
+2025-04-19 02:10:29 (235 KB/s) - ‘../data/raw/jaspar/JASPAR2022_CORE_vertebrates_non-redundant_pfms_jaspar.txt’ saved [327864/327864]
+
+Downloading sample ENCODE ChIP-seq data...
+--2025-04-19 02:10:29--  https://www.encodeproject.org/files/ENCFF002CEL/@@download/ENCFF002CEL.bed.gz
+Resolving www.encodeproject.org (www.encodeproject.org)... 34.211.244.144
+Connecting to www.encodeproject.org (www.encodeproject.org)|34.211.244.144|:443... connected.
+HTTP request sent, awaiting response... 307 Temporary Redirect
+Location: https://encode-public.s3.amazonaws.com/2014/06/06/23bfd2ac-7a0d-46b2-b3bf-a34f6d03134f/ENCFF002CEL.narrowPeak.gz?response-content-disposition=attachment%3B%20filename%3DENCFF002CEL.bed.gz&AWSAccessKeyId=ASIATGZNGCNX3N2MTX6U&Signature=0QjrIxp4FRrDOyhV6G5UQ1rYXNg%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDJkNlwjFrj037CeLTMWeSC0hK2kvBcEOh%2Fy3Iqp%2F1L%2FAIgSgPC49M1rC79aXxTNQ6TjQIfjyqJGRygA19mNv7SWdkqvAUIiP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwyMjA3NDg3MTQ4NjMiDEdb1bUaPV9tCfEFgCqQBck140khlcx%2FrnkBb9q%2B3s6iIfduZUlBSjrWlnKRzCopdCG%2BhkDExo3cPQKd1PxAQgX9SMcqznoXBcQs4mjShw1BpTyc%2BDzWkAbyfD%2F1LOfeji59e8G9jabhbRK1B7eSG1KRxtHuU0jzZ3j8SGdNRGydy5JMcpVRLEYpXe9uAmOp58lkaWkppLp5VGzcVIaX%2BFmWif8FTATKlPqtUsIjAK4PIBF7ZYNyCjXh8fYf%2B8e412Qi3erW464f4D92LjUk7hVv9%2B3%2BfFF0J0CRtE8vkAf2bLRKZbXFR60xjfAOzR0F%2BLdzPd%2BCqr8utpsRVsaCx%2BIfdBm4lFrzXw228RoM2wmZFtLQzhCET0F3Iz65IdlAqev08dcfOZyfHmySJ7xxEQfTNaYH33tTA5E8FV6EZt1NFXmGjbtYUTRX808dbo1v9XznLgNWYfgf5%2Ftu34rcE5Cwm2ZnvQFUQBqzv0QIIe%2BFeuBmigZfkMOmQdLWUUNNj2MbNabCBX%2BiSKr7znA17XxMteltO6%2F%2BNC5fmpaIKEeIzJvp%2FpyR9qJvFoNGh1J2tsfsuCLCUi3q8DutBIQSvwLqm3r6EIVtR5GsJL%2BE%2BugHBMFrc6reNzc0ndxsv8ZmVsb25mqcX%2Bax66u%2F22%2FLvGrWldxq1r%2Fcv4sSeI97XR68zYkMIsoyvi0hulIQeg%2BHuDzl0FetUYBUyW1CC9lM0r9PSUKxo%2F7woXk%2FgOdt02kqWkH0gWbdJziN5gOyP37qkHuUprtMG5CBwIXmyy%2FsV%2BDlxR%2BX5nwyb1mcJjmXNJTyCeVtS%2B2bJOV3eydXB562Zo%2FnR%2F3cShPuWLLUUJDShEuBZZ37%2BC6zhH%2FFyuo5oUP13m3bh6SyRF5KksrT73XvMLqPjcAGOrEBL%2Fax6CR0m4eHMUqGlr13Wz64JsdS23fEPqsswApYF3D7CckUBNqrmfyCaQvDHz4bduGQ6sawxwcOAbXvhJLWIv4bo%2BaQIajr4qTRcndIvIQ3kHkB%2FZU%2FH%2FtwHwIWNEJHCcYBOIdc50I39PrtWSSa7MbPcIIkRP5Fm3eRZUySkHtGnO1imqTgq0Ze6hg1Dbq%2FDxbORYwMJ%2F3bPZCC1BKrVXAppIb5Bf3xbuLptgTRagHt&Expires=1745176230 [following]
+--2025-04-19 02:10:30--  https://encode-public.s3.amazonaws.com/2014/06/06/23bfd2ac-7a0d-46b2-b3bf-a34f6d03134f/ENCFF002CEL.narrowPeak.gz?response-content-disposition=attachment%3B%20filename%3DENCFF002CEL.bed.gz&AWSAccessKeyId=ASIATGZNGCNX3N2MTX6U&Signature=0QjrIxp4FRrDOyhV6G5UQ1rYXNg%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQDJkNlwjFrj037CeLTMWeSC0hK2kvBcEOh%2Fy3Iqp%2F1L%2FAIgSgPC49M1rC79aXxTNQ6TjQIfjyqJGRygA19mNv7SWdkqvAUIiP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwyMjA3NDg3MTQ4NjMiDEdb1bUaPV9tCfEFgCqQBck140khlcx%2FrnkBb9q%2B3s6iIfduZUlBSjrWlnKRzCopdCG%2BhkDExo3cPQKd1PxAQgX9SMcqznoXBcQs4mjShw1BpTyc%2BDzWkAbyfD%2F1LOfeji59e8G9jabhbRK1B7eSG1KRxtHuU0jzZ3j8SGdNRGydy5JMcpVRLEYpXe9uAmOp58lkaWkppLp5VGzcVIaX%2BFmWif8FTATKlPqtUsIjAK4PIBF7ZYNyCjXh8fYf%2B8e412Qi3erW464f4D92LjUk7hVv9%2B3%2BfFF0J0CRtE8vkAf2bLRKZbXFR60xjfAOzR0F%2BLdzPd%2BCqr8utpsRVsaCx%2BIfdBm4lFrzXw228RoM2wmZFtLQzhCET0F3Iz65IdlAqev08dcfOZyfHmySJ7xxEQfTNaYH33tTA5E8FV6EZt1NFXmGjbtYUTRX808dbo1v9XznLgNWYfgf5%2Ftu34rcE5Cwm2ZnvQFUQBqzv0QIIe%2BFeuBmigZfkMOmQdLWUUNNj2MbNabCBX%2BiSKr7znA17XxMteltO6%2F%2BNC5fmpaIKEeIzJvp%2FpyR9qJvFoNGh1J2tsfsuCLCUi3q8DutBIQSvwLqm3r6EIVtR5GsJL%2BE%2BugHBMFrc6reNzc0ndxsv8ZmVsb25mqcX%2Bax66u%2F22%2FLvGrWldxq1r%2Fcv4sSeI97XR68zYkMIsoyvi0hulIQeg%2BHuDzl0FetUYBUyW1CC9lM0r9PSUKxo%2F7woXk%2FgOdt02kqWkH0gWbdJziN5gOyP37qkHuUprtMG5CBwIXmyy%2FsV%2BDlxR%2BX5nwyb1mcJjmXNJTyCeVtS%2B2bJOV3eydXB562Zo%2FnR%2F3cShPuWLLUUJDShEuBZZ37%2BC6zhH%2FFyuo5oUP13m3bh6SyRF5KksrT73XvMLqPjcAGOrEBL%2Fax6CR0m4eHMUqGlr13Wz64JsdS23fEPqsswApYF3D7CckUBNqrmfyCaQvDHz4bduGQ6sawxwcOAbXvhJLWIv4bo%2BaQIajr4qTRcndIvIQ3kHkB%2FZU%2FH%2FtwHwIWNEJHCcYBOIdc50I39PrtWSSa7MbPcIIkRP5Fm3eRZUySkHtGnO1imqTgq0Ze6hg1Dbq%2FDxbORYwMJ%2F3bPZCC1BKrVXAppIb5Bf3xbuLptgTRagHt&Expires=1745176230
+Resolving encode-public.s3.amazonaws.com (encode-public.s3.amazonaws.com)... 52.92.146.97, 52.92.249.233, 52.92.132.129, ...
+Connecting to encode-public.s3.amazonaws.com (encode-public.s3.amazonaws.com)|52.92.146.97|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1231983 (1.2M) [binary/octet-stream]
+Saving to: ‘../data/raw/encode/CTCF/ENCFF002CEL.bed.gz’
+
+     0K .......... .......... .......... .......... ..........  4%  508K 2s
+    50K .......... .......... .......... .......... ..........  8%  527K 2s
+   100K .......... .......... .......... .......... .......... 12% 10.1M 1s
+   150K .......... .......... .......... .......... .......... 16%  617K 1s
+   200K .......... .......... .......... .......... .......... 20% 1.47M 1s
+   250K .......... .......... .......... .......... .......... 24% 43.6M 1s
+   300K .......... .......... .......... .......... .......... 29% 4.66M 1s
+   350K .......... .......... .......... .......... .......... 33% 1.27M 1s
+   400K .......... .......... .......... .......... .......... 37% 25.0M 1s
+   450K .......... .......... .......... .......... .......... 41% 2.66M 1s
+   500K .......... .......... .......... .......... .......... 45% 1.80M 0s
+   550K .......... .......... .......... .......... .......... 49% 19.6M 0s
+   600K .......... .......... .......... .......... .......... 54% 17.9M 0s
+   650K .......... .......... .......... .......... .......... 58% 17.8M 0s
+   700K .......... .......... .......... .......... .......... 62% 5.58M 0s
+   750K .......... .......... .......... .......... .......... 66% 16.1M 0s
+   800K .......... .......... .......... .......... .......... 70% 1.65M 0s
+   850K .......... .......... .......... .......... .......... 74% 43.3M 0s
+   900K .......... .......... .......... .......... .......... 78% 3.92M 0s
+   950K .......... .......... .......... .......... .......... 83% 17.4M 0s
+  1000K .......... .......... .......... .......... .......... 87% 2.38M 0s
+  1050K .......... .......... .......... .......... .......... 91% 5.70M 0s
+  1100K .......... .......... .......... .......... .......... 95% 16.9M 0s
+  1150K .......... .......... .......... .......... .......... 99% 46.2M 0s
+  1200K ...                                                   100% 19.6M=0.5s
+
+2025-04-19 02:10:31 (2.31 MB/s) - ‘../data/raw/encode/CTCF/ENCFF002CEL.bed.gz’ saved [1231983/1231983]
+
+Using gdown to download additional files...
+Download complete!
+[0;32m[SUCCESS][0m 2025-04-19 02:10:31 - Data download completed
+
+[1;33m========== PROCESSING DATA ==========[0m
+[0;34m[INFO][0m 2025-04-19 02:10:31 - Processing data for CTCF
+2025-04-19 02:10:33,578 - tf_binding_data - ERROR - Error extracting sequences: [Errno 2] No such file or directory: '/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/data/raw/encode/CTCF/*.bed'
+2025-04-19 02:10:33,578 - tf_binding_data - ERROR - Failed to process CTCF: [Errno 2] No such file or directory: '/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/data/raw/encode/CTCF/*.bed'
+[0;31m[ERROR][0m 2025-04-19 02:10:33 - Data processing failed for CTCF
+[0;34m[INFO][0m 2025-04-19 02:10:33 - Processing data for GATA1
+2025-04-19 02:10:34,629 - tf_binding_data - ERROR - Error extracting sequences: [Errno 2] No such file or directory: '/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/data/raw/encode/GATA1/*.bed'
+2025-04-19 02:10:34,630 - tf_binding_data - ERROR - Failed to process GATA1: [Errno 2] No such file or directory: '/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/data/raw/encode/GATA1/*.bed'
+[0;31m[ERROR][0m 2025-04-19 02:10:34 - Data processing failed for GATA1
+[0;34m[INFO][0m 2025-04-19 02:10:34 - Processing data for CEBPA
+2025-04-19 02:10:35,648 - tf_binding_data - ERROR - Error extracting sequences: [Errno 2] No such file or directory: '/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/data/raw/encode/CEBPA/*.bed'
+2025-04-19 02:10:35,648 - tf_binding_data - ERROR - Failed to process CEBPA: [Errno 2] No such file or directory: '/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/data/raw/encode/CEBPA/*.bed'
+[0;31m[ERROR][0m 2025-04-19 02:10:35 - Data processing failed for CEBPA
+[0;34m[INFO][0m 2025-04-19 02:10:35 - Processing data for TP53
+2025-04-19 02:10:36,648 - tf_binding_data - ERROR - Error extracting sequences: [Errno 2] No such file or directory: '/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/data/raw/encode/TP53/*.bed'
+2025-04-19 02:10:36,648 - tf_binding_data - ERROR - Failed to process TP53: [Errno 2] No such file or directory: '/Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/data/raw/encode/TP53/*.bed'
+[0;31m[ERROR][0m 2025-04-19 02:10:36 - Data processing failed for TP53
+
+[1;33m========== TRAINING MODELS ==========[0m
+[1;33m[WARNING][0m 2025-04-19 02:10:36 - No training data for CTCF, skipping
+[1;33m[WARNING][0m 2025-04-19 02:10:36 - No training data for GATA1, skipping
+[1;33m[WARNING][0m 2025-04-19 02:10:36 - No training data for CEBPA, skipping
+[1;33m[WARNING][0m 2025-04-19 02:10:36 - No training data for TP53, skipping
+
+[1;33m========== EVALUATING MODELS ==========[0m
+[1;33m[WARNING][0m 2025-04-19 02:10:36 - No model found for CTCF, skipping
+[1;33m[WARNING][0m 2025-04-19 02:10:36 - No model found for GATA1, skipping
+[1;33m[WARNING][0m 2025-04-19 02:10:36 - No model found for CEBPA, skipping
+[1;33m[WARNING][0m 2025-04-19 02:10:36 - No model found for TP53, skipping
+
+[1;33m========== GENERATING SUMMARY REPORT ==========[0m
+[0;34m[INFO][0m 2025-04-19 02:10:36 - Generating summary report...
+[NbConvertApp] Converting notebook /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/results.ipynb to html
+[NbConvertApp] Writing 269952 bytes to /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/summary_report.html
+[0;32m[SUCCESS][0m 2025-04-19 02:10:39 - Summary report generated
+
+[1;33m========== WORKFLOW COMPLETED ==========[0m
+[0;34m[INFO][0m 2025-04-19 02:10:39 - Results directory: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/results/
+[0;34m[INFO][0m 2025-04-19 02:10:39 - Log file: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/workflow.log
+[0;34m[INFO][0m 2025-04-19 02:10:39 - Summary report: /Users/hypoglossal/Documents/School/UH/Spring 2025/COSC 4337 DS II/FinalProject/project_files/notebooks/summary_report.html
+./scripts/run_workflow.sh: line 31: CTCF: unbound variable
+./scripts/run_workflow.sh: line 31: CTCF: unbound variable
+./scripts/run_workflow.sh: line 31: CTCF: unbound variable
+./scripts/run_workflow.sh: line 31: CTCF: unbound variable
