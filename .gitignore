@@ -2,8 +2,10 @@ dirs.sh
 lfs_finder.sh
 hg38.fa
 hg38.fa.fai
+hg38.fa.gz
 claude_context.sh
 
 
-# Ignore all processed NumPy arrays
+# Ignore all processed NumPy arrays and large files
 /project_files/data/processed/*/*.npy
+project_files/scripts/data/raw/genome/hg38.fa.gz
