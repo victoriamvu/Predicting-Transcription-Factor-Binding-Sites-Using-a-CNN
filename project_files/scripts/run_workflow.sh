@@ -317,18 +317,27 @@ else
     if command -v jupyter &> /dev/null; then
         # Execute the results notebook to generate report
         jupyter nbconvert --to html --execute $PROJECT_ROOT/notebooks/results.ipynb --output $PROJECT_ROOT/notebooks/summary_report.html
-        if [ $? -eq 0 
+        if [ $? -eq 0 ]; then
+            print_success "Summary report generated: notebooks/summary_report.html"
+        else
+            print_warning "Failed to execute notebook. Creating placeholder..."
+            echo "<html><body><h1>Summary Report</h1><p>This is a placeholder. The notebook execution failed.</p></body></html>" > "$PROJECT_ROOT/notebooks/summary_report.html"
+        fi
+    else
+        print_warning "Jupyter not found. Please run notebooks/results.ipynb manually to generate the summary report."
+        echo "<html><body><h1>Summary Report</h1><p>This is a placeholder. Please run the notebook manually.</p></body></html>" > "$PROJECT_ROOT/notebooks/summary_report.html"
+    fi
+fi
 
 print_header "WORKFLOW COMPLETE"
 echo "Results for each TF are available in the results/ directory"
 echo "You can analyze the results further using the notebooks/results.ipynb notebook"
 echo ""
 echo "Missing components detected during execution:"
-[ ! -f "src/data.py" ] && echo "- src/data.py (data processing)"
-[ ! -f "scripts/train_model.py" ] && echo "- scripts/train_model.py (model training)"
-[ ! -f "scripts/evaluate_model.py" ] && echo "- scripts/evaluate_model.py (model evaluation)"
-[ ! -f "notebooks/results.ipynb" ] && echo "- notebooks/results.ipynb (results analysis)"
+[ ! -f "$PROJECT_ROOT/src/data.py" ] && echo "- src/data.py (data processing)"
+[ ! -f "train_model.py" ] && echo "- train_model.py (model training)"
+[ ! -f "evaluate_model.py" ] && echo "- evaluate_model.py (model evaluation)"
+[ ! -f "$PROJECT_ROOT/notebooks/results.ipynb" ] && echo "- notebooks/results.ipynb (results analysis)"
 
 echo ""
-echo "This script created placeholder files where needed, so your colleagues can"
-echo "see the expected structure and implement the missing components."
+echo "This script created placeholder files where needed"
