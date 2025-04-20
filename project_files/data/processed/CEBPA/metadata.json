@@ -1,6 +1,6 @@
 {
     "tf_name": "CEBPA",
-    "date": "2025-04-19T04:05:18.919849",
+    "date": "2025-04-19T19:40:30.886554",
     "sequence_length": 200,
     "test_size": 0.2,
     "val_size": 0.1,
