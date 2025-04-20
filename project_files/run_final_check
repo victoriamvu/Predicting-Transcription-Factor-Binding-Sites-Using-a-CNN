@@ -1,0 +1,30 @@
+import os
+from src.train import load_data, train_model
+from src.evaluate import load_model_and_data, evaluate_model, motif_analysis
+
+def main():
+    tf_name = "CTCF"
+    data_dir = f"data/processed/{tf_name}"
+    model_path = f"outputs/cnn_model.h5"
+    output_dir = f"outputs/eval_{tf_name}"
+
+    # Step 1: Load data
+    print("✅ Loading data...")
+    X_train, y_train, X_val, y_val, X_test, y_test = load_data(data_dir)
+
+    # Step 2: Train model
+    print("✅ Training model...")
+    model, history = train_model(X_train, y_train, X_val, y_val, output_dir="outputs")
+
+    # Step 3: Evaluate model
+    print("✅ Evaluating model...")
+    evaluate_model(model, X_test, y_test, output_dir)
+
+    # Step 4: Motif analysis
+    print("✅ Analyzing motifs...")
+    motif_analysis(model, output_dir=os.path.join(output_dir, "motifs"))
+
+    print(f"🎉 All steps completed. Check outputs in: {output_dir}")
+
+if __name__ == "__main__":
+    main()
