@@ -32,7 +32,7 @@ import json
 from datetime import datetime
 
 # Import model-building utilities
-from model import (
+from .model import (
     create_binding_cnn,
     create_baseline_model,
     create_advanced_binding_cnn,
@@ -264,3 +264,53 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+def run_training_pipeline(tf_name):
+    import os
+    import numpy as np
+    import json
+    import tensorflow as tf
+    from tensorflow.keras.models import Sequential
+    from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout
+    from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+
+    # Paths
+    data_dir = f"data/processed/{tf_name}"
+    X_train = np.load(f"{data_dir}/X_train.npy")
+    y_train = np.load(f"{data_dir}/y_train.npy")
+    X_val = np.load(f"{data_dir}/X_val.npy")
+    y_val = np.load(f"{data_dir}/y_val.npy")
+
+    # Define model
+    model = Sequential([
+        Conv1D(64, 15, activation='relu', input_shape=(X_train.shape[1], X_train.shape[2])),
+        MaxPooling1D(pool_size=2),
+        Flatten(),
+        Dense(64, activation='relu'),
+        Dropout(0.5),
+        Dense(1, activation='sigmoid')
+    ])
+
+    model.compile(optimizer='adam',
+                  loss='binary_crossentropy',
+                  metrics=['accuracy', tf.keras.metrics.AUC(name="auc")])
+
+    # Training callbacks
+    os.makedirs("models", exist_ok=True)
+    checkpoint = ModelCheckpoint("models/model.h5", save_best_only=True, monitor='val_loss')
+    early_stop = EarlyStopping(patience=10, restore_best_weights=True)
+
+    history = model.fit(X_train, y_train,
+                        validation_data=(X_val, y_val),
+                        epochs=40,
+                        batch_size=32,
+                        callbacks=[checkpoint, early_stop])
+
+    # Save training plot
+    plt.figure()
+    plt.plot(history.history["loss"], label="Train Loss")
+    plt.plot(history.history["val_loss"], label="Val Loss")
+    plt.legend()
+    plt.title("Training Loss Curve")
+    plt.savefig("models/training_curves.png")
+

@@ -15,6 +15,7 @@ import random
 from datetime import datetime
 from Bio import motifs
 import numpy as np
+import sklearn
 from sklearn.model_selection import train_test_split
 from pyfaidx import Fasta
 
@@ -109,18 +110,33 @@ def extract_random_genomic_sequences(genome_file, seq_length, n_samples):
 
 
 def prepare_dataset(pos_seqs, neg_seqs, test_size, val_size, augment=False):
-    """Encode sequences and split into train/val/test sets."""
-    X = [one_hot_encode(s) for s in pos_seqs + neg_seqs]
-    y = [1] * len(pos_seqs) + [0] * len(neg_seqs)
-    X = np.array(X)
-    y = np.array(y)
+    # Combine positive and negative sequences
+    X = np.array(pos_seqs + neg_seqs)
+    y = np.array([1] * len(pos_seqs) + [0] * len(neg_seqs))
+
+    # Shuffle the data
+    X, y = sklearn.utils.shuffle(X, y, random_state=42)
+
+    # One-hot encode all sequences (turn (N,) into (N, 200, 4))
+    X_encoded = np.array([one_hot_encode(seq) for seq in X])
+
+    # Split into train + temp (for further val/test)
     X_train, X_temp, y_train, y_temp = train_test_split(
-        X, y, test_size=test_size + val_size, random_state=42, stratify=y
+        X_encoded, y, test_size=test_size + val_size, stratify=y, random_state=42
     )
-    val_frac = val_size / (test_size + val_size)
-    X_val, X_test, y_val, y_test = train_test_split(
-        X_temp, y_temp, test_size=val_frac, random_state=42, stratify=y_temp
-    )
+
+    # Calculate proportion for validation split
+    val_ratio = val_size / (test_size + val_size) if (test_size + val_size) > 0 else 0
+
+    # Split temp into validation and test sets
+    if val_ratio > 0:
+        X_val, X_test, y_val, y_test = train_test_split(
+            X_temp, y_temp, test_size=1 - val_ratio, stratify=y_temp, random_state=42
+        )
+    else:
+        X_val, y_val = np.array([]), np.array([])
+        X_test, y_test = X_temp, y_temp
+
     return X_train, y_train, X_val, y_val, X_test, y_test
 
 

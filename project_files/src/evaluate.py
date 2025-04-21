@@ -131,3 +131,4 @@ if __name__ == "__main__":
 
     model, X_test, y_test = load_model_and_data(args.model_path, args.data_dir)
     evaluate_model(model, X_test, y_test, args.output_dir)
+

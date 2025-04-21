@@ -1,0 +1,92 @@
+[33mcommit eb3f02813510b71e5dc46c3f7c69fd687fd8f6ca[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Apr 19 12:34:47 2025 -0500
+
+    Fixed tracking
+    
+    
+    Former-commit-id: f27c1034f4a675beb446f56b1fcd975a99b3bb20
+
+[33mcommit 80033690259e2b5007b881c8f6792482f9dc93a6[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Apr 19 04:10:09 2025 -0500
+
+    Results Generated
+    
+    
+    Former-commit-id: 3c2b5c25e08ec5673ea1e10f3120cf68331bfc78
+
+[33mcommit e31641769242980fcba7c73f8a030dd3a92b0163[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Apr 19 03:11:35 2025 -0500
+
+    Updated Data Processing and Workflow
+    
+    
+    Former-commit-id: 1c63ea31517b3e725f6cd04ba478f63bde4ee51f
+
+[33mcommit c78ef0383226afbe7b729521922469350ba5b401[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Fri Apr 18 23:10:52 2025 -0500
+
+    Updated wkflow shell - data.py
+
+[33mcommit 4376bfad1accd27de8e166d620330822f1f6e501[m
+Author: Yves-Langston Mays <76705625+YvesLangstonMays@users.noreply.github.com>
+Date:   Sat Mar 22 20:07:28 2025 -0500
+
+    Update run_workflow.sh
+
+[33mcommit f6277ca0e71c11f2e787e27cdd0741ca1a9dfd09[m
+Author: Yves-Langston Mays <76705625+YvesLangstonMays@users.noreply.github.com>
+Date:   Sat Mar 22 20:04:08 2025 -0500
+
+    removed cd from verify setup
+
+[33mcommit 5c8fab3075fcbc2915434f4802434f106c2267b9[m
+Author: Yves-Langston Mays <76705625+YvesLangstonMays@users.noreply.github.com>
+Date:   Sat Mar 22 20:03:16 2025 -0500
+
+    Update run_workflow.sh
+
+[33mcommit 0297ff1ba49330b4a857d57b4f60c11eee2b3b9b[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Mar 22 19:58:49 2025 -0500
+
+    vscode
+
+[33mcommit 190eb74e510b49240e1558a1768e87d2e9496338[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Mar 22 19:26:59 2025 -0500
+
+    Final Update Hopefully
+
+[33mcommit 95eaa44fa9974221d9fbe1538827039e153ff7f2[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Mar 22 18:53:17 2025 -0500
+
+    added ignores
+
+[33mcommit 67b2505b54b6656caec24131f5e93227c6ef3f88[m
+Author: Yves-Langston Mays <76705625+YvesLangstonMays@users.noreply.github.com>
+Date:   Sat Mar 22 18:42:35 2025 -0500
+
+    Create README.md
+
+[33mcommit 5e028ee7e6a483481ce60ee7eddfc1bbd9782b1a[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Mar 22 17:57:16 2025 -0500
+
+    Removed LFS
+
+[33mcommit e1cae003018b3f7a616e3498e91fcea127fdc707[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Mar 22 15:48:46 2025 -0500
+
+    Added verification script
+
+[33mcommit 56e159a259afc003c6ddf52cddb9c6915c7c8801[m
+Author: YvesLangstonMays <yveslangstonmays@gmail.com>
+Date:   Sat Mar 22 13:48:07 2025 -0500
+
+    Project Structure Updated
