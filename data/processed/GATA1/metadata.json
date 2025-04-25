@@ -1,1 +1,8 @@
-{"status": "placeholder", "message": "src/data.py not implemented yet"}
+{
+    "tf_name": "GATA1",
+    "date": "2025-04-24T02:38:12.367385",
+    "sequence_length": 200,
+    "test_size": 0.2,
+    "val_size": 0.1,
+    "augment": false
+}

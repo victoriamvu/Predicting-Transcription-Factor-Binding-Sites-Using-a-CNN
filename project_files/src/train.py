@@ -22,6 +22,7 @@ import sys
 import argparse
 import logging
 import numpy as np
+import json
 
 # Ensure non-interactive backend for matplotlib
 import matplotlib
@@ -270,12 +271,16 @@ def run_training_pipeline(tf_name):
     import numpy as np
     import json
     import tensorflow as tf
+    import matplotlib.pyplot as plt
     from tensorflow.keras.models import Sequential
     from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout
     from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
     # Paths
     data_dir = f"data/processed/{tf_name}"
+    output_dir = f"models/{tf_name}"
+    os.makedirs(output_dir, exist_ok=True)
+
     X_train = np.load(f"{data_dir}/X_train.npy")
     y_train = np.load(f"{data_dir}/y_train.npy")
     X_val = np.load(f"{data_dir}/X_val.npy")
@@ -295,9 +300,9 @@ def run_training_pipeline(tf_name):
                   loss='binary_crossentropy',
                   metrics=['accuracy', tf.keras.metrics.AUC(name="auc")])
 
-    # Training callbacks
-    os.makedirs("models", exist_ok=True)
-    checkpoint = ModelCheckpoint("models/model.h5", save_best_only=True, monitor='val_loss')
+    # Callbacks
+    checkpoint_path = os.path.join(output_dir, "model.h5")
+    checkpoint = ModelCheckpoint(checkpoint_path, save_best_only=True, monitor='val_loss')
     early_stop = EarlyStopping(patience=10, restore_best_weights=True)
 
     history = model.fit(X_train, y_train,
@@ -306,11 +311,18 @@ def run_training_pipeline(tf_name):
                         batch_size=32,
                         callbacks=[checkpoint, early_stop])
 
-    # Save training plot
+    # Save training history
+    hist_path = os.path.join(output_dir, f"{tf_name}_training_history.json")
+    with open(hist_path, "w") as f:
+        json.dump(history.history, f)
+
+    # Plot training curve
     plt.figure()
     plt.plot(history.history["loss"], label="Train Loss")
     plt.plot(history.history["val_loss"], label="Val Loss")
     plt.legend()
-    plt.title("Training Loss Curve")
-    plt.savefig("models/training_curves.png")
+    plt.title(f"{tf_name} Training Loss Curve")
+    plt.savefig(os.path.join(output_dir, f"{tf_name}_training_curves.png"))
+    plt.close()
 
+    print(f"✅ Saved model and training history for {tf_name} in {output_dir}")

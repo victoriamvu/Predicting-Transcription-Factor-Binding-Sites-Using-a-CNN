@@ -160,12 +160,15 @@ def process_tf_data(
         raise ValueError(f"Genome file not found: {genome_file}")
     logger.info(f"Processing {tf_name}")
     pos_seqs = extract_sequences_from_chip(chip_seq_file, genome_file, sequence_length)
+    pos_seqs = pos_seqs[:100]  # 👈 limit number of positive sequences
+
     neg_seqs = generate_negative_samples(
         pos_seqs,
         method="dinucleotide_shuffle",
         genome_file=genome_file,
         n_samples=len(pos_seqs),
     )
+    neg_seqs = neg_seqs[:100]
     X_train, y_train, X_val, y_val, X_test, y_test = prepare_dataset(
         pos_seqs, neg_seqs, test_size, val_size, augment
     )
